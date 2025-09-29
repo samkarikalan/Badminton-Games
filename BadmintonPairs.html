@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Badminton Pair-Up Games</title>
+
+    <style>
+
+        body {
+
+            font-family: Arial, sans-serif;
+
+            margin: 20px;
+
+        }
+
+ 
+
+        h1 {
+
+            text-align: center;
+
+        }
+
+ 
+
+        .container {
+
+            max-width: 900px;
+
+            margin: auto;
+
+        }
+
+ 
+
+        .player-form, .game-results, .player-list, .fixed-pairs {
+
+            margin-bottom: 20px;
+
+        }
+
+ 
+
+        input, select, button {
+
+            padding: 10px;
+
+            margin: 5px 0;
+
+            width: 100%;
+
+            box-sizing: border-box;
+
+        }
+
+ 
+
+        button {
+
+            cursor: pointer;
+
+            background-color: #4CAF50;
+
+            color: white;
+
+            border: none;
+
+        }
+
+ 
+
+        .results, .player-list {
+
+            margin-top: 20px;
+
+        }
+
+ 
+
+        .game {
+
+            margin-bottom: 15px;
+
+            padding: 10px;
+
+            border-radius: 5px;
+
+            border: 1px solid #ccc;
+
+        }
+
+ 
+
+            .game h3 {
+
+                margin: 0 0 10px;
+
+            }
+
+ 
+
+        .round-header {
+
+            margin-top: 30px;
+
+            margin-bottom: 10px;
+
+            font-size: 1.2em;
+
+            font-weight: bold;
+
+            color: #333;
+
+        }
+
+ 
+
+        #player-list-table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            margin-top: 10px;
+
+        }
+
+ 
+
+            #player-list-table th, #player-list-table td {
+
+                border: 1px solid #ccc;
+
+                padding: 8px;
+
+                text-align: left;
+
+            }
+
+ 
+
+            #player-list-table th {
+
+                background-color: #f2f2f2;
+
+            }
+
+ 
+
+        .delete-btn {
+
+            background: none;
+
+            border: none;
+
+            color: #d11a2a;
+
+            font-size: 18px;
+
+            cursor: pointer;
+
+        }
+
+ 
+
+            .delete-btn:hover {
+
+                color: #a00;
+
+            }
+
+ 
+
+        .fixed-pairs-list {
+
+            margin-top: 5px;
+
+        }
+
+ 
+
+        .fixed-pair-item {
+
+            margin-bottom: 3px;
+
+        }
+
+ 
+
+        .fixed-pair-remove {
+
+            color: #d11a2a;
+
+            cursor: pointer;
+
+            margin-left: 10px;
+
+        }
+
+ 
+
+            .fixed-pair-remove:hover {
+
+                color: #a00;
+
+            }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Badminton Pair-Up Games</h1>
+
+        <!-- Import Players -->
+
+        <div class="import-players">
+
+            <h3>Import Players</h3>
+
+            <button onclick="showImportModal()">Paste All Players from WhatsApp</button>
+
+        </div>
+
+ 
+
+        <!-- Modal for Paste Box -->
+
+        <div id="importModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4); z-index:1000;">
+
+            <div style="background:#fff; max-width:400px; margin:80px auto; padding:20px; border-radius:8px; position:relative;">
+
+                <h3>Paste Players List</h3>
+
+                <textarea id="players-textarea" rows="8" style="width:100%;" placeholder="Paste: Name,Gender&#10;Kari&#10;Bhavani,Female"></textarea>
+
+                <div style="margin-top:12px; text-align:right;">
+
+                    <button onclick="addPlayersFromText()">OK</button>
+
+                    <button onclick="hideImportModal()" style="background:#d11a2a;">Cancel</button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Add Player Form -->
+
+        <div class="player-form">
+
+            <h3>Add Players</h3>
+
+            <input type="text" id="player-name" placeholder="Enter Player Name">
+
+            <select id="player-gender">
+
+                <option value="Male">Male</option>
+
+                <option value="Female">Female</option>
+
+            </select>
+
+            <button onclick="addPlayer()">Add Player</button>
+
+        </div>
+
+        <!-- Players List -->
+
+        <div class="player-list">
+
+            <h3>Players List</h3>
+
+            <table id="player-list-table"></table>
+
+        </div>
+
+        <!-- Fixed Pairs -->
+
+       
+
+        <!-- Game Setup -->
+
+        <div class="game-setup">
+
+            <h3>Set Number of Rounds and Courts</h3>           
+
+            <input type="number" id="num-courts" placeholder="Enter Number of Courts" min="1">
+
+            <button onclick="generateGames()">Generate Games</button>
+
+        </div>
+
+        <!-- Games & Navigation -->
+
+        <div class="results">
+
+            <h3>Games</h3>
+
+            <div id="game-results" class="game-results"></div>
+
+            <div class="round-navigation" style="display: flex; justify-content: space-between; margin-top: 10px;">
+
+                <h1><button id="prevBtn" onclick="prevRound()" disabled>← Previous Round</button></h1>
+
+                <h1><button id="nextBtn" onclick="nextRound()" disabled>Next Round →</button></h1>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        // ===== Global Player List =====
+
+        let players = [];
+
+        let allRounds = [];
+
+        let currentRoundIndex = 0;
+
+ 
+
+        function showImportModal() {
+
+            document.getElementById('importModal').style.display = 'block';
+
+        }
+
+ 
+
+        function hideImportModal() {
+
+            document.getElementById('importModal').style.display = 'none';
+
+            document.getElementById('players-textarea').value = '';
+
+        }
+
+ 
+
+        function addPlayersFromText() {
+
+            const text = document.getElementById('players-textarea').value.trim();
+
+            if (!text) return;
+
+            const lines = text.split(/\r?\n/);
+
+            let addedCount = 0;
+
+            lines.forEach(line => {
+
+                const parts = line.split(',');
+
+                const name = parts[0].trim();
+
+                let gender = "Male"; // Default gender
+
+                if (parts.length >= 2 && parts[1].trim()) {
+
+                    gender = parts[1].trim();
+
+                }
+
+                if (name) {
+
+                    players.push({ name, gender });
+
+                    addedCount++;
+
+                }
+
+            });
+
+            updatePlayerList();
+
+            updateFixedPairSelectors();
+
+            alert(addedCount + " players added!");
+
+            hideImportModal();
+
+        }
+
+ 
+
+        // ===== Add Player =====
+
+        function addPlayer() {
+
+            const name = document.getElementById('player-name').value.trim();
+
+            const gender = document.getElementById('player-gender').value;
+
+            if (name && gender) {
+
+                players.push({ name, gender });
+
+                updatePlayerList();
+
+                clearPlayerForm();
+
+                updateFixedPairSelectors();
+
+            }
+
+        }
+
+ 
+
+        // ===== Update Player List =====
+
+        function updatePlayerList() {
+
+            const table = document.getElementById('player-list-table');
+
+            table.innerHTML = '<tr><th>Name</th><th>Gender</th><th>Action</th></tr>';
+
+            players.forEach((p, i) => {
+
+                const row = document.createElement('tr');
+
+                row.innerHTML = `<td>${p.name}</td><td>${p.gender}</td><td><button class="delete-btn" onclick="deletePlayer(${i})">Delete</button></td>`;
+
+                table.appendChild(row);
+
+            });
+
+        }
+
+ 
+
+        // ===== Update Player List =====
+
+        function updatePlayerList() {
+
+            const table = document.getElementById('player-list-table');
+
+            table.innerHTML = '<tr><th>Name</th><th>Gender</th><th>Action</th></tr>';
+
+            players.forEach((p, i) => {
+
+                const row = document.createElement('tr');
+
+                row.innerHTML = `
+
+            <td>
+
+                <input type="text" value="${p.name}" onchange="editPlayer(${i}, 'name', this.value)">
+
+            </td>
+
+            <td>
+
+                <select onchange="editPlayer(${i}, 'gender', this.value)">
+
+                    <option value="Male" ${p.gender === 'Male' ? 'selected' : ''}>Male</option>
+
+                    <option value="Female" ${p.gender === 'Female' ? 'selected' : ''}>Female</option>
+
+                </select>
+
+            </td>
+
+            <td>
+
+                <button class="delete-btn" onclick="deletePlayer(${i})">Delete</button>
+
+            </td>
+
+        `;
+
+                table.appendChild(row);
+
+            });
+
+        }
+
+ 
+
+        // ===== Edit Player =====
+
+        function editPlayer(index, field, value) {
+
+            players[index][field] = value.trim();
+
+            updateFixedPairSelectors();
+
+        }
+
+ 
+
+        // ===== Delete Player =====
+
+        function deletePlayer(index) {
+
+            players.splice(index, 1);
+
+            updatePlayerList();
+
+            updateFixedPairSelectors();
+
+        }
+
+ 
+
+        // ===== Update Fixed Pair Dropdowns =====
+
+        function updateFixedPairSelectors() {
+
+            const sel1 = document.getElementById('fixed-pair-1');
+
+            const sel2 = document.getElementById('fixed-pair-2');
+
+            sel1.innerHTML = ''; sel2.innerHTML = '';
+
+            players.forEach(p => {
+
+                sel1.innerHTML += `<option value="${p.name}">${p.name}</option>`;
+
+                sel2.innerHTML += `<option value="${p.name}">${p.name}</option>`;
+
+            });
+
+        }
+
+ 
+
+        // ===== Add/Remove Fixed Pair =====
+
+        function addFixedPair() {
+
+            const pair1 = document.getElementById('fixed-pair-1').value;
+
+            const pair2 = document.getElementById('fixed-pair-2').value;
+
+            if (pair1 && pair2 && pair1 !== pair2) {
+
+                const div = document.createElement('div');
+
+                div.classList.add('fixed-pair-item');
+
+                div.innerHTML = `${pair1} & ${pair2} <span class="fixed-pair-remove" onclick="removeFixedPair(this)">Remove</span>`;
+
+                document.getElementById('fixed-pair-list').appendChild(div);
+
+            }
+
+        }
+
+        function removeFixedPair(el) { el.parentElement.remove(); }
+
+ 
+
+        // ===== Clear Player Form =====
+
+        function clearPlayerForm() {
+
+            document.getElementById('player-name').value = '';
+
+            document.getElementById('player-gender').value = 'Male';
+
+        }
+
+ 
+
+        // ===== Import Players =====
+
+        function importPlayers() {
+
+            const fileInput = document.getElementById('file-input');
+
+            if (fileInput.files.length) {
+
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+
+                    const lines = e.target.result.split(/\r?\n/);
+
+                    lines.forEach(line => {
+
+                        const parts = line.split(',');
+
+                        if (parts.length >= 2) {
+
+                            const name = parts[0].trim();
+
+                            const gender = parts[1].trim();
+
+                            if (name && gender) players.push({ name, gender });
+
+                        }
+
+                    });
+
+                    updatePlayerList();
+
+                    updateFixedPairSelectors();
+
+                };
+
+                reader.readAsText(fileInput.files[0]);
+
+            }
+
+        }
+
+ 
+
+        // ===== Generate Doubles Pairs =====
+
+        function generateDoublesPairs(menPlayers, womenPlayers) {
+
+            const mdPairs = [], ldPairs = [], xdPairs = [];
+
+            for (let i = 0; i < menPlayers.length; i++) {
+
+                for (let j = i + 1; j < menPlayers.length; j++) {
+
+                    mdPairs.push(`${menPlayers[i]} & ${menPlayers[j]}`);
+
+                }
+
+            }
+
+            for (let i = 0; i < womenPlayers.length; i++) {
+
+                for (let j = i + 1; j < womenPlayers.length; j++) {
+
+                    ldPairs.push(`${womenPlayers[i]} & ${womenPlayers[j]}`);
+
+                }
+
+            }
+
+            for (let m = 0; m < menPlayers.length; m++) {
+
+                for (let w = 0; w < womenPlayers.length; w++) {
+
+                    xdPairs.push(`${menPlayers[m]} & ${womenPlayers[w]}`);
+
+                }
+
+            }
+
+            return { mdPairs, ldPairs, xdPairs };
+
+        }
+
+ 
+
+        // ===== Pair Picker =====
+
+        function createPairPicker(pairsList) {
+
+            const original = { ...pairsList };
+
+            const available = { mdPairs: [...pairsList.mdPairs], ldPairs: [...pairsList.ldPairs], xdPairs: [...pairsList.xdPairs] };
+
+            function refill(type) {
+
+                if (type === 'mdPairs') available.mdPairs = [...original.mdPairs];
+
+                else if (type === 'ldPairs') available.ldPairs = [...original.ldPairs];
+
+                else if (type === 'xdPairs') available.xdPairs = [...original.xdPairs];
+
+                else { available.mdPairs = [...original.mdPairs]; available.ldPairs = [...original.ldPairs]; available.xdPairs = [...original.xdPairs]; }
+
+            }
+
+            return function getNextPair(type = 'any') {
+
+                let pool = type === 'mdPairs' ? available.mdPairs : type === 'ldPairs' ? available.ldPairs : type === 'xdPairs' ? available.xdPairs : [...available.mdPairs, ...available.ldPairs, ...available.xdPairs];
+
+                if (pool.length === 0) { refill(type); return getNextPair(type); }
+
+                const idx = Math.floor(Math.random() * pool.length);
+
+                const pair = pool.splice(idx, 1)[0];
+
+                if (type === 'any') { available.mdPairs = available.mdPairs.filter(p => p !== pair); available.ldPairs = available.ldPairs.filter(p => p !== pair); available.xdPairs = available.xdPairs.filter(p => p !== pair); }
+
+                return pair;
+
+            };
+
+        }
+
+ 
+
+        // ===== Resting Schedule =====
+
+        function generateRestingSchedule(playersList, numRounds, numCourts) {
+
+            const maxPlaying = numCourts * 4;
+
+            const totalPlayers = playersList.length;
+
+            const restCount = totalPlayers > maxPlaying ? totalPlayers - maxPlaying : 0;
+
+            const schedule = [];
+
+ 
+
+            for (let round = 0; round < numRounds; round++) {
+
+                let resting = [];
+
+                if (restCount > 0) {
+
+                    const startIndex = totalPlayers - restCount * (round + 1);
+
+                    const normalizedIndex = ((startIndex % totalPlayers) + totalPlayers) % totalPlayers;
+
+ 
+
+                    resting = playersList.slice(normalizedIndex, normalizedIndex + restCount);
+
+ 
+
+                    if (resting.length < restCount) {
+
+                        resting = resting.concat(playersList.slice(0, restCount - resting.length));
+
+                    }
+
+                }
+
+ 
+
+                const playing = playersList.filter(p => !resting.includes(p));
+
+                schedule.push({ playing, resting });
+
+            }
+
+            return schedule;
+
+        }
+
+ 
+
+        // ===== Pick Pair =====
+
+        function pickPair(getPair, usedPlayers, playedPair, type) {
+
+            function tryType(pairType) {
+
+                let attempt = 0;
+
+                while (attempt < 200) {
+
+                    const pair = getPair(pairType);
+
+                    if (!pair) {
+
+                        attempt++;
+
+                        continue;
+
+                    }
+
+                    const [p1, p2] = pair.split(' & ');
+
+                    if (!usedPlayers.has(p1) && !usedPlayers.has(p2) && !playedPair.has(pair)) {
+
+                        usedPlayers.add(p1);
+
+                        usedPlayers.add(p2);
+
+                        playedPair.add(pair);
+
+                        return pair;
+
+                    }
+
+                    attempt++;
+
+                }
+
+                return null;
+
+            }
+
+ 
+
+            if (type === 'any') {
+
+                // priority order: MD -> LD -> XD
+
+                return tryType('mdPairs') || tryType('ldPairs') || tryType('xdPairs');
+
+            } else {
+
+                return tryType(type);
+
+            }
+
+        }
+
+ 
+
+        // ===== Generate Games (One Round at a Time) =====
+
+        function generateGames() {
+
+            const numRounds = 100 //parseInt(document.getElementById('num-rounds').value);
+
+            const numCourts = parseInt(document.getElementById('num-courts').value);
+
+            if (players.length < 4) { alert("Need at least 4 players."); return; }
+
+ 
+
+            const playerNames = players.map(p => p.name);
+
+            const restSchedule = generateRestingSchedule(playerNames, numRounds, numCourts);
+
+ 
+
+            allRounds = [];
+
+ 
+
+            for (let round = 0; round < numRounds; round++) {
+
+                const { playing, resting } = restSchedule[round];
+
+ 
+
+                // Separate men & women only from "playing" list
+
+                const men = players.filter(p => p.gender === 'Male' && playing.includes(p.name)).map(p => p.name);
+
+                const women = players.filter(p => p.gender === 'Female' && playing.includes(p.name)).map(p => p.name);
+
+ 
+
+                const pairs = generateDoublesPairs(men, women);
+
+                const getPair = createPairPicker(pairs);
+
+ 
+
+                let usedPlayers = new Set(resting);
+
+                let playedPair = new Set();
+
+                let RemainingPlayers = new Set(playing); // only active players
+
+ 
+
+                let games = [];
+
+                let courtsUsed = 0;
+
+ 
+
+                while (courtsUsed < numCourts && RemainingPlayers.size >= 4) {
+
+                    // Track remaining men/women dynamically
+
+                    const remainingMen = Array.from(RemainingPlayers).filter(p => players.find(pl => pl.name === p).gender === 'Male');
+
+                    const remainingWomen = Array.from(RemainingPlayers).filter(p => players.find(pl => pl.name === p).gender === 'Female');
+
+ 
+
+                    // LD - Ladies Doubles
+
+                    if (remainingWomen.length >= 4) {
+
+                        let ld1 = pickPair(getPair, usedPlayers, playedPair, 'ldPairs');
+
+                        let ld2 = pickPair(getPair, usedPlayers, playedPair, 'ldPairs');
+
+                        if (ld1 && ld2) {
+
+                            games.push({ type: 'LD', pair1: ld1, pair2: ld2 });
+
+                            ld1.split(' & ').forEach(p => RemainingPlayers.delete(p));
+
+                            ld2.split(' & ').forEach(p => RemainingPlayers.delete(p));
+
+                            courtsUsed++;
+
+                            continue;
+
+                        }
+
+                    }
+
+ 
+
+                    // MD - Men Doubles
+
+                    if (remainingMen.length >= 4) {
+
+                        let md1 = pickPair(getPair, usedPlayers, playedPair, 'mdPairs');
+
+                        let md2 = pickPair(getPair, usedPlayers, playedPair, 'mdPairs');
+
+                        if (md1 && md2) {
+
+                            games.push({ type: 'MD', pair1: md1, pair2: md2 });
+
+                            md1.split(' & ').forEach(p => RemainingPlayers.delete(p));
+
+                            md2.split(' & ').forEach(p => RemainingPlayers.delete(p));
+
+                            courtsUsed++;
+
+                            continue;
+
+                        }
+
+                    }
+
+ 
+
+                    // XD - Mixed Doubles
+
+                    if (remainingMen.length >= 1 && remainingWomen.length >= 1 && RemainingPlayers.size >= 4) {
+
+                        let xd1 = pickPair(getPair, usedPlayers, playedPair, 'xdPairs');
+
+                        let xd2 = pickPair(getPair, usedPlayers, playedPair, 'xdPairs');
+
+                        if (xd1 && xd2) {
+
+                            games.push({ type: 'XD', pair1: xd1, pair2: xd2 });
+
+                            xd1.split(' & ').forEach(p => RemainingPlayers.delete(p));
+
+                            xd2.split(' & ').forEach(p => RemainingPlayers.delete(p));
+
+                            courtsUsed++;
+
+                            continue;
+
+                        }
+
+                        else {
+
+                            let p1 = pickPair(getPair, usedPlayers, playedPair, 'any');
+
+                            let p2 = pickPair(getPair, usedPlayers, playedPair, 'any');
+
+                            if (p1 && p2) {
+
+                                games.push({ type: 'XD', pair1: p1, pair2: p2 });
+
+                                p1.split(' & ').forEach(p => RemainingPlayers.delete(p));
+
+                                p2.split(' & ').forEach(p => RemainingPlayers.delete(p));
+
+                                courtsUsed++;
+
+                                continue;
+
+                            }
+
+                        }
+
+                    }
+
+ 
+
+                    // If no valid pairs found, stop this round
+
+                    break;
+
+                }
+
+ 
+
+                allRounds.push({ round: round + 1, resting, games });
+
+            }
+
+ 
+
+            currentRoundIndex = 0;
+
+            showRound(currentRoundIndex);
+
+ 
+
+            document.getElementById('prevBtn').disabled = true;
+
+            document.getElementById('nextBtn').disabled = allRounds.length <= 1;
+
+        }
+
+ 
+
+        // ===== Show Specific Round =====
+
+        function showRound(index) {
+
+            const resultsDiv = document.getElementById('game-results');
+
+            resultsDiv.innerHTML = '';
+
+ 
+
+            const roundData = allRounds[index];
+
+            const roundHeader = document.createElement('div');
+
+            roundHeader.className = 'round-header';
+
+            roundHeader.innerText = `Round ${roundData.round} (Resting: ${roundData.resting.join(', ')})`;
+
+            resultsDiv.appendChild(roundHeader);
+
+ 
+
+            roundData.games.forEach(game => {
+
+                const gameDiv = document.createElement('div');
+
+                gameDiv.className = 'game';
+
+                gameDiv.innerHTML = `<h3>Court ${game.court}</h3><div>${game.pair1 || 'N/A'} vs ${game.pair2 || 'N/A'}</div>`;
+
+                resultsDiv.appendChild(gameDiv);
+
+            });
+
+ 
+
+            document.getElementById('prevBtn').disabled = index === 0;
+
+            document.getElementById('nextBtn').disabled = index === allRounds.length - 1;
+
+        }
+
+ 
+
+        // ===== Next / Previous Round =====
+
+        function nextRound() {
+
+            if (currentRoundIndex < allRounds.length - 1) {
+
+                currentRoundIndex++;
+
+                showRound(currentRoundIndex);
+
+            }
+
+        }
+
+        function prevRound() {
+
+            if (currentRoundIndex > 0) {
+
+                currentRoundIndex--;
+
+                showRound(currentRoundIndex);
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>
