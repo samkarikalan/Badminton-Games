@@ -634,11 +634,16 @@ function AischedulerNextRound(schedulerState) {
     return `${p}#${currentRest + 1}`;
   });
 
-  return {
+ schedulerState.roundIndex = (schedulerState.roundIndex || 0) + 1;
+
+return {
+    round: schedulerState.roundIndex,
     resting: restingWithNumber,
     playing,
     games,
   };
+
+  
 }
 
 // ==============================
