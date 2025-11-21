@@ -1481,6 +1481,7 @@ function nextRound() {
     currentRoundIndex++;
     showRound(currentRoundIndex);
   } else {
+   commitNextRound(allRounds[currentRoundIndex], schedulerState, currentRoundIndex);
     const newRound = AischedulerNextRound();
     allRounds.push(newRound);
     currentRoundIndex = allRounds.length - 1;
@@ -1491,6 +1492,79 @@ function prevRound() {
   if (currentRoundIndex > 0) {
     currentRoundIndex--;
     showRound(currentRoundIndex);
+  }
+}
+
+
+function commitNextRound(data, schedulerState, roundIdx) {
+  const {
+    restCount,
+    PlayedCount,
+    playedTogether,
+    pairPlayedSet,
+    playerScoreMap,
+    opponentMap
+  } = schedulerState;
+
+  // 1️⃣ Clear partner/opponent related data
+  pairPlayedSet.clear();
+  for (const map of [playedTogether, playerScoreMap, opponentMap]) {
+    for (const key of map.keys()) {
+      if (map === opponentMap) {
+        // nested map
+        for (const k2 of map.get(key).keys()) {
+          map.get(key).set(k2, 0);
+        }
+      } else {
+        map.set(key, 0);
+      }
+    }
+  }
+
+  // 2️⃣ Update restCount and PlayedCount
+  for (const r of data.resting) {
+    const p = r.replace(/#\d+$/, '');
+    restCount.set(p, (restCount.get(p) || 0) + 1);
+  }
+
+  for (const game of data.games) {
+    const p1 = game.pair1.map(p => p.replace(/#\d+$/, ''));
+    const p2 = game.pair2.map(p => p.replace(/#\d+$/, ''));
+
+    // Update PlayedCount
+    for (const p of [...p1, ...p2]) {
+      if (p && p !== '(Empty)') {
+        PlayedCount.set(p, (PlayedCount.get(p) || 0) + 1);
+      }
+    }
+
+    // Update pairs
+    const partners = [
+      p1.slice().sort().join("&"),
+      p2.slice().sort().join("&")
+    ];
+    for (const key of partners) {
+      if (key !== '&') {
+        pairPlayedSet.add(key);
+        playedTogether.set(key, roundIdx);
+      }
+    }
+
+    // Update opponentMap + PlayerScoreMap
+    for (const a of p1) {
+      for (const b of p2) {
+        if (!a || !b || a === "(Empty)" || b === "(Empty)") continue;
+
+        opponentMap.get(a).set(b, (opponentMap.get(a).get(b) || 0) + 1);
+        opponentMap.get(b).set(a, (opponentMap.get(b).get(a) || 0) + 1);
+
+        const firstTime = opponentMap.get(a).get(b) === 1;
+        if (firstTime) {
+          playerScoreMap.set(a, (playerScoreMap.get(a) || 0) + 1);
+          playerScoreMap.set(b, (playerScoreMap.get(b) || 0) + 1);
+        }
+      }
+    }
   }
 }
 /* =========================
