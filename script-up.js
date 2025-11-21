@@ -9,12 +9,15 @@ let players = [];
 let fixedPairs = [];
 let allRounds = [];
 let currentRoundIndex = 0;
+
+ 
 let schedulerState = {
   players: [],
   numCourts: 0,
   fixedPairs: [],
   restCount: new Map(),
   PlayedCount: new Map(),
+  PlayerScoreMap: new Map(),
   playedTogether: new Map(),
   fixedMap: new Map(),
   roundIndex: 0,
@@ -1268,8 +1271,8 @@ function nextRound() {
     currentRoundIndex++;
     showRound(currentRoundIndex);
   } else {
-    updSchedule(allRounds.length - 1); // updates global schedulerState automatically
-    const newRound = [AischedulerNextRound(schedulerState)];
+    updSchedule(allRounds.length - 1, schedulerState); // pass schedulerState
+    const newRound = AischedulerNextRound(schedulerState); // do NOT wrap in []
     allRounds.push(newRound);
     currentRoundIndex = allRounds.length - 1;
     showRound(currentRoundIndex);
