@@ -16,6 +16,7 @@ let schedulerState = {
   restCount: new Map(),
   PlayedCount: new Map(),
   playedTogether: new Map(),
+  PlayerScoreMap = new Map(),
   fixedMap: new Map(),
   roundIndex: 0,
   pairPlayedSet: new Set(),
