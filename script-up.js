@@ -1220,7 +1220,6 @@ function goToRounds() {
       schedulerState.numCourts !== backupState.numCourts ||
       JSON.stringify(schedulerState.fixedPairs) !== JSON.stringify(backupState.fixedPairs);
     if (changed) {
-      //restoreSchedulerState();
       const playersList = players.map(p => p.name);
       schedulerState.players = [...playersList].reverse();
       schedulerState.numCourts = numCourts;
@@ -1256,43 +1255,21 @@ function goToRounds() {
   document.getElementById('page2').style.display = 'block';
   isOnPage2 = true;
 }
-function restoreSchedulerState() {
-  schedulerState.restCount = structuredClone(backupState.restCount);
-  schedulerState.PlayedCount = structuredClone(backupState.PlayedCount);
-  schedulerState.playedTogether = structuredClone(backupState.playedTogether);
-  schedulerState.pairPlayedSet = new Set(backupState.pairPlayedSet);
-  schedulerState.playerScoreMap = structuredClone(backupState.playerScoreMap);
-  schedulerState.opponentMap = structuredClone(backupState.opponentMap);
-}
-function backupSchedulerState() {
-  backupState.restCount = structuredClone(schedulerState.restCount);
-  backupState.PlayedCount = structuredClone(schedulerState.PlayedCount);
-  backupState.playedTogether = structuredClone(schedulerState.playedTogether);
-  backupState.pairPlayedSet = new Set(schedulerState.pairPlayedSet);
-  backupState.playerScoreMap = structuredClone(schedulerState.playerScoreMap);
-  backupState.opponentMap = structuredClone(schedulerState.opponentMap);
-}
 function goBack() {
-  // const pin = prompt("Enter 4-digit code to go back:");
-  //if (pin === "0000") {
   updatePlayerList();
   document.getElementById('page1').style.display = 'block';
   document.getElementById('page2').style.display = 'none';
   isOnPage2 = false;
   const btn = document.getElementById('goToRoundsBtn');
   btn.disabled = false;
-  //} else if (pin !== null) alert("Incorrect PIN!");
 }
 function nextRound() {
-  //backupSchedulerState();
   if (currentRoundIndex + 1 < allRounds.length) {
     currentRoundIndex++;
     showRound(currentRoundIndex);
   } else {
-    const latestRound = allRounds[allRounds.length - 1];
-    updSchedule(latestRound); // updates global schedulerState automatically
-
-    const newRound = AischedulerNextRound();
+    updSchedule(allRounds.length - 1); // updates global schedulerState automatically
+    const newRound = [AischedulerNextRound(schedulerState)];
     allRounds.push(newRound);
     currentRoundIndex = allRounds.length - 1;
     showRound(currentRoundIndex);
@@ -1307,18 +1284,26 @@ function prevRound() {
 
 
 // Update global scheduler state after round
-// ==============================
-function updSchedule(roundData, schedulerState) {
-  const { games, resting } = roundData;
-  const { restCount, PlayedCount, PlayerScoreMap, opponentMap, pairPlayedSet } = schedulerState;
+function updSchedule(roundIndex, schedulerState) {
+  const data = allRounds[roundIndex];
+  if (!data) return;
+
+  const { games, resting } = data;
+  const {
+    restCount,
+    PlayedCount,
+    PlayerScoreMap,
+    opponentMap,
+    pairPlayedSet
+  } = schedulerState;
 
   // 1️⃣ Update rest count
   for (const p of resting) {
-    const playerName = p.split('#')[0]; // remove display count
+    const playerName = p.split('#')[0]; // remove any display count
     restCount.set(playerName, (restCount.get(playerName) || 0) + 1);
   }
 
-  // 2️⃣ Update PlayedCount for all players in games
+  // 2️⃣ Update PlayedCount
   for (const game of games) {
     const allPlayers = [...game.pair1, ...game.pair2];
     for (const p of allPlayers) {
@@ -1330,7 +1315,7 @@ function updSchedule(roundData, schedulerState) {
   for (const game of games) {
     const { pair1, pair2 } = game;
 
-    // OpponentMap update
+    // Opponent counts
     for (const a of pair1) {
       for (const b of pair2) {
         opponentMap.get(a).set(b, (opponentMap.get(a).get(b) || 0) + 1);
@@ -1338,11 +1323,11 @@ function updSchedule(roundData, schedulerState) {
       }
     }
 
-    // PlayerScoreMap update
+    // Player scoring
     for (const a of pair1) {
       let newOpponents = 0;
       for (const b of pair2) {
-        if (opponentMap.get(a).get(b) === 1) newOpponents += 1; // first time facing
+        if (opponentMap.get(a).get(b) === 1) newOpponents++;
       }
       const score = newOpponents === 2 ? 2 : newOpponents === 1 ? 1 : 0;
       PlayerScoreMap.set(a, (PlayerScoreMap.get(a) || 0) + score);
@@ -1351,7 +1336,7 @@ function updSchedule(roundData, schedulerState) {
     for (const b of pair2) {
       let newOpponents = 0;
       for (const a of pair1) {
-        if (opponentMap.get(b).get(a) === 1) newOpponents += 1;
+        if (opponentMap.get(b).get(a) === 1) newOpponents++;
       }
       const score = newOpponents === 2 ? 2 : newOpponents === 1 ? 1 : 0;
       PlayerScoreMap.set(b, (PlayerScoreMap.get(b) || 0) + score);
