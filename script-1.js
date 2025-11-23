@@ -415,7 +415,7 @@ function goToRounds() {
       }
       //allRounds.pop();
       currentRoundIndex = allRounds.length - 2;
-      schedulerState.roundIndex = allRounds.length;
+      schedulerState.roundIndex = allRounds.length-1;
       
       const newRound = AischedulerNextRound(schedulerState);
 
