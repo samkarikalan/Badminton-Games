@@ -313,11 +313,11 @@ function updateFixedPairSelectors() {
   sel2.innerHTML = '<option value="">-- Select Player 2 --</option>';
   // Only active players
   schedulerState.activeplayers.forEach(p => {
-    if (!pairedPlayers.has(p.name)) {
+    if (!pairedPlayers.has(p)) {
       const option1 = document.createElement('option');
       const option2 = document.createElement('option');
-      option1.value = option2.value = p.name;
-      option1.textContent = option2.textContent = p.name;
+      option1.value = option2.value = p;
+      option1.textContent = option2.textContent = p;
       sel1.appendChild(option1);
       sel2.appendChild(option2);
     }
@@ -414,21 +414,23 @@ function goToRounds() {
         if (!schedulerState.activeplayers.includes(p)) schedulerState.restCount.delete(p);
       }
       //allRounds.pop();
-      currentRoundIndex = allRounds.length - 2;
-      schedulerState.roundIndex = allRounds.length-1;
-      
+      schedulerState.roundIndex = allRounds.length - 1;
+      currentRoundIndex = schedulerState.roundIndex;
       const newRound = AischedulerNextRound(schedulerState);
+      allRounds[allRounds.length - 1] = newRound;
+       showRound(currentRoundIndex);
 
-      if (allRounds.length > 0) {
-        // overwrite last
-        allRounds[allRounds.length - 1] = newRound;
-      } else {
-        // first round
-        allRounds.push(newRound);
-      }
-
+      //
+      //currentRoundIndex = schedulerState.roundIndex;
       
-      showRound(currentRoundIndex);
+
+      //if (allRounds.length > 0) {
+        // overwrite last
+        
+      //} else {
+        // first round
+      //  allRounds.push(newRound);
+      //}    
  
     }  
   document.getElementById('page1').style.display = 'none';
