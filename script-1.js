@@ -414,8 +414,9 @@ function goToRounds() {
         if (!schedulerState.activeplayers.includes(p)) schedulerState.restCount.delete(p);
       }
       //allRounds.pop();
-      schedulerState.roundIndex = allRounds.length - 2;
-      currentRoundIndex = schedulerState.roundIndex;
+      currentRoundIndex = allRounds.length - 2;
+      schedulerState.roundIndex = allRounds.length;
+      
       const newRound = AischedulerNextRound(schedulerState);
 
       if (allRounds.length > 0) {
