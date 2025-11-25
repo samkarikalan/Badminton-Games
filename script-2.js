@@ -1,3 +1,50 @@
+function rebuildRestQueue(restQueue, fixedMap) {
+  const newQueue = [];
+  const visited = new Set();
+
+  for (const p of restQueue) {
+    if (visited.has(p)) continue;
+
+    // Skip if player is inactive
+    if (!schedulerState.activeplayers.includes(p)) continue;
+
+    const partner = fixedMap.get(p);
+
+    // No partner → add solo
+    if (!partner || !schedulerState.activeplayers.includes(partner)) {
+      newQueue.push(p);
+      visited.add(p);
+      continue;
+    }
+
+    // Partner exists and active → add both in FIFO order
+    const i1 = restQueue.indexOf(p);
+    const i2 = restQueue.indexOf(partner);
+
+    if (i2 < i1) {
+      newQueue.push(partner, p);
+    } else {
+      newQueue.push(p, partner);
+    }
+
+    visited.add(p);
+    visited.add(partner);
+  }
+
+  // Add any active players that are not yet in the queue
+  schedulerState.activeplayers.forEach(p => {
+    if (!visited.has(p)) {
+      newQueue.push(p);
+      visited.add(p);
+    }
+  });
+
+  return newQueue;
+}
+
+
+
+
 // ==============================
 // Generate next round (no global updates)
 // ==============================
@@ -74,18 +121,21 @@ if (fixedPairs.length > 0 && numResting >= 2) {
 
   // Helper to get priority: fewer rests first, then most recently played rests last
   const getPriority = (name) => {
-    const rests = restCount.get(name) || 0;
-    const turnOrder = schedulerState.allPlayers.find(p => p.name === name)?.turnOrder ?? -Infinity;
-    return { rests, turnOrder };
-  };
+  const rests = restCount.get(name) || 0;
+  const turnOrder = schedulerState.allPlayers.find(p => p.name === name)?.turnOrder ?? -Infinity;
+  return { rests, turnOrder };
+};
 
-  const sortedPlayers = [...activeplayers].sort((a, b) => {
-    const pa = getPriority(a);
-    const pb = getPriority(b);
+const sortedPlayers = [...schedulerState.restQueue].sort((a, b) => {
+  const pa = getPriority(a);
+  const pb = getPriority(b);
 
-    if (pa.rests !== pb.rests) return pa.rests - pb.rests;     // fewer rests = rest now
-    return pb.turnOrder - pa.turnOrder; // higher turnOrder = returned more recently = play now
-  });
+  // 1. fewer rests → rest first
+  if (pa.rests !== pb.rests) return pa.rests - pb.rests;
+
+  // 2. played long ago (lower turnOrder) → rest first
+  return pa.turnOrder - pb.turnOrder;
+});
 
   // Assign resting players (do NOT redeclare resting!)
   resting.push(...sortedPlayers.slice(0, numResting));
