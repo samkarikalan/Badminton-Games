@@ -452,6 +452,7 @@ function goToRounds() {
       schedulerState.fixedMap = new Map();
       let highestRestCount = -Infinity;
       updateScheduler();
+      /*
       for (const p of schedulerState.activeplayers) {
         if (schedulerState.restCount.has(p)) {
           const count = schedulerState.restCount.get(p);
@@ -465,7 +466,7 @@ function goToRounds() {
       }
       for (const p of Array.from(schedulerState.restCount.keys())) {
         if (!schedulerState.activeplayers.includes(p)) schedulerState.restCount.delete(p);
-      }
+      }*/
       //allRounds.pop();
       schedulerState.roundIndex = allRounds.length - 1;
       currentRoundIndex = schedulerState.roundIndex;
