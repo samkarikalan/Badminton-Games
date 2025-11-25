@@ -42,18 +42,55 @@ function hideImportModal() {
 function addPlayersFromText() {
   const text = document.getElementById('players-textarea').value.trim();
   if (!text) return;
-  const genderSelect = document.querySelector('input[name="genderSelect"]:checked');
-  const defaultGender = genderSelect ? genderSelect.value : "Male";
+
+  const defaultGender = document.querySelector('input[name="genderSelect"]:checked')?.value || "Male";
   const lines = text.split(/\r?\n/);
-  lines.forEach(line => {
-    const [nameRaw, genderRaw] = line.split(',');
-    const name = nameRaw?.trim();
-    const gender = genderRaw?.trim() || defaultGender;
-    // Check duplicates in allPlayers
-    if (name && !schedulerState.allPlayers.some(p => p.name.toLowerCase() === name.toLowerCase())) {
-      schedulerState.allPlayers.push({ name, gender, active: true });
+
+  const stopMarkers = [/court full/i, /wl/i, /waitlist/i, /late cancel/i, /cancelled/i, /reserve/i, /bench/i, /extras/i, /backup/i];
+
+  let startIndex = 0;
+  let stopIndex = lines.length;
+
+  // Find first "Confirm" line
+  const confirmLineIndex = lines.findIndex(line => /confirm/i.test(line));
+
+  if (confirmLineIndex >= 0) {
+    startIndex = confirmLineIndex + 1;
+    // Find stop marker after Confirm
+    for (let i = startIndex; i < lines.length; i++) {
+      if (stopMarkers.some(re => re.test(lines[i]))) {
+        stopIndex = i;
+        break;
+      }
     }
-  });
+  } else {
+    // No "Confirm" found → treat all lines as plain names
+    startIndex = 0;
+    stopIndex = lines.length;
+  }
+
+  const extractedNames = [];
+
+  for (let i = startIndex; i < stopIndex; i++) {
+    let line = lines[i].trim();
+    if (!line) continue;                 // skip blank lines
+    if (line.toLowerCase().includes("https")) continue; // skip URLs
+
+    // Keep the prefix as-is (do NOT remove numbering or dash)
+    // Extract parentheses content if present
+    const parenMatch = line.match(/\(([^)]+)\)/);
+    if (parenMatch) {
+      line = parenMatch[1].trim();
+    }
+
+    // Avoid duplicates (case-insensitive)
+    if (!schedulerState.allPlayers.some(p => p.name.toLowerCase() === line.toLowerCase())) {
+      extractedNames.push({ name: line, gender: defaultGender, active: true });
+    }
+  }
+
+  schedulerState.allPlayers.push(...extractedNames);
+
   schedulerState.activeplayers = schedulerState.allPlayers
     .filter(p => p.active)
     .map(p => p.name)
@@ -63,6 +100,7 @@ function addPlayersFromText() {
   updateFixedPairSelectors();
   hideImportModal();
 }
+
 /* =========================
    ADD SINGLE PLAYER
 ========================= */
@@ -87,8 +125,21 @@ function addPlayer() {
    EDIT PLAYER INFO
 ========================= */
 function editPlayer(i, field, val) {
-  schedulerState.allPlayers[i][field] = (field === 'active') ? val : val.trim();
-   schedulerState.activeplayers = schedulerState.allPlayers
+  const player = schedulerState.allPlayers[i];
+
+  // Normal update
+  if (field === 'active') {
+    player.active = !!val;                         // make sure it's boolean
+    if (val) {                                     // ←←← THIS IS THE ONLY NEW PART
+      const highest = Math.max(0, ...schedulerState.allPlayers.map(p => p.turnOrder || 0));
+      player.turnOrder = highest + 1;              // put him at the very end of the line
+    }
+  } else {
+    player[field] = val.trim();
+  }
+
+  // Your two existing lines — unchanged
+  schedulerState.activeplayers = schedulerState.allPlayers
     .filter(p => p.active)
     .map(p => p.name)
     .reverse();
@@ -186,27 +237,23 @@ function updatePlayerList() {
 
   enableTouchRowReorder();
 }
-
 function getPlayedColor(value) {
   if (!value || value <= 0) return "#e0e0e0";
 
-  const maxValue = 20;
-  const step = 360 / maxValue;      // 360° divided by 20 numbers → 18° per step
-  const hue = (Math.min(value, maxValue) - 1) * step; // subtract 1 so 1 → 0°, 2 → 18°, etc.
+  const plays = Math.min(value, 20);
+  const hue = (plays - 1) * 36; // 36° steps → 10 distinct, bold colors: 0°, 36°, 72°, ..., 684° → wraps cleanly
 
-  return `hsl(${hue}, 70%, 55%)`;
+  return `hsl(${hue}, 92%, 58%)`;
 }
 
 function getRestColor(value) {
   if (!value || value <= 0) return "#e0e0e0";
 
-  const maxValue = 20;
-  const step = 360 / maxValue;
-  const hue = ((Math.min(value, maxValue) - 1) * step + 180) % 360; // offset 180° for contrast
+  const rests = Math.min(value, 20);
+  const hue = ((rests - 1) * 36 + 180) % 360; // +180° offset = perfect opposite color
 
-  return `hsl(${hue}, 70%, 55%)`;
+  return `hsl(${hue}, 88%, 62%)`;
 }
-
 
 
 
@@ -312,7 +359,7 @@ function updateFixedPairSelectors() {
   sel1.innerHTML = '<option value="">-- Select Player 1 --</option>';
   sel2.innerHTML = '<option value="">-- Select Player 2 --</option>';
   // Only active players
-  schedulerState.activeplayers.forEach(p => {
+  schedulerState.activeplayers.slice().reverse().forEach(p => {
     if (!pairedPlayers.has(p)) {
       const option1 = document.createElement('option');
       const option2 = document.createElement('option');
@@ -378,6 +425,11 @@ function goToRounds() {
     alert('Please add players first!');
     return;
   }
+
+  if (!numCourtsInput) {
+    alert('Please enter no of Courts!');
+    return;
+  }  
   // Auto-calculate courts based on player count ÷ 4
   let autoCourts = Math.floor(totalPlayers / 4);
   if (autoCourts < 1) autoCourts = 1;
