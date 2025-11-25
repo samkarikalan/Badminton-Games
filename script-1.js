@@ -523,7 +523,7 @@ function prevRound() {
 function initScheduler(numCourts) {
   schedulerState.numCourts = numCourts;  
   schedulerState.restCount = new Map(schedulerState.activeplayers.map(p => [p, 0]));
- schedulerState.restQueue = new Map(schedulerState.activeplayers.map(p => [p, 0]));
+ //schedulerState.restQueue = new Map(schedulerState.activeplayers.map(p => [p, 0]));
     
   schedulerState.PlayedCount = new Map(schedulerState.activeplayers.map(p => [p, 0]));
   schedulerState.PlayerScoreMap = new Map(schedulerState.activeplayers.map(p => [p, 0]));
@@ -545,6 +545,11 @@ function initScheduler(numCourts) {
     schedulerState.fixedMap.set(a, b);
     schedulerState.fixedMap.set(b, a);
   });
+
+    schedulerState.restQueue = rebuildRestQueue(
+    schedulerState.activeplayers,   // initial queue
+    schedulerState.fixedMap
+);
 }
 function updateScheduler() {
    schedulerState.opponentMap = new Map();
@@ -576,10 +581,14 @@ function updSchedule(roundIndex, schedulerState) {
     const playerName = p.split('#')[0];
     restCount.set(playerName, (restCount.get(playerName) || 0) + 1);
   }
-   for (const p of resting) {
-    schedulerState.restQueue = schedulerState.restQueue.filter(x => x !== p);
-    schedulerState.restQueue.push(p);
-}
+   
+resting.forEach(p => {
+    const index = schedulerState.restQueue.indexOf(p);
+    if (index !== -1) {
+        schedulerState.restQueue.splice(index, 1);
+        schedulerState.restQueue.push(p);
+    }
+});
     
 
   // 2️⃣ Update PlayedCount
