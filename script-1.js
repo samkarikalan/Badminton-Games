@@ -582,14 +582,25 @@ function updSchedule(roundIndex, schedulerState) {
     restCount.set(playerName, (restCount.get(playerName) || 0) + 1);
   }
    
-// 1️⃣ Remove all resting players
-schedulerState.restQueue = schedulerState.restQueue.filter(
-    p => !resting.includes(p)
-);
+// Helper → base name
+const base = p => p.split('#')[0];
 
-// 2️⃣ Add all resting players at the end (in the same order)
-schedulerState.restQueue.push(...resting);
-    
+// 1️⃣ COPY restQueue first (so we don't modify during loop)
+let newQueue = schedulerState.restQueue.slice();
+
+// 2️⃣ FULL REMOVE: strip any players whose base name matches resting
+for (const r of resting) {
+  const b = base(r);
+  newQueue = newQueue.filter(q => base(q) !== b);
+}
+
+// Replace restQueue after ALL removals done
+schedulerState.restQueue = newQueue;
+
+// 3️⃣ FULL ADD: now add base names of ALL resting at once
+for (const r of resting) {
+  schedulerState.restQueue.push(base(r));
+}    
 
   // 2️⃣ Update PlayedCount
   for (const game of games) {
