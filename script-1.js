@@ -582,13 +582,13 @@ function updSchedule(roundIndex, schedulerState) {
     restCount.set(playerName, (restCount.get(playerName) || 0) + 1);
   }
    
-resting.forEach(p => {
-    const index = schedulerState.restQueue.indexOf(p);
-    if (index !== -1) {
-        schedulerState.restQueue.splice(index, 1);
-        schedulerState.restQueue.push(p);
-    }
-});
+// 1️⃣ Remove all resting players
+schedulerState.restQueue = schedulerState.restQueue.filter(
+    p => !resting.includes(p)
+);
+
+// 2️⃣ Add all resting players at the end (in the same order)
+schedulerState.restQueue.push(...resting);
     
 
   // 2️⃣ Update PlayedCount
