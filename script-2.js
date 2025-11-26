@@ -63,14 +63,15 @@ function AischedulerNextRound(schedulerState) {
 
   // Separate fixed pairs and free players
   const fixedPairPlayers = new Set(fixedPairs.flat());
-  let freePlayers = activeplayers.filter(p => !fixedPairPlayers.has(p));
+let freePlayers = activeplayers.filter(p => !fixedPairPlayers.has(p));
 
-  // ... top of function (resting and playing already declared as let)
+// ... top of function (resting and playing already declared as let)
 let resting = [];
 let playing = [];
 
 // 1. Select resting and playing players
 if (fixedPairs.length > 0 && numResting >= 2) {
+
   let needed = numResting;
   const fixedMap = new Map(fixedPairs.map(([a, b]) => [a, b]));
 
@@ -94,12 +95,13 @@ if (fixedPairs.length > 0 && numResting >= 2) {
     }
 
     if (needed <= 0) break;
-}
+  }
 
-// Playing = everyone else
-const playing = activeplayers.filter(p => !resting.includes(p));
+  // Playing = everyone else (NO redeclaration)
+  playing = activeplayers.filter(p => !resting.includes(p));
 
 } else {
+
   const sortedPlayers = [...schedulerState.restQueue].sort((a, b) => {
     const pa = getPriority(a);
     const pb = getPriority(b);
@@ -119,7 +121,6 @@ const playing = activeplayers.filter(p => !resting.includes(p));
     .filter(p => !resting.includes(p))
     .slice(0, numPlayersPerRound);
 }
-
 
 
   // 2️⃣ Prepare pairs
