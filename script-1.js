@@ -545,7 +545,7 @@ function initScheduler(numCourts) {
     schedulerState.fixedMap.set(a, b);
     schedulerState.fixedMap.set(b, a);
   });
-    createRestQueue();
+    schedulerState.restQueue = createRestQueue();
     
 }
 function updateScheduler() {
