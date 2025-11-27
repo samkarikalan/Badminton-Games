@@ -102,24 +102,16 @@ if (fixedPairs.length > 0 && numResting >= 2) {
 
 } else {
 
-  const sortedPlayers = [...schedulerState.restQueue].sort((a, b) => {
-    const pa = getPriority(a);
-    const pb = getPriority(b);
-
-    // 1. fewer rests → rest first
-    if (pa.rests !== pb.rests) return pa.rests - pb.rests;
-
-    // 2. played long ago (lower turnOrder) → rest first
-    return pa.turnOrder - pb.turnOrder;
-  });
-
-  // Assign resting players (do NOT redeclare resting!)
-  resting.push(...sortedPlayers.slice(0, numResting));
-
-  // Remaining players go to playing
-  playing = activeplayers
-    .filter(p => !resting.includes(p))
-    .slice(0, numPlayersPerRound);
+      // Use restQueue order directly (no sorting)
+    const sortedPlayers = [...schedulerState.restQueue];
+    
+    // Assign resting players
+    resting = sortedPlayers.slice(0, numResting);
+    
+    // Assign playing players
+    playing = activeplayers
+      .filter(p => !resting.includes(p))
+      .slice(0, numPlayersPerRound);
 }
 
 
