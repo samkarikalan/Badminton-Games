@@ -545,11 +545,8 @@ function initScheduler(numCourts) {
     schedulerState.fixedMap.set(a, b);
     schedulerState.fixedMap.set(b, a);
   });
-
-    schedulerState.restQueue = rebuildRestQueue(
-    schedulerState.activeplayers,   // initial queue
-    schedulerState.fixedMap
-);
+    createRestQueue();
+    
 }
 function updateScheduler() {
    schedulerState.opponentMap = new Map();
@@ -560,6 +557,9 @@ function updateScheduler() {
     }
     schedulerState.opponentMap.set(p1, innerMap);
   }
+    schedulerState.restQueue = rebuildRestQueue(
+    schedulerState.activeplayers );  // initial queue
+    
 }
 
 function updSchedule(roundIndex, schedulerState) {
@@ -652,6 +652,33 @@ for (const r of resting) {
     }
   }
 }
+
+function createRestQueue() {
+  // Simply return active players in their current order
+  return [...schedulerState.activeplayers];
+}
+
+function rebuildRestQueue(restQueue) {
+  const newQueue = [];
+  const active = schedulerState.activeplayers;
+
+  // 1. Add active players based on the order in old restQueue
+  for (const p of restQueue) {
+    if (active.includes(p)) {
+      newQueue.push(p);
+    }
+  }
+
+  // 2. Add any newly active players not found in old restQueue
+  for (const p of active) {
+    if (!newQueue.includes(p)) {
+      newQueue.push(p);
+    }
+  }
+
+  return newQueue;
+}
+
 
 
 
