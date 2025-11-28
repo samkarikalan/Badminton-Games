@@ -73,7 +73,11 @@ let playing = [];
 if (fixedPairs.length > 0 && numResting >= 2) {
 
   let needed = numResting;
-  const fixedMap = new Map(fixedPairs.map(([a, b]) => [a, b]));
+  const fixedMap = new Map();
+    for (const [a, b] of fixedPairs) {
+      fixedMap.set(a, b);
+      fixedMap.set(b, a); // Must include reverse
+    }
 
   // Use only restQueue order
  for (const p of schedulerState.restQueue) {
