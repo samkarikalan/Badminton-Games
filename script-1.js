@@ -558,7 +558,7 @@ function updateScheduler() {
     schedulerState.opponentMap.set(p1, innerMap);
   }
     schedulerState.restQueue = rebuildRestQueue(
-    schedulerState.activeplayers );  // initial queue
+    schedulerState.restQueue );  // initial queue
     
 }
 
