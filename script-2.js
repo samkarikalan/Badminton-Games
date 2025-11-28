@@ -76,26 +76,29 @@ if (fixedPairs.length > 0 && numResting >= 2) {
   const fixedMap = new Map(fixedPairs.map(([a, b]) => [a, b]));
 
   // Use only restQueue order
-  for (const p of schedulerState.restQueue) {
-    if (!activeplayers.includes(p)) continue;
-    if (resting.includes(p)) continue;
+ for (const p of schedulerState.restQueue) {
+  if (resting.includes(p)) continue;
 
-    const partner = fixedMap.get(p);
-    if (partner && activeplayers.includes(partner)) {
-      // If fixed partner fits, rest both
-      if (needed >= 2) {
-        resting.push(p, partner);
-        needed -= 2;
-      }
-      // If only 1 slot left → skip this pair
-    } else {
-      // Single free player
+  const partner = fixedMap.get(p);
+
+  if (partner) {
+    // Fixed pair → must stay together
+    if (needed >= 2) {
+      resting.push(p, partner);
+      needed -= 2;
+    }
+    // If not enough slots → skip both
+  } else {
+    // Free player → allowed to rest alone
+    if (needed > 0) {
       resting.push(p);
       needed -= 1;
     }
-
-    if (needed <= 0) break;
   }
+
+  if (needed <= 0) break;
+}
+
 
   // Playing = everyone else (NO redeclaration)
   playing = activeplayers.filter(p => !resting.includes(p));
