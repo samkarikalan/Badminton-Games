@@ -82,14 +82,14 @@ if (fixedPairs.length > 0 && numResting >= 2) {
   const partner = fixedMap.get(p);
 
   if (partner) {
-    // Fixed pair → must stay together
+    // Fixed pair rule -> only rest together
     if (needed >= 2) {
       resting.push(p, partner);
       needed -= 2;
     }
-    // If not enough slots → skip both
+    // If not enough slots -> skip both completely
   } else {
-    // Free player → allowed to rest alone
+    // Only rest free players
     if (needed > 0) {
       resting.push(p);
       needed -= 1;
@@ -98,6 +98,7 @@ if (fixedPairs.length > 0 && numResting >= 2) {
 
   if (needed <= 0) break;
 }
+
 
 
   // Playing = everyone else (NO redeclaration)
