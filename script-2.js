@@ -1,3 +1,137 @@
+function AischedulerNextRound(schedulerState) {
+  const {
+    activeplayers,
+    numCourts,
+    fixedPairs,
+    restCount,
+    opponentMap,
+    pairPlayedSet
+  } = schedulerState;
+
+  const totalPlayers = activeplayers.length;
+  const numPlayersPerRound = numCourts * 4;
+  const numResting = Math.max(totalPlayers - numPlayersPerRound, 0);
+
+  // Extract fixed-pair players
+  const fixedPairPlayers = new Set(fixedPairs.flat());
+  let freePlayers = activeplayers.filter(p => !fixedPairPlayers.has(p));
+
+  // Reverse map for fixed pairs
+  const fixedMap = new Map();
+  for (const [a, b] of fixedPairs) {
+    fixedMap.set(a, b);
+    fixedMap.set(b, a);
+  }
+
+  // For now playing = all active
+  let playing = [...activeplayers];
+  let resting = [];
+
+  // 2️⃣ Prepare fixed pairs that can play this round
+  const playingSet = new Set(playing);
+  let fixedPairsThisRound = [];
+
+  for (const pair of fixedPairs) {
+    if (playingSet.has(pair[0]) && playingSet.has(pair[1])) {
+      fixedPairsThisRound.push([pair[0], pair[1]]);
+    }
+  }
+
+  const fixedPairPlayersThisRound = new Set(fixedPairsThisRound.flat());
+  let freePlayersThisRound = playing.filter(p => !fixedPairPlayersThisRound.has(p));
+
+  const requiredPairsCount = Math.floor(numPlayersPerRound / 2);
+  let neededFreePairs = requiredPairsCount - fixedPairsThisRound.length;
+
+  // Pick disjoint free pairs
+  let selectedPairs = findDisjointPairs(
+    freePlayersThisRound,
+    pairPlayedSet,
+    neededFreePairs,
+    opponentMap
+  );
+
+  let finalFreePairs = selectedPairs || [];
+
+  // Fallback pairing for leftover free players
+  if (finalFreePairs.length < neededFreePairs) {
+    const free = freePlayersThisRound.slice();
+    const used = new Set(finalFreePairs.flat());
+
+    for (let i = 0; i < free.length; i++) {
+      const a = free[i];
+      if (used.has(a)) continue;
+
+      for (let j = i + 1; j < free.length; j++) {
+        const b = free[j];
+        if (used.has(b)) continue;
+
+        finalFreePairs.push([a, b]);
+        used.add(a);
+        used.add(b);
+        break;
+      }
+
+      if (finalFreePairs.length >= neededFreePairs) break;
+    }
+  }
+
+  // 3️⃣ Shuffle all pairs
+  let allPairs = shuffle(fixedPairsThisRound.concat(finalFreePairs));
+
+  // 4️⃣ Create games using matchup scores
+  let matchupScores = getMatchupScores(allPairs, opponentMap);
+
+  const games = [];
+  const usedPairs = new Set();
+
+  // TRACK ACTUAL PLAYERS
+  let playingThisRound = new Set();
+
+  for (const match of matchupScores) {
+    const { pair1, pair2 } = match;
+
+    const p1Key = pair1.join("&");
+    const p2Key = pair2.join("&");
+
+    if (usedPairs.has(p1Key) || usedPairs.has(p2Key)) continue;
+
+    games.push({
+      court: games.length + 1,
+      pair1: [...pair1],
+      pair2: [...pair2]
+    });
+
+    usedPairs.add(p1Key);
+    usedPairs.add(p2Key);
+
+    // 🔥 FIXED: Add these players to playing set
+    for (const p of pair1) playingThisRound.add(p);
+    for (const p of pair2) playingThisRound.add(p);
+
+    if (games.length >= numCourts) break;
+  }
+
+  // Actual arrays
+  playing = [...playingThisRound];
+  resting = activeplayers.filter(p => !playingThisRound.has(p));
+
+  // 5️⃣ Resting display with incremented rest count
+  const restingWithNumber = resting.map(p => {
+    const currentRest = restCount.get(p) || 0;
+    return `${p}#${currentRest + 1}`;
+  });
+
+  schedulerState.roundIndex = (schedulerState.roundIndex || 0) + 1;
+
+  return {
+    round: schedulerState.roundIndex,
+    resting: restingWithNumber,
+    playing,
+    games
+  };
+}
+
 function rebuildRestQueueold(restQueue, fixedMap) {
   const newQueue = [];
   const visited = new Set();
@@ -48,7 +182,7 @@ function rebuildRestQueueold(restQueue, fixedMap) {
 // ==============================
 // Generate next round (no global updates)
 // ==============================
-function AischedulerNextRound(schedulerState) {
+function AischedulerNextRound2(schedulerState) {
   const {
     activeplayers,
     numCourts,
