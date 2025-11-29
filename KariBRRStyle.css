@@ -222,3 +222,38 @@ textarea {
   border-radius: 12px;
   box-shadow: 0 1px 5px rgba(0,0,0,0.07);
 }
+
+.player-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    color: #333;
+}
+
+.player-table th, .player-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.player-table td:nth-child(2) {
+    text-align: left;
+}
+
+.pr {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.circle {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 2px solid #aaa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
