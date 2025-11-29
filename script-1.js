@@ -732,6 +732,45 @@ function rebuildRestQueue(restQueue) {
   return newQueue;
 }
 
+function report() {
+  const tbody = document.getElementById("page3TableBody");
+  tbody.innerHTML = ""; // Clear old rows
+
+  schedulerState.allPlayers.forEach((p, i) => {
+    const row = document.createElement("tr");
+
+    const played = schedulerState.PlayedCount.get(p.name) || 0;
+    const rest = schedulerState.restCount.get(p.name) || 0;
+
+    row.innerHTML = `
+      <td>${i + 1}</td>
+      <td>${p.name}</td>
+      <td class="pr">
+        <div class="circle" style="border-color:${getPlayedColor(played)}">${played}</div>
+        <div class="circle" style="border-color:${getRestColor(rest)}">${rest}</div>
+      </td>
+    `;
+
+    tbody.appendChild(row);
+  });
+}
+
+function showPage(pageID) {
+  document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+  document.getElementById(pageID).style.display = 'block';
+
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+
+  // 🔥 When user goes to Page 3 → update table
+  if (pageID === "page3") {
+    report();
+  }
+}
+
+
+
+
 
 
 
