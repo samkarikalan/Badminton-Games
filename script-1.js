@@ -164,6 +164,59 @@ function deletePlayer(i) {
 /* =========================
    UPDATE PLAYER LIST TABLE
 ========================= */
+function report() {
+  const table = document.getElementById('page3-table');
+  table.innerHTML = `
+    <tr>
+      <th>No</th>
+      <th>Name</th>
+      <th>P/R</th>
+    </tr>
+  `;
+
+  schedulerState.allPlayers.forEach((p, i) => {
+    const row = document.createElement('tr');
+
+    row.innerHTML = `
+      <!-- No -->
+      <td class="no-col" style="text-align:center; font-weight:bold;">
+        ${i + 1}
+      </td>
+
+      <!-- Name (plain text) -->
+      <td class="Player-cell">
+        ${p.name}
+      </td>
+
+      <!-- Played / Rest circles -->
+      <td class="stat-cell">
+        <span class="played-count" id="played_${i}"></span>
+        <span class="rest-count" id="rest_${i}"></span>
+      </td>
+    `;
+
+    // 🔥 Update Played circle
+    const playedElem = row.querySelector(`#played_${i}`);
+    if (playedElem) {
+      const playedValue = schedulerState.PlayedCount.get(p.name) || 0;
+      playedElem.textContent = playedValue;
+      playedElem.style.borderColor = getPlayedColor(playedValue);
+    }
+
+    // 🔥 Update Rest circle
+    const restElem = row.querySelector(`#rest_${i}`);
+    if (restElem) {
+      const restValue = schedulerState.restCount.get(p.name) || 0;
+      restElem.textContent = restValue;
+      restElem.style.borderColor = getRestColor(restValue);
+    }
+
+    table.appendChild(row);
+  });
+}
+
+
+
 function updatePlayerList() {
   const table = document.getElementById('player-list-table');
   table.innerHTML = `
