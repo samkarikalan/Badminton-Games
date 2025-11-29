@@ -1,4 +1,4 @@
-function AischedulerNextRound(schedulerState) {
+function AischedulerNextRound2(schedulerState) {
   const {
     activeplayers,
     numCourts,
@@ -182,7 +182,7 @@ function rebuildRestQueueold(restQueue, fixedMap) {
 // ==============================
 // Generate next round (no global updates)
 // ==============================
-function AischedulerNextRound2(schedulerState) {
+function AischedulerNextRound(schedulerState) {
   const {
     activeplayers,
     numCourts,
