@@ -43,7 +43,6 @@ function hideImportModal() {
 function addPlayersFromText() {
   const text = document.getElementById('players-textarea').value.trim();
   if (!text) return;
-
   const defaultGender = document.querySelector('input[name="genderSelect"]:checked')?.value || "Male";
   const lines = text.split(/\r?\n/);
 
@@ -216,7 +215,6 @@ function report() {
 }
 
 
-
 function updatePlayerList() {
   const table = document.getElementById('player-list-table');
   table.innerHTML = `
@@ -224,7 +222,7 @@ function updatePlayerList() {
       <th>No</th>
       <th></th>
       <th>Name</th>
-      <th>P/R</th>
+      <th>M/F</th>
       <th>Del</th>
     </tr>
   `;
@@ -239,58 +237,45 @@ function updatePlayerList() {
 
       <!-- Active checkbox -->
       <td style="text-align:center;">
-        <input type="checkbox" ${p.active ? 'checked' : ''} 
+        <input type="checkbox" ${p.active ? 'checked' : ''}
           onchange="editPlayer(${i}, 'active', this.checked)">
       </td>
 
       <!-- Name -->
       <td class="Player-cell">
         <input type="text" value="${p.name}"
-           ${!p.active ? 'disabled' : ''} 
-           onchange="editPlayer(${i}, 'name', this.value)">       
+          ${!p.active ? 'disabled' : ''}
+          onchange="editPlayer(${i}, 'name', this.value)">
       </td>
 
-      <!-- Stats: Played / Rest -->
-      <td class="stat-cell">
-        <span class="played-count" id="played_${i}"></span>
-        <span class="rest-count" id="rest_${i}"></span>
+      <!-- Gender -->
+      <td class="gender-cell">
+        <label class="gender-btn male">
+          <input type="radio" name="gender-${i}" value="Male"
+            ${p.gender === 'Male' ? 'checked' : ''}
+            onchange="editPlayer(${i}, 'gender', 'Male')">
+          <span>M</span>
+        </label>
+        <label class="gender-btn female">
+          <input type="radio" name="gender-${i}" value="Female"
+            ${p.gender === 'Female' ? 'checked' : ''}
+            onchange="editPlayer(${i}, 'gender', 'Female')">
+          <span>F</span>
+        </label>
       </td>
 
-      <!-- Delete button -->
+      <!-- Delete button col -->
       <td style="text-align:center;">
-        <button class="tbdelete-btn" onclick="deletePlayer(${i})">&times;</button>
+        <button onclick="deletePlayer(${i})">🗑️</button>
       </td>
-    `;
-
-    // 🔥 Games-played circle
-    const gamesElem = row.querySelector(`#games_${i}`);
-    if (gamesElem) {
-      const restValue = schedulerState.restCount.get(p.name) || 0;
-      gamesElem.textContent = restValue;
-      gamesElem.style.backgroundColor = getColorForValue(restValue);
-    }
-
-    // 🔥 Stats: Played / Rest with dynamic colors
-    const playedElem = row.querySelector(`#played_${i}`);
-    const restElem = row.querySelector(`#rest_${i}`);
-
-    if (playedElem) {
-      const playedValue = schedulerState.PlayedCount.get(p.name) || 0;
-      playedElem.textContent = playedValue;
-      playedElem.style.borderColor = getPlayedColor(playedValue);
-    }
-
-    if (restElem) {
-      const restValue = schedulerState.restCount.get(p.name) || 0;
-      restElem.textContent = restValue;
-      restElem.style.borderColor = getRestColor(restValue);
-    }
+    `;  // <-- ⬅ HERE: properly closed backtick!
 
     table.appendChild(row);
   });
-
-  enableTouchRowReorder();
 }
+
+
+
 function getPlayedColor(value) {
   if (!value || value <= 0) return "#e0e0e0";
 
