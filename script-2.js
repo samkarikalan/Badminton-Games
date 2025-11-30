@@ -678,7 +678,7 @@ function renderGames(data, index) {
     // ⚪ VS label
     const vs = document.createElement('span');
     vs.className = 'vs';
-    vs.innerText = 'VS';
+    vs.innerText = '  ';
     // Add everything to container
     teamsDiv.append(team1, vs, team2);
     wrapper.appendChild(teamsDiv);
