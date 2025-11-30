@@ -760,6 +760,10 @@ function report() {
      goToRounds();
      }
    }
+  
+	if (pageID === "page3") {
+     report();
+   }
 }
 
 
