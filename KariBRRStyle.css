@@ -471,6 +471,11 @@ textarea {
   font-weight: 600;
   border: none;
 }
+
+.vs {
+  display: inline-block;
+  width: 0.5rem;   /* adjust as you like */
+}
 /* Player Buttons */
 .Lplayer-btn,
 .Rplayer-btn,
