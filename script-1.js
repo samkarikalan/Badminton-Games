@@ -740,18 +740,28 @@ function report() {
   });
 }
 
-function showPage(pageID) {
+
+  function showPage(pageID, el) {
+  // Hide all pages
   document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+
+  // Show selected page
   document.getElementById(pageID).style.display = 'block';
 
+  // Update active tab styling
   document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-  event.target.classList.add('active');
+  if (el) el.classList.add('active');
 
-  // 🔥 When user goes to Page 3 → update table
-  if (pageID === "page3") {
-    report();
-  }
+  // ➜ Additional action when page2 is opened
+  if (pageID === "page2") {
+     if (allRounds.length <= 1) {
+	resetRounds();
+     } else {
+     goToRounds();
+     }
+   }
 }
+
 
 
 

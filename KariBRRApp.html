@@ -10,16 +10,15 @@
 </head>
 
 <body>
-
+  <h1>Kari Scheduler</h1>
   <!-- ============================= -->
   <!--       TOP TAB NAVIGATION      -->
   <!-- ============================= -->
-  <div class="top-tabs">
-    <button class="tab-btn active" onclick="showPage('page1')">Players</button>
-    <button class="tab-btn" onclick="showPage('page2')">Draw</button>
-    <button class="tab-btn" onclick="showPage('page3')">Matches</button>
-  </div>
-
+ <div class="top-tabs">
+  <button class="tab-btn active" onclick="showPage('page1', this)">Players</button>
+  <button class="tab-btn" onclick="showPage('page2', this)">Rounds</button>
+  <button class="tab-btn" onclick="showPage('page3', this)">Leaderboard</button>
+</div>
 
   <!-- ============================= -->
   <!--           PAGE 1               -->
@@ -27,7 +26,7 @@
   <!-- ============================= -->
   <div id="page1" class="page">
 
-    <h1>Kari Scheduler</h1>
+    
 
     <div class="card">
       <button onclick="showImportModal()">Import Multiple Players</button>
@@ -83,10 +82,7 @@
       <input type="number" id="num-courts" placeholder="Enter Number of Courts" min="1">
     </div>
 
-    <div class="card-col">
-      <button id="goToRoundsBtn" class="main-action1" onclick="goToRounds()">Continue ➡️</button>
-      <button id="resetRoundsBtn" class="main-action3" onclick="resetRounds()">New Rounds ➡️</button>
-    </div>
+    
 
   </div>
 
@@ -101,7 +97,12 @@
 
     <div class="round-navigation">
       <button id="prevBtn" onclick="prevRound()" disabled>Prev Round</button>
-      <div id="roundTitle">R</div>
+      <div id="roundHeader">
+    <span id="roundTitle">1</span>
+    <button id="refreshBtn" onclick="Refresh()">
+      🔄
+    </button>
+  </div>
       <button id="nextBtn" onclick="nextRound()" disabled>Next Round</button>
     </div>
 
@@ -114,6 +115,7 @@
   <!--        (Matches Page)         -->
   <!-- ============================= -->
   <div id="page3" class="page" style="display:none;">
+    
     <table class="player-table">
     <thead>
         <tr>
@@ -131,18 +133,7 @@
 
 
 
-  <!-- ============================= -->
-  <!--      PAGE SWITCHING SCRIPT     -->
-  <!-- ============================= -->
-  <script>
-    function showPage(pageID) {
-      document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-      document.getElementById(pageID).style.display = 'block';
-
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
-    }
-  </script>
+ 
 
 </body>
 </html>
