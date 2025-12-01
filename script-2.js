@@ -1108,5 +1108,5 @@ window.addEventListener('beforeunload', function (e) {
 });
 window.onload = function () {
   const btn = document.getElementById('goToRoundsBtn');
-  btn.disabled = (allRounds.length === 0);
+  //btn.disabled = (allRounds.length === 0);
 };

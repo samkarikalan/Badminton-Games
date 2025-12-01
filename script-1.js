@@ -454,7 +454,7 @@ function resetRounds() {
   allRounds.length = 0;
   goToRounds()
   const btn = document.getElementById('goToRoundsBtn');
-  btn.enabled;
+  //btn.enabled;
 }
 
 function goToRounds() {
@@ -717,64 +717,7 @@ function rebuildRestQueue(restQueue) {
   return newQueue;
 }
 
-function report2() {
-  const tbody = document.getElementById("page3TableBody");
-  tbody.innerHTML = ""; // Clear old rows
 
-  schedulerState.allPlayers.forEach((p, i) => {
-    const row = document.createElement("tr");
-
-    const played = schedulerState.PlayedCount.get(p.name) || 0;
-    const rest = schedulerState.restCount.get(p.name) || 0;
-
-    row.innerHTML = `
-      <td>${i + 1}</td>
-      <td>${p.name}</td>
-      <td class="pr">
-        <div class="circle" style="border-color:${getPlayedColor(played)}">${played}</div>
-        <div class="circle" style="border-color:${getRestColor(rest)}">${rest}</div>
-      </td>
-    `;
-
-    tbody.appendChild(row);
-  });
-}
-
-function report() {
-  const container = document.getElementById("reportContainer");
-  container.innerHTML = ""; // Clear old cards
-
-  // Sort players: Most played first → Least played
-  const sortedPlayers = [...schedulerState.allPlayers].sort((a, b) => {
-    const playedA = schedulerState.PlayedCount.get(a.name) || 0;
-    const playedB = schedulerState.PlayedCount.get(b.name) || 0;
-    return playedB - playedA; // Descending (most active first)
-  });
-
-  sortedPlayers.forEach((p, index) => {
-    const played = schedulerState.PlayedCount.get(p.name) || 0;
-    const rest = schedulerState.restCount.get(p.name) || 0;
-
-    const card = document.createElement("div");
-    card.className = "player-card";
-    card.innerHTML = `
-      <div class="rank">#${index + 1}</div>
-      <div class="name">${p.name}</div>
-      <div class="stats">
-        <div class="stat played" style="border-color:${getPlayedColor(played)}">
-          <span class="label">Played</span>
-          <span class="value">${played}</span>
-        </div>
-        <div class="stat rest" style="border-color:${getRestColor(rest)}">
-          <span class="label">Rest</span>
-          <span class="value">${rest}</span>
-        </div>
-      </div>
-    `;
-
-    container.appendChild(card);
-  });
-}
 
 
   function showPage(pageID, el) {
@@ -802,6 +745,44 @@ function report() {
    }
 }
 
+function report() {
+  const container = document.getElementById("reportContainer");
+  container.innerHTML = ""; // Clear old cards
+
+  // ⭐ Add title header row
+  const header = document.createElement("div");
+  header.className = "report-header";
+  header.innerHTML = `
+    <div class="header-rank">Rank</div>
+    <div class="header-name">Name</div>
+    <div class="header-played">Played</div>
+    <div class="header-rested">Rested</div>
+  `;
+  container.appendChild(header);
+
+  // Sort players: Most played first → Least played
+  const sortedPlayers = [...schedulerState.allPlayers].sort((a, b) => {
+    const playedA = schedulerState.PlayedCount.get(a.name) || 0;
+    const playedB = schedulerState.PlayedCount.get(b.name) || 0;
+    return playedB - playedA; // Descending (most active first)
+  });
+
+  sortedPlayers.forEach((p, index) => {
+    const played = schedulerState.PlayedCount.get(p.name) || 0;
+    const rest = schedulerState.restCount.get(p.name) || 0;
+
+    const card = document.createElement("div");
+    card.className = "player-card";
+    card.innerHTML = `
+  <div class="rank">#${index + 1}</div>
+  <div class="name">${p.name.replace(/^\d+\.\s*/, "")}</div>
+  <div class="stat played" style="border-color:${getPlayedColor(played)}">${played}</div>
+  <div class="stat rest" style="border-color:${getRestColor(rest)}">${rest}</div>
+`;
+
+    container.appendChild(card);
+  });
+}
 
 
 
