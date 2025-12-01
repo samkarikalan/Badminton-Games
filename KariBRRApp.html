@@ -15,8 +15,8 @@
   <!--       TOP TAB NAVIGATION      -->
   <!-- ============================= -->
  <div class="top-tabs">
-   <button class="tab-btn active" onclick="showPage('page0', this)">Home</button>
-  <button class="tab-btn active" onclick="showPage('page1', this)">Players</button>
+   <button class="tab-btn active" onclick="showPage('homepage', this)">Home</button>
+  <button class="tab-btn" onclick="showPage('page1', this)">Players</button>
   <button class="tab-btn" onclick="showPage('page2', this)">Rounds</button>
   <button class="tab-btn" onclick="showPage('page3', this)">Leaderboard</button>
 </div>
@@ -25,7 +25,7 @@
   <!--           PAGE 1               -->
   <!--        (Players Page)         -->
   <!-- ============================= -->
-  <div id="page1" class="page">
+  <div id="page1" class="page" style="display:none;">
 
     
 
@@ -132,7 +132,94 @@
     
   </div>
 
+<div id="homePage" class="page" style="display:none;">
 
+    <table class="player-table">
+        <thead>
+            <tr>
+                <th>Setting</th>
+                <th>Option</th>
+            </tr>
+        </thead>
+
+        <tbody id="homePageBody">
+
+            <!-- Language -->
+            <tr>
+                <td>Language</td>
+                <td>
+                    <select id="languageSelect">
+                        <option value="en">English</option>
+                        <option value="jp">日本語</option>
+                    </select>
+                </td>
+            </tr>
+
+            <!-- Font size -->
+            <tr>
+                <td>Font Size</td>
+                <td>
+                    <select id="fontSizeSelect">
+                        <option value="small">Small</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="large">Large</option>
+                    </select>
+                </td>
+            </tr>
+
+            <!-- Theme -->
+            <tr>
+                <td>Theme</td>
+                <td>
+                    <select id="themeSelect">
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                        <option value="purple" selected>Purple</option>
+                    </select>
+                </td>
+            </tr>
+
+            <!-- Game Mode -->
+            <tr>
+                <td>Game Mode</td>
+                <td>
+                    <select id="gameModeSelect">
+                        <option value="singles">Singles</option>
+                        <option value="doubles">Doubles</option>
+                        <option value="mixed">Mixed Doubles</option>
+                        <option value="random">Random</option>
+                    </select>
+                </td>
+            </tr>
+
+            <!-- Save -->
+            <tr>
+                <td>Save</td>
+                <td>
+                    <button class="home-btn" id="saveBtn">Save Settings</button>
+                </td>
+            </tr>
+
+            <!-- Load -->
+            <tr>
+                <td>Load</td>
+                <td>
+                    <button class="home-btn" id="loadBtn">Load Settings</button>
+                </td>
+            </tr>
+
+            <!-- Export -->
+            <tr>
+                <td>Export</td>
+                <td>
+                    <button class="home-btn" id="exportBtn">Export as PDF</button>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+</div>
 
  
 
