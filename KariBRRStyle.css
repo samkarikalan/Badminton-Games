@@ -706,5 +706,62 @@ button:disabled {
   opacity: 0.7;
 }
 
+.settings-container {
+    padding: 16px;
+}
+
+.setting-title {
+    margin-top: 20px;
+    margin-bottom: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #5a2ca0;
+}
+
+.option-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.option-btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    border: 2px solid #bba0ff;
+    background: #f4f0ff;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    transition: 0.2s;
+}
+
+.option-btn.active {
+    background: #7c4dff;
+    color: white;
+    border-color: #6336e5;
+}
+
+.option-btn:hover {
+    transform: scale(1.03);
+}
+
+.action-btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: #7c4dff;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.action-btn:hover {
+    transform: scale(1.03);
+}
+
 
   
