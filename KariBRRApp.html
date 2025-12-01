@@ -24,53 +24,51 @@
   <!-- ============================= -->
   <!--           HOME PAGE            -->
   <!-- ============================= -->
-  <div id="homePage" class="page" style="display:block;">
-
-  <div class="settings-container">
+ <div id="homePage" class="page" style="display:block;">
+  <div class="compact-settings">
 
     <!-- Language -->
-    <div class="setting-title">Language</div>
-    <div class="option-row">
-      <div class="option-btn active" onclick="setLanguage('en')" id="lang_en">English</div>
-      <div class="option-btn" onclick="setLanguage('jp')" id="lang_jp">日本語</div>
+    <div class="sec">Language</div>
+    <div class="row">
+      <div class="btn active" onclick="setLanguage('en')" id="lang_en">English</div>
+      <div class="btn" onclick="setLanguage('jp')" id="lang_jp">日本語</div>
     </div>
 
     <!-- Font Size -->
-    <div class="setting-title">Font Size</div>
-    <div class="option-row">
-      <div class="option-btn" onclick="setFont('small')" id="font_small">Small</div>
-      <div class="option-btn active" onclick="setFont('medium')" id="font_medium">Medium</div>
-      <div class="option-btn" onclick="setFont('large')" id="font_large">Large</div>
+    <div class="sec">Font Size</div>
+    <div class="row">
+      <div class="btn" onclick="setFont('small')" id="font_small">Small</div>
+      <div class="btn active" onclick="setFont('medium')" id="font_medium">Medium</div>
+      <div class="btn" onclick="setFont('large')" id="font_large">Large</div>
     </div>
 
     <!-- Theme -->
-    <div class="setting-title">Theme</div>
-    <div class="option-row">
-      <div class="option-btn active" onclick="setTheme('light')" id="theme_light">Light</div>
-      <div class="option-btn" onclick="setTheme('dark')" id="theme_dark">Dark</div>
-      <div class="option-btn" onclick="setTheme('purple')" id="theme_purple">Purple</div>
+    <div class="sec">Theme</div>
+    <div class="row">
+      <div class="btn active" onclick="setTheme('light')" id="theme_light">Light</div>
+      <div class="btn" onclick="setTheme('dark')" id="theme_dark">Dark</div>
+      <div class="btn" onclick="setTheme('purple')" id="theme_purple">Purple</div>
     </div>
 
     <!-- Game Mode -->
-    <div class="setting-title">Game Mode</div>
-    <div class="option-row">
-      <div class="option-btn active" onclick="setMode('singles')" id="mode_singles">Singles</div>
-      <div class="option-btn" onclick="setMode('doubles')" id="mode_doubles">Doubles</div>
-      <div class="option-btn" onclick="setMode('mixed')" id="mode_mixed">Mixed</div>
-      <div class="option-btn" onclick="setMode('random')" id="mode_random">Random</div>
+    <div class="sec">Game Mode</div>
+    <div class="row">
+      <div class="btn active" onclick="setMode('singles')" id="mode_singles">Singles</div>
+      <div class="btn" onclick="setMode('doubles')" id="mode_doubles">Doubles</div>
+      <div class="btn" onclick="setMode('mixed')" id="mode_mixed">Mixed</div>
+      <div class="btn" onclick="setMode('random')" id="mode_random">Random</div>
     </div>
 
-    <!-- Data Actions -->
-    <div class="setting-title">Data</div>
-    <div class="action-row">
-      <div class="action-btn" onclick="saveSettings()">Save</div>
-      <div class="action-btn" onclick="loadSettings()">Load</div>
-      <div class="action-btn" onclick="exportPDF()">Export PDF</div>
+    <!-- Data -->
+    <div class="sec">Data</div>
+    <div class="row act">
+      <div class="btn" onclick="saveSettings()">Save</div>
+      <div class="btn" onclick="loadSettings()">Load</div>
+      <div class="btn" onclick="exportPDF()">Export PDF</div>
     </div>
 
   </div>
 </div>
-
   <!-- ============================= -->
   <!--           PAGE 1               -->
   <!--        (Players Page)          -->
