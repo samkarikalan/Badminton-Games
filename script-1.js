@@ -717,7 +717,7 @@ function rebuildRestQueue(restQueue) {
   return newQueue;
 }
 
-function report() {
+function report2() {
   const tbody = document.getElementById("page3TableBody");
   tbody.innerHTML = ""; // Clear old rows
 
@@ -737,6 +737,42 @@ function report() {
     `;
 
     tbody.appendChild(row);
+  });
+}
+
+function report() {
+  const container = document.getElementById("reportContainer");
+  container.innerHTML = ""; // Clear old cards
+
+  // Sort players: Most played first → Least played
+  const sortedPlayers = [...schedulerState.allPlayers].sort((a, b) => {
+    const playedA = schedulerState.PlayedCount.get(a.name) || 0;
+    const playedB = schedulerState.PlayedCount.get(b.name) || 0;
+    return playedB - playedA; // Descending (most active first)
+  });
+
+  sortedPlayers.forEach((p, index) => {
+    const played = schedulerState.PlayedCount.get(p.name) || 0;
+    const rest = schedulerState.restCount.get(p.name) || 0;
+
+    const card = document.createElement("div");
+    card.className = "player-card";
+    card.innerHTML = `
+      <div class="rank">#${index + 1}</div>
+      <div class="name">${p.name}</div>
+      <div class="stats">
+        <div class="stat played" style="border-color:${getPlayedColor(played)}">
+          <span class="label">Played</span>
+          <span class="value">${played}</span>
+        </div>
+        <div class="stat rest" style="border-color:${getRestColor(rest)}">
+          <span class="label">Rest</span>
+          <span class="value">${rest}</span>
+        </div>
+      </div>
+    `;
+
+    container.appendChild(card);
   });
 }
 
