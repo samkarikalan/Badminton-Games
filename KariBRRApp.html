@@ -26,50 +26,49 @@
   <!-- ============================= -->
   <div id="homePage" class="page" style="display:block;">
 
-    <div class="settings-container">
+  <div class="settings-container">
 
-        <!-- Language -->
-        <div class="setting-title">Language</div>
-        <div class="option-row">
-            <button class="option-btn" onclick="setLanguage('en')" id="lang_en">English</button>
-            <button class="option-btn" onclick="setLanguage('jp')" id="lang_jp">日本語</button>
-        </div>
-
-        <!-- Font Size -->
-        <div class="setting-title">Font Size</div>
-        <div class="option-row">
-            <button class="option-btn" onclick="setFont('small')" id="font_small">Small</button>
-            <button class="option-btn" onclick="setFont('medium')" id="font_medium">Medium</button>
-            <button class="option-btn" onclick="setFont('large')" id="font_large">Large</button>
-        </div>
-
-        <!-- Theme -->
-        <div class="setting-title">Theme</div>
-        <div class="option-row">
-            <button class="option-btn" onclick="setTheme('light')" id="theme_light">Light</button>
-            <button class="option-btn" onclick="setTheme('dark')" id="theme_dark">Dark</button>
-            <button class="option-btn" onclick="setTheme('purple')" id="theme_purple">Purple</button>
-        </div>
-
-        <!-- Game Mode -->
-        <div class="setting-title">Game Mode</div>
-        <div class="option-row">
-            <button class="option-btn" onclick="setMode('singles')" id="mode_singles">Singles</button>
-            <button class="option-btn" onclick="setMode('doubles')" id="mode_doubles">Doubles</button>
-            <button class="option-btn" onclick="setMode('mixed')" id="mode_mixed">Mixed</button>
-            <button class="option-btn" onclick="setMode('random')" id="mode_random">Random</button>
-        </div>
-
-        <!-- Data Buttons -->
-        <div class="setting-title">Data</div>
-        <div class="option-row">
-            <button class="action-btn" onclick="saveSettings()">Save</button>
-            <button class="action-btn" onclick="loadSettings()">Load</button>
-            <button class="action-btn" onclick="exportPDF()">Export PDF</button>
-        </div>
-
+    <!-- Language -->
+    <div class="setting-title">Language</div>
+    <div class="option-row">
+      <div class="option-btn active" onclick="setLanguage('en')" id="lang_en">English</div>
+      <div class="option-btn" onclick="setLanguage('jp')" id="lang_jp">日本語</div>
     </div>
 
+    <!-- Font Size -->
+    <div class="setting-title">Font Size</div>
+    <div class="option-row">
+      <div class="option-btn" onclick="setFont('small')" id="font_small">Small</div>
+      <div class="option-btn active" onclick="setFont('medium')" id="font_medium">Medium</div>
+      <div class="option-btn" onclick="setFont('large')" id="font_large">Large</div>
+    </div>
+
+    <!-- Theme -->
+    <div class="setting-title">Theme</div>
+    <div class="option-row">
+      <div class="option-btn active" onclick="setTheme('light')" id="theme_light">Light</div>
+      <div class="option-btn" onclick="setTheme('dark')" id="theme_dark">Dark</div>
+      <div class="option-btn" onclick="setTheme('purple')" id="theme_purple">Purple</div>
+    </div>
+
+    <!-- Game Mode -->
+    <div class="setting-title">Game Mode</div>
+    <div class="option-row">
+      <div class="option-btn active" onclick="setMode('singles')" id="mode_singles">Singles</div>
+      <div class="option-btn" onclick="setMode('doubles')" id="mode_doubles">Doubles</div>
+      <div class="option-btn" onclick="setMode('mixed')" id="mode_mixed">Mixed</div>
+      <div class="option-btn" onclick="setMode('random')" id="mode_random">Random</div>
+    </div>
+
+    <!-- Data Actions -->
+    <div class="setting-title">Data</div>
+    <div class="action-row">
+      <div class="action-btn" onclick="saveSettings()">Save</div>
+      <div class="action-btn" onclick="loadSettings()">Load</div>
+      <div class="action-btn" onclick="exportPDF()">Export PDF</div>
+    </div>
+
+  </div>
 </div>
 
   <!-- ============================= -->
