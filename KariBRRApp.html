@@ -26,93 +26,51 @@
   <!-- ============================= -->
   <div id="homePage" class="page" style="display:block;">
 
-    <table class="player-table">
-      <thead>
-        <tr>
-          <th>Setting</th>
-          <th>Option</th>
-        </tr>
-      </thead>
-
-      <tbody id="homePageBody">
+    <div class="settings-container">
 
         <!-- Language -->
-        <tr>
-          <td>Language</td>
-          <td>
-            <select id="languageSelect">
-              <option value="en">English</option>
-              <option value="jp">日本語</option>
-            </select>
-          </td>
-        </tr>
+        <div class="setting-title">Language</div>
+        <div class="option-row">
+            <button class="option-btn" onclick="setLanguage('en')" id="lang_en">English</button>
+            <button class="option-btn" onclick="setLanguage('jp')" id="lang_jp">日本語</button>
+        </div>
 
-        <!-- Font size -->
-        <tr>
-          <td>Font Size</td>
-          <td>
-            <select id="fontSizeSelect">
-              <option value="small">Small</option>
-              <option value="medium" selected>Medium</option>
-              <option value="large">Large</option>
-            </select>
-          </td>
-        </tr>
+        <!-- Font Size -->
+        <div class="setting-title">Font Size</div>
+        <div class="option-row">
+            <button class="option-btn" onclick="setFont('small')" id="font_small">Small</button>
+            <button class="option-btn" onclick="setFont('medium')" id="font_medium">Medium</button>
+            <button class="option-btn" onclick="setFont('large')" id="font_large">Large</button>
+        </div>
 
         <!-- Theme -->
-        <tr>
-          <td>Theme</td>
-          <td>
-            <select id="themeSelect">
-              <option value="light">Light</option>
-              <option value="dark">Dark</option>
-              <option value="purple" selected>Purple</option>
-            </select>
-          </td>
-        </tr>
+        <div class="setting-title">Theme</div>
+        <div class="option-row">
+            <button class="option-btn" onclick="setTheme('light')" id="theme_light">Light</button>
+            <button class="option-btn" onclick="setTheme('dark')" id="theme_dark">Dark</button>
+            <button class="option-btn" onclick="setTheme('purple')" id="theme_purple">Purple</button>
+        </div>
 
         <!-- Game Mode -->
-        <tr>
-          <td>Game Mode</td>
-          <td>
-            <select id="gameModeSelect">
-              <option value="singles">Singles</option>
-              <option value="doubles">Doubles</option>
-              <option value="mixed">Mixed Doubles</option>
-              <option value="random">Random</option>
-            </select>
-          </td>
-        </tr>
+        <div class="setting-title">Game Mode</div>
+        <div class="option-row">
+            <button class="option-btn" onclick="setMode('singles')" id="mode_singles">Singles</button>
+            <button class="option-btn" onclick="setMode('doubles')" id="mode_doubles">Doubles</button>
+            <button class="option-btn" onclick="setMode('mixed')" id="mode_mixed">Mixed</button>
+            <button class="option-btn" onclick="setMode('random')" id="mode_random">Random</button>
+        </div>
 
-        <!-- Save -->
-        <tr>
-          <td>Save</td>
-          <td>
-            <button class="home-btn" id="saveBtn">Save Settings</button>
-          </td>
-        </tr>
+        <!-- Data Buttons -->
+        <div class="setting-title">Data</div>
+        <div class="option-row">
+            <button class="action-btn" onclick="saveSettings()">Save</button>
+            <button class="action-btn" onclick="loadSettings()">Load</button>
+            <button class="action-btn" onclick="exportPDF()">Export PDF</button>
+        </div>
 
-        <!-- Load -->
-        <tr>
-          <td>Load</td>
-          <td>
-            <button class="home-btn" id="loadBtn">Load Settings</button>
-          </td>
-        </tr>
+    </div>
 
-        <!-- Export -->
-        <tr>
-          <td>Export</td>
-          <td>
-            <button class="home-btn" id="exportBtn">Export as PDF</button>
-          </td>
-        </tr>
-
-      </tbody>
-    </table>
-
-  </div>
-
+</div>
 
   <!-- ============================= -->
   <!--           PAGE 1               -->
