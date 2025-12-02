@@ -17,7 +17,14 @@
   <div class="top-tabs">
     <button class="tab-btn active" onclick="showPage('homePage', this)">Home</button>
     <button class="tab-btn" onclick="showPage('page1', this)">Players</button>
-    <button class="tab-btn" onclick="showPage('page2', this)">Rounds</button>
+    <button class="tab-btn rounds-tab" onclick="showPage('page2', this)">
+    Rounds
+    <span class="reset-icon" onclick="event.stopPropagation(); resetAllRounds()" title="Reset All Rounds">
+      <svg viewBox="0 0 24 24" class="icon-svg">
+        <path d="M12 5V1L7 6l5 5V7a5 5 0 11-5 5H4a8 8 0 108-8z"/>
+      </svg>
+    </span>
+</button>
     <button class="tab-btn" onclick="showPage('page3', this)">Leaderboard</button>
   </div>
 
@@ -144,9 +151,13 @@
       <button id="prevBtn" onclick="prevRound()" disabled>« Round</button>
 
       <div id="roundHeader">
-        <span id="roundTitle">1</span>
-        <button id="refreshBtn" onclick="Refresh()">🔄</button>
-      </div>
+  <span id="roundTitle">1</span>
+  <span class="shuffle-icon" onclick="Refresh()" title="Alternate Games">
+    <svg viewBox="0 0 24 24" class="icon-svg">
+      <path d="M4 4h3l4 6 4-6h3l-5 8 5 8h-3l-4-6-4 6H4l5-8z"/>
+    </svg>
+  </span>
+</div>
 
       <button id="nextBtn" onclick="nextRound()" disabled>Round »</button>
     </div>
