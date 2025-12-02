@@ -873,6 +873,70 @@ button:disabled {
 }
 
 
+/* ================================ */
+/*    Generic SVG Icon Styling      */
+/* ================================ */
+.icon-svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+  pointer-events: none; /* prevents accidental blocking of clicks */
+}
+
+
+/* ================================ */
+/*      RESET ICON (Top Tab)        */
+/* ================================ */
+.rounds-tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px; /* space between text and icon */
+}
+
+.reset-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: 0.2s;
+}
+
+.reset-icon:hover {
+  opacity: 1;
+  transform: scale(1.13);
+}
+
+
+/* ================================ */
+/*  SHUFFLE ICON (Round Title Area) */
+/* ================================ */
+.shuffle-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 6px;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: 0.2s;
+}
+
+.shuffle-icon:hover {
+  opacity: 1;
+  transform: scale(1.13);
+}
+
+
+/* Keep round title + shuffle icon aligned properly */
+#roundHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
 
 
 
