@@ -936,7 +936,32 @@ button:disabled {
   justify-content: center;
   gap: 6px;
 }
+/* Container for sitting out players */
+.sitting-out-container {
+    border: none;               /* No border */
+    display: flex;
+    flex-wrap: wrap;            /* Wrap players to new line if needed */
+    align-items: flex-start;
+    justify-content: flex-start; /* Left align */
+    padding: 5px;
+    gap: 5px;                   /* Space between player elements */
+    width: auto;                /* Grow/shrink dynamically */
+    min-width: 100px;           /* Optional minimum width */
+}
 
+/* Individual player element */
+.sitting-out-container .player {
+    background-color: #f0f0f0;  /* Or any color you like */
+    padding: 5px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+/* Title change */
+.sitting-out-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
 
 
 
