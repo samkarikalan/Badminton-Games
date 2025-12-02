@@ -929,41 +929,36 @@ button:disabled {
 }
 
 
-/* Keep round title + shuffle icon aligned properly */
-#roundHeader {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-/* Container for sitting out players */
-.sitting-out-container {
-    border: none;               /* No border */
-    display: flex;
-    flex-wrap: wrap;            /* Wrap players to new line if needed */
-    align-items: flex-start;
-    justify-content: flex-start; /* Left align */
-    padding: 5px;
-    gap: 5px;                   /* Space between player elements */
-    width: auto;                /* Grow/shrink dynamically */
-    min-width: 100px;           /* Optional minimum width */
+/* Wrapper for sitting out section */
+.sitting-out-container-wrapper {
+    margin-bottom: 10px;
 }
 
-/* Individual player element */
-.sitting-out-container .player {
-    background-color: #f0f0f0;  /* Or any color you like */
-    padding: 5px 10px;
-    border-radius: 4px;
-    white-space: nowrap;
-}
-
-/* Title change */
+/* Title */
 .sitting-out-title {
     font-weight: bold;
     margin-bottom: 5px;
 }
 
+/* Container for player buttons */
+.sitting-out-container {
+    display: flex;
+    flex-wrap: wrap;           /* Wrap to new line if needed */
+    gap: 5px;
+    justify-content: flex-start; /* Left align */
+    align-items: flex-start;
+    padding: 0;                /* No padding needed unless you want */
+    border: none;              /* No border */
+    width: auto;               /* Grow/shrink dynamically */
+}
 
+/* Individual player button styling (from your makeRestButton) */
+.sitting-out-container .player-button {
+    padding: 5px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    background-color: #f0f0f0;
+}
 
 
   
