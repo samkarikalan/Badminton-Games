@@ -37,6 +37,37 @@ function hideImportModal() {
   document.getElementById('importModal').style.display = 'none';
   document.getElementById('players-textarea').value = '';
 }
+
+
+function createPlayerCard(player, index) {
+  const card = document.createElement("div");
+  card.className = "player-edit-card";
+
+  card.innerHTML = `
+    <div class="pec-left">
+      <div class="pec-name">${player.name}</div>
+      <div class="pec-gender">${player.gender}</div>
+    </div>
+
+    <div class="pec-middle">
+      <label class="switch">
+        <input type="checkbox" ${player.active ? "checked" : ""}
+               onchange="editPlayer(${index}, 'active', this.checked)">
+        <span class="slider"></span>
+      </label>
+      <span class="pec-active-label">${player.active ? "Active" : "Rest"}</span>
+    </div>
+
+    <div class="pec-right">
+      <button class="pec-btn edit" onclick="openEditModal(${index})">✎</button>
+      <button class="pec-btn delete" onclick="deletePlayer(${index})">🗑</button>
+    </div>
+  `;
+
+  return card;
+}
+
+
 /* =========================
    ADD PLAYERS FROM TEXT
 ========================= */
@@ -214,8 +245,17 @@ function report() {
   });
 }
 
-
 function updatePlayerList() {
+  const container = document.getElementById("playerList");
+  container.innerHTML = "";
+
+  schedulerState.allPlayers.forEach((player, index) => {
+    const card = createPlayerCard(player, index);
+    container.appendChild(card);
+  });
+}
+
+function oldupdatePlayerList() {
   const table = document.getElementById('player-list-table');
   table.innerHTML = `
     <tr>
