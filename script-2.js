@@ -604,24 +604,32 @@ function showRound(index) {
 }
 // Resting players display
 function renderRestingPlayers(data, index) {
-  const restDiv = document.createElement('div');
-  restDiv.className = 'round-header';
-  const title = document.createElement('div');
-  title.innerText = 'Resting:';
-  restDiv.appendChild(title);
-  const restBox = document.createElement('div');
-  restBox.className = 'rest-box';
-  if (data.resting.length === 0) {
-    const span = document.createElement('span');
-    span.innerText = 'None';
-    restBox.appendChild(span);
-  } else {
-    data.resting.forEach(player => {
-      restBox.appendChild(makeRestButton(player, data, index));
-    });
-  }
-  restDiv.appendChild(restBox);
-  return restDiv;
+    // Main container
+    const restDiv = document.createElement('div');
+    restDiv.className = 'sitting-out-container-wrapper';
+
+    // Title
+    const title = document.createElement('div');
+    title.className = 'sitting-out-title';
+    title.innerText = 'Sitting Out:';
+    restDiv.appendChild(title);
+
+    // Container for player buttons
+    const restBox = document.createElement('div');
+    restBox.className = 'sitting-out-container';
+
+    if (data.resting.length === 0) {
+        const span = document.createElement('span');
+        span.innerText = 'None';
+        restBox.appendChild(span);
+    } else {
+        data.resting.forEach(player => {
+            restBox.appendChild(makeRestButton(player, data, index));
+        });
+    }
+
+    restDiv.appendChild(restBox);
+    return restDiv;
 }
 function renderGames(data, index) {
   const wrapper = document.createElement('div');
