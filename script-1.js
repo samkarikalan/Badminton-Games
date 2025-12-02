@@ -38,23 +38,32 @@ function hideImportModal() {
   document.getElementById('players-textarea').value = '';
 }
 
-
 function createPlayerCard(player, index) {
   const card = document.createElement("div");
-  card.className = "player-edit-card";
+  card.className = "player-edit-card player-row";
 
   card.innerHTML = `
-    <div class="pec-col pec-slno">${index + 1}</div>
+    <!-- SL No -->
+    <div class="pec-col pec-sl">${index + 1}</div>
 
+    <!-- Active checkbox -->
     <div class="pec-col pec-active">
       <input type="checkbox"
         ${player.active ? "checked" : ""}
         onchange="editPlayer(${index}, 'active', this.checked)">
     </div>
 
-    <div class="pec-col pec-name">${player.name}</div>
-    <div class="pec-col pec-gender">${player.gender}</div>
+    <!-- Name -->
+    <div class="pec-col pec-name">
+      ${player.name}
+    </div>
 
+    <!-- Gender -->
+    <div class="pec-col pec-gender">
+      ${player.gender}
+    </div>
+
+    <!-- Delete -->
     <div class="pec-col pec-delete">
       <button class="pec-btn delete" onclick="deletePlayer(${index})">🗑</button>
     </div>
@@ -62,6 +71,7 @@ function createPlayerCard(player, index) {
 
   return card;
 }
+
 
 /* =========================
    ADD PLAYERS FROM TEXT
