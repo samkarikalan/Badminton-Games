@@ -571,37 +571,147 @@ function clearPreviousRound() {
   });
 }
 
+// Scheduler state
+const schedulerState = {
+    currentRoundIndex: 0,
+    markingWinnerMode: false // true when user needs to mark winners
+};
+
+// Show a round
 function showRound(index) {
-  clearPreviousRound();
-  const resultsDiv = document.getElementById('game-results');
-  resultsDiv.innerHTML = '';
-  const data = allRounds[index];
-  if (!data) return;
-  // ✅ Update round title
-  const roundTitle = document.getElementById("roundTitle");
-  roundTitle.className = "round-title";
-  roundTitle.innerText = data.round;
-  // ✅ Create sections safely
-  let restDiv = null;
-  if (data.resting && data.resting.length !== 0) {
-    restDiv = renderRestingPlayers(data, index);
-  }
-  const gamesDiv = renderGames(data, index);
-  // ✅ Wrap everything in a container to distinguish latest vs played
-  const wrapper = document.createElement('div');
-  const isLatest = index === allRounds.length - 1;
-  wrapper.className = isLatest ? 'latest-round' : 'played-round';
-  // ✅ Append conditionally
-  if (restDiv) {
-    wrapper.append(restDiv, gamesDiv);
-  } else {
-    wrapper.append(gamesDiv);
-  }
-  resultsDiv.append(wrapper);
-  // ✅ Navigation buttons
-  document.getElementById('prevBtn').disabled = index === 0;
-  document.getElementById('nextBtn').disabled = false;
+    schedulerState.currentRoundIndex = index;
+    const resultsDiv = document.getElementById('game-results');
+    resultsDiv.innerHTML = '';
+    const data = allRounds[index];
+    if (!data) return;
+
+    // Update round title
+    const roundTitle = document.getElementById("roundTitle");
+    roundTitle.className = "round-title";
+    roundTitle.innerText = data.round;
+
+    // Render resting players
+    let restDiv = null;
+    if (data.resting && data.resting.length !== 0) {
+        restDiv = renderRestingPlayers(data, index);
+    }
+
+    // Render games
+    const gamesDiv = renderGames(data, index);
+
+    // Wrap everything
+    const wrapper = document.createElement('div');
+    const isLatest = index === allRounds.length - 1;
+    wrapper.className = isLatest ? 'latest-round' : 'played-round';
+    if (restDiv) {
+        wrapper.append(restDiv, gamesDiv);
+    } else {
+        wrapper.append(gamesDiv);
+    }
+
+    resultsDiv.append(wrapper);
+
+    // Navigation buttons
+    document.getElementById('prevBtn').disabled = index === 0;
+    document.getElementById('nextBtn').disabled = false;
 }
+
+// Render games
+function renderGames(data, index) {
+    const wrapper = document.createElement('div');
+    data.games.forEach((game, gameIndex) => {
+
+        const teamsDiv = document.createElement('div');
+        teamsDiv.className = 'teams';
+
+        const makeTeamDiv = (teamSide) => {
+            const teamDiv = document.createElement('div');
+            teamDiv.className = 'team';
+            teamDiv.dataset.teamSide = teamSide;
+            teamDiv.dataset.gameIndex = gameIndex;
+
+            // Swap icon
+            const swapIcon = document.createElement('div');
+            swapIcon.className = 'swap-icon';
+            swapIcon.innerHTML = '🔁';
+            teamDiv.appendChild(swapIcon);
+
+            const markingWinner = schedulerState.markingWinnerMode;
+            if (markingWinner) {
+                swapIcon.style.pointerEvents = 'none';
+                swapIcon.style.opacity = 0.5;
+            } else if (index === allRounds.length - 1) {
+                swapIcon.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    // swap logic
+                });
+            }
+
+            // Player buttons
+            const teamPairs = teamSide === 'L' ? game.pair1 : game.pair2;
+            teamPairs.forEach((p, i) => {
+                const playerBtn = makePlayerButton(p, teamSide, gameIndex, i, data, index);
+                if (markingWinner) {
+                    playerBtn.style.pointerEvents = 'none';
+                    playerBtn.style.opacity = 0.6;
+                }
+                teamDiv.appendChild(playerBtn);
+            });
+
+            // Winner marking (latest round & marking mode)
+            const isLatestRound = index === allRounds.length - 1;
+            if (isLatestRound && markingWinner) {
+                teamDiv.addEventListener('click', () => {
+                    game.winner = teamSide;          // mark winner
+                    schedulerState.markingWinnerMode = false; // exit marking mode
+                    showRound(index);                 // refresh UI with stamp
+                });
+            }
+
+            // Show Won stamp
+            if (game.winner === teamSide) {
+                const wonStamp = document.createElement('div');
+                wonStamp.className = 'won-stamp';
+                wonStamp.innerText = '🏆 Won!';
+                teamDiv.appendChild(wonStamp);
+            }
+
+            return teamDiv;
+        };
+
+        const team1 = makeTeamDiv('L');
+        const team2 = makeTeamDiv('R');
+
+        const vs = document.createElement('span');
+        vs.className = 'vs';
+        vs.innerText = '  ';
+
+        teamsDiv.append(team1, vs, team2);
+        wrapper.appendChild(teamsDiv);
+    });
+
+    return wrapper;
+}
+
+// Next Round button
+document.getElementById('nextBtn').addEventListener('click', () => {
+    const currentIndex = schedulerState.currentRoundIndex;
+    const currentRound = allRounds[currentIndex];
+
+    const allMarked = currentRound.games.every(game => game.winner);
+    if (!allMarked) {
+        alert('Please mark the winner for each game by clicking a team.');
+        schedulerState.markingWinnerMode = true;
+        showRound(currentIndex);
+        return;
+    }
+
+    // Move to next round
+    if (currentIndex < allRounds.length - 1) {
+        showRound(currentIndex + 1);
+    }
+});
 // Resting players display
 function renderRestingPlayers(data, index) {
     // Main container
@@ -631,68 +741,7 @@ function renderRestingPlayers(data, index) {
     restDiv.appendChild(restBox);
     return restDiv;
 }
-function renderGames(data, index) {
-  const wrapper = document.createElement('div');
-  data.games.forEach((game, gameIndex) => {
-    // 🟦 Create the main container for the match
-    const teamsDiv = document.createElement('div');
-    teamsDiv.className = 'teams';
-    // Helper → Team letters (A, B, C, D...)
-    const getTeamLetter = (gameIndex, teamSide) => {
-      const teamNumber = gameIndex * 2 + (teamSide === 'L' ? 0 : 1);
-      return String.fromCharCode(65 + teamNumber);
-    };
-    const makeTeamDiv = (teamSide) => {
-      const teamDiv = document.createElement('div');
-      teamDiv.className = 'team';
-      teamDiv.dataset.teamSide = teamSide;
-      teamDiv.dataset.gameIndex = gameIndex;
-      // 🔁 Swap icon
-      const swapIcon = document.createElement('div');
-      swapIcon.className = 'swap-icon';
-      swapIcon.innerHTML = '🔁';
-      teamDiv.appendChild(swapIcon);
-      // 👥 Add player buttons
-      const teamPairs = teamSide === 'L' ? game.pair1 : game.pair2;
-      teamPairs.forEach((p, i) => {
-        teamDiv.appendChild(makePlayerButton(p, teamSide, gameIndex, i, data, index));
-      });
-      // ✅ Swap logic (only for latest round)
-      const isLatestRound = index === allRounds.length - 1;
-      if (isLatestRound) {
-        swapIcon.addEventListener('click', (e) => {
-          e.stopPropagation();
-          e.preventDefault();
-          if (window.selectedTeam) {
-            const src = window.selectedTeam;
-            if (src.gameIndex !== gameIndex) {
-              handleTeamSwapAcrossCourts(src, { teamSide, gameIndex }, data, index);
-            }
-            window.selectedTeam = null;
-            document
-              .querySelectorAll('.selected-team')
-              .forEach(b => b.classList.remove('selected-team'));
-          } else {
-            window.selectedTeam = { teamSide, gameIndex };
-            teamDiv.classList.add('selected-team');
-          }
-        });
-      }
-      return teamDiv;
-    };
-    // 🟢 Create left & right sides
-    const team1 = makeTeamDiv('L');
-    const team2 = makeTeamDiv('R');
-    // ⚪ VS label
-    const vs = document.createElement('span');
-    vs.className = 'vs';
-    vs.innerText = '  ';
-    // Add everything to container
-    teamsDiv.append(team1, vs, team2);
-    wrapper.appendChild(teamsDiv);
-  });
-  return wrapper;
-}
+
 // Games display
 function renderGames2(data, index) {
   const wrapper = document.createElement('div');
