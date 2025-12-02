@@ -979,4 +979,99 @@ button:disabled {
 }
 
 
+/* Container */
+.player-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 6px 0;
+}
+
+/* Player Card */
+.player-edit-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  padding: 12px 14px;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.12);
+}
+
+/* Left: Name + gender */
+.pec-left {
+  display: flex;
+  flex-direction: column;
+}
+.pec-name {
+  font-size: 16px;
+  font-weight: 600;
+}
+.pec-gender {
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+/* Middle: Active Toggle */
+.pec-middle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.pec-active-label {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+/* Right: Buttons */
+.pec-right {
+  display: flex;
+  gap: 6px;
+}
+.pec-btn {
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  cursor: pointer;
+}
+.pec-btn.edit {
+  color: #007aff;
+}
+.pec-btn.delete {
+  color: #cc0000;
+}
+
+/* Toggle switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 34px;
+  height: 18px;
+}
+.switch input { display: none; }
+.slider {
+  position: absolute;
+  inset: 0;
+  background-color: #ccc;
+  border-radius: 20px;
+  transition: .3s;
+}
+.slider:before {
+  content: "";
+  position: absolute;
+  height: 14px;
+  width: 14px;
+  left: 2px;
+  bottom: 2px;
+  background: white;
+  border-radius: 50%;
+  transition: .3s;
+}
+input:checked + .slider {
+  background-color: #4caf50;
+}
+input:checked + .slider:before {
+  transform: translateX(16px);
+}
+
   
