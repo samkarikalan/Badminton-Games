@@ -960,5 +960,23 @@ button:disabled {
     background-color: #f0f0f0;
 }
 
+.team {
+    position: relative; /* needed for absolute positioning */
+}
+
+.won-stamp {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: gold;
+    color: black;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 3px;
+    z-index: 10;
+    text-align: center;
+}
+
 
   
