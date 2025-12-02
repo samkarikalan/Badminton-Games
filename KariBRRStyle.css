@@ -1074,4 +1074,58 @@ input:checked + .slider:before {
   transform: translateX(16px);
 }
 
+.player-edit-card {
+  display: grid;
+  grid-template-columns: 40px 50px 1fr 80px 60px;
+  align-items: center;
+  gap: 10px;
+  
+  padding: 10px 14px;
+  margin-bottom: 8px;
+
+  background: #ffffff;
+  border-radius: 10px;
+  border: 1px solid #dcdcdc;
+
+  font-size: 16px;
+}
+
+.pec-col {
+  display: flex;
+  align-items: center;
+}
+
+.pec-slno {
+  font-weight: 600;
+  text-align: center;
+}
+
+.pec-active input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.pec-name {
+  font-weight: 600;
+}
+
+.pec-gender {
+  text-align: center;
+}
+
+.pec-btn.delete {
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.pec-btn.delete:hover {
+  background: #e04141;
+}
+
   
