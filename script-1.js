@@ -44,29 +44,24 @@ function createPlayerCard(player, index) {
   card.className = "player-edit-card";
 
   card.innerHTML = `
-    <div class="pec-left">
-      <div class="pec-name">${player.name}</div>
-      <div class="pec-gender">${player.gender}</div>
+    <div class="pec-col pec-slno">${index + 1}</div>
+
+    <div class="pec-col pec-active">
+      <input type="checkbox"
+        ${player.active ? "checked" : ""}
+        onchange="editPlayer(${index}, 'active', this.checked)">
     </div>
 
-    <div class="pec-middle">
-      <label class="switch">
-        <input type="checkbox" ${player.active ? "checked" : ""}
-               onchange="editPlayer(${index}, 'active', this.checked)">
-        <span class="slider"></span>
-      </label>
-      <span class="pec-active-label">${player.active ? "Active" : "Rest"}</span>
-    </div>
+    <div class="pec-col pec-name">${player.name}</div>
+    <div class="pec-col pec-gender">${player.gender}</div>
 
-    <div class="pec-right">
-      <button class="pec-btn edit" onclick="openEditModal(${index})">✎</button>
+    <div class="pec-col pec-delete">
       <button class="pec-btn delete" onclick="deletePlayer(${index})">🗑</button>
     </div>
   `;
 
   return card;
 }
-
 
 /* =========================
    ADD PLAYERS FROM TEXT
