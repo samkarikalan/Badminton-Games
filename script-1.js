@@ -16,6 +16,7 @@ let schedulerState = {
     roundIndex: 0,
     pairPlayedSet: new Set(),
     opponentMap: new Map(), // 🆕 per-player opponent tracking
+	markingWinnerMode: false,
 };
 
 
