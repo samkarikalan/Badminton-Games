@@ -40,40 +40,68 @@ h1 {
 .top-tabs {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* back button left, tabs take rest */
-  margin: 12px auto 18px;
   background: #ffffff;
-  padding: 4px 8px;
-  border-radius: 14px;
-  max-width: 380px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  padding: 6px 10px;
+  border-radius: 20px;          /* pill shape */
+  max-width: 400px;
+  margin: 16px auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   border: 1px solid #e4e4e7;
 }
 
-/* Back button */
-.tab-back {
-  font-size: 18px;
+/* Back button << */
+.back-btn {
+  flex: 0 0 auto;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-right: 12px;
+  background: #f5f5f5;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 14px;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.back-btn:hover {
+  background-color: #e0e0e0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 /* Tabs container */
 .tabs-container {
   display: flex;
-  flex: 1;                  /* take remaining space */
-  justify-content: space-around; /* equal spacing for tabs */
-  margin-left: 12px;        /* space from back button */
+  flex: 1;                       /* fill remaining space */
+  justify-content: space-between; /* equally spaced tabs */
 }
 
-/* Individual tab */
-.tab {
-  padding: 8px 12px;
+/* Individual tabs */
+.tabs-container .tab-btn {
+  flex: 1;                        /* equal width */
+  margin: 0 4px;
+  padding: 8px 0;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #555;
+  background: #f5f5f5;
+  border: none;
+  border-radius: 14px;
   cursor: pointer;
-  border-radius: 10px;
-  transition: 0.2s;
+  transition: all 0.2s ease;
 }
 
-.tab:hover {
-  background-color: #f0f0f0;
+.tabs-container .tab-btn:hover {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+/* Active tab style */
+.tabs-container .tab-btn.active {
+  background: linear-gradient(135deg, #2f78ff, #1963ff);
+  color: white;
+  box-shadow: 0 4px 8px rgba(47,120,255,0.3);
 }
 
 
