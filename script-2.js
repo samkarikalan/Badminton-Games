@@ -571,11 +571,7 @@ function clearPreviousRound() {
   });
 }
 
-// Scheduler state
-const schedulerState = {
-    currentRoundIndex: 0,
-    markingWinnerMode: false // true when user needs to mark winners
-};
+
 
 // Show a round
 function showRound(index) {
