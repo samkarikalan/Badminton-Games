@@ -37,7 +37,6 @@ h1 {
 /* ========================================= */
 /*          TOP TAB NAVIGATION (iOS)         */
 /* ========================================= */
-
 .top-tabs {
   display: flex;
   align-items: center;
@@ -76,6 +75,7 @@ h1 {
 .tab:hover {
   background-color: #f0f0f0;
 }
+
 
 .Round-Navi {
   display: flex;
