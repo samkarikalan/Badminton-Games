@@ -39,36 +39,38 @@ function hideImportModal() {
 }
 
 function createPlayerCard(player, index) {
-  // Assign gender-based class: male / female
-  const card = document.createElement("div");
-  card.className = `player-edit-card player-row ${player.gender.toLowerCase()}`;
+  // Base card class + gender
+  let cardClass = `player-edit-card player-row ${player.gender.toLowerCase()}`;
+  
+  // Add 'inactive' class if player is not active
+  if (!player.active) {
+    cardClass += " inactive";
+  }
 
-  // Choose gender icon
+  const card = document.createElement("div");
+  card.className = cardClass;
+
+  // Gender icon
   const genderIcon =
     player.gender === "Male" ? "👨" :
     player.gender === "Female" ? "👩" :
     "❔";
 
   card.innerHTML = `
-    <!-- SL No -->
     <div class="pec-col pec-sl">${index + 1}</div>
 
-    <!-- Active checkbox -->
     <div class="pec-col pec-active">
       <input type="checkbox"
         ${player.active ? "checked" : ""}
-        onchange="editPlayer(${index}, 'active', this.checked)">
+        onchange="toggleActive(${index}, this)">
     </div>
 
-    <!-- Name -->
     <div class="pec-col pec-name">${player.name}</div>
 
-    <!-- Gender Icon -->
     <div class="pec-col pec-gender">
       <span class="gender-icon ${player.gender.toLowerCase()}">${genderIcon}</span>
     </div>
 
-    <!-- Delete -->
     <div class="pec-col pec-delete">
       <button class="pec-btn delete" onclick="deletePlayer(${index})">🗑</button>
     </div>
@@ -77,6 +79,17 @@ function createPlayerCard(player, index) {
   return card;
 }
 
+function toggleActive(index, checkbox) {
+  const card = checkbox.closest(".player-edit-card");
+  if (checkbox.checked) {
+    card.classList.remove("inactive");
+  } else {
+    card.classList.add("inactive");
+  }
+
+  // Optional: update your player data
+  // allPlayers[index].active = checkbox.checked;
+}
 /* =========================
    ADD PLAYERS FROM TEXT
 ========================= */
