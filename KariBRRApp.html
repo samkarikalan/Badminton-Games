@@ -16,13 +16,13 @@
   <!-- ============================= -->
 <div class="top-tabs">
   <!-- Left back button -->
-  <div class="tab-back"><<</div>
+  <button class="tab-btn back-btn" onclick="showPage('homePage', this)"><<</button>
 
   <!-- Tabs container -->
   <div class="tabs-container">
-    <div class="tab">Players</div>
-    <div class="tab">Rounds</div>
-    <div class="tab">Leaderboard</div>
+    <button class="tab-btn active" onclick="showPage('page1', this)">Players</button>
+    <button class="tab-btn" onclick="showPage('page2', this)">Rounds</button>
+    <button class="tab-btn" onclick="showPage('page3', this)">Leaderboard</button>
   </div>
 </div>
 
