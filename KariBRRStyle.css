@@ -968,3 +968,9 @@ button:disabled {
   font-size: 18px;
   cursor: pointer;
 }
+
+.player-edit-card.inactive {
+  opacity: 0.5;            /* greyed out */
+  pointer-events: none;     /* optional: disable interactions */
+  filter: grayscale(80%);   /* optional: make colors more muted */
+}
