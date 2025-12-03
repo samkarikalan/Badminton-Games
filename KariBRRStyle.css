@@ -905,24 +905,66 @@ button:disabled {
   color: #e91e63; /* pink */
 }
 
+/* Base player card */
 .player-edit-card {
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 12px;
   border-radius: 10px;
-  transition: all 0.3s;
   border: 1px solid #ddd;
+  transition: all 0.3s;
 }
 
 /* Male card styling */
 .player-edit-card.male {
-  background-color: #e3f2fd; /* light blue */
+  background-color: #e3f2fd;      /* light blue */
   border-color: #90caf9;
 }
 
 /* Female card styling */
 .player-edit-card.female {
-  background-color: #fce4ec; /* light pink */
+  background-color: #fce4ec;      /* light pink */
   border-color: #f48fb1;
+}
+
+/* Column widths */
+.pec-sl {
+  width: 40px;
+}
+
+.pec-active {
+  width: 60px;
+}
+
+.pec-name {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pec-gender {
+  width: 60px;
+  text-align: center;
+}
+
+.gender-icon.male {
+  color: #1e88e5;   /* blue */
+}
+
+.gender-icon.female {
+  color: #e91e63;   /* pink */
+}
+
+.pec-delete {
+  width: 60px;
+  text-align: right;
+}
+
+.pec-delete .delete {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
 }
