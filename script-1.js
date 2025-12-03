@@ -42,28 +42,26 @@ function createPlayerCard(player, index) {
   const card = document.createElement("div");
   card.className = "player-edit-card player-row";
 
+  const genderIcon =
+    player.gender === "Male" ? "👨" :
+    player.gender === "Female" ? "👩" :
+    "❔";
+
   card.innerHTML = `
-    <!-- SL No -->
     <div class="pec-col pec-sl">${index + 1}</div>
 
-    <!-- Active checkbox -->
     <div class="pec-col pec-active">
       <input type="checkbox"
         ${player.active ? "checked" : ""}
         onchange="editPlayer(${index}, 'active', this.checked)">
     </div>
 
-    <!-- Name -->
-    <div class="pec-col pec-name">
-      ${player.name}
-    </div>
+    <div class="pec-col pec-name">${player.name}</div>
 
-    <!-- Gender -->
     <div class="pec-col pec-gender">
-      ${player.gender}
+      <span class="gender-icon ${player.gender.toLowerCase()}">${genderIcon}</span>
     </div>
 
-    <!-- Delete -->
     <div class="pec-col pec-delete">
       <button class="pec-btn delete" onclick="deletePlayer(${index})">🗑</button>
     </div>
