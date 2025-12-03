@@ -19,7 +19,37 @@ let schedulerState = {
 	markingWinnerMode: false,
 };
 
+// Function to set font size
+function setFont(size) {
+  let fontSize;
+  switch(size) {
+    case 'small': fontSize = '14px'; break;
+    case 'medium': fontSize = '16px'; break;
+    case 'large': fontSize = '18px'; break;
+    default: fontSize = '16px';
+  }
 
+  // Sections to update
+  const sections = ['player-edit-card', 'teams', 'player-card'];
+  sections.forEach(cls => {
+    document.querySelectorAll(`.${cls}`).forEach(el => {
+      el.style.fontSize = fontSize;
+    });
+  });
+
+  // Update active button style
+  document.querySelectorAll('.row .btn').forEach(btn => btn.classList.remove('active'));
+  document.getElementById(`font_${size}`).classList.add('active');
+
+  // Save choice to localStorage
+  localStorage.setItem('fontSizeChoice', size);
+}
+
+// On page load, apply saved font size
+window.addEventListener('DOMContentLoaded', () => {
+  const savedSize = localStorage.getItem('fontSizeChoice') || 'medium';
+  setFont(savedSize);
+});
 
 // Page initialization
 function initPage() {
