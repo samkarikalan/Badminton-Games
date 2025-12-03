@@ -904,3 +904,25 @@ button:disabled {
 .gender-icon.female {
   color: #e91e63; /* pink */
 }
+
+.player-edit-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 10px;
+  transition: all 0.3s;
+  border: 1px solid #ddd;
+}
+
+/* Male card styling */
+.player-edit-card.male {
+  background-color: #e3f2fd; /* light blue */
+  border-color: #90caf9;
+}
+
+/* Female card styling */
+.player-edit-card.female {
+  background-color: #fce4ec; /* light pink */
+  border-color: #f48fb1;
+}
