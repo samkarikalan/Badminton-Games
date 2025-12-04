@@ -16,77 +16,92 @@ body {
 /*               IMPORT MODAL                 */
 /* ========================================= */
 
+/* Modal Background */
 #importModal {
   position: fixed;
-  
   inset: 0;
-  background: rgba(0,0,0,0.35);
+  background: rgba(0,0,0,0.4);
   display: none;
-  align-items: center;
   justify-content: center;
-  z-index: 1000;
+  align-items: center;
+  z-index: 2000;
 }
 
+/* Modal Box */
 .modal-content {
   display: flex;
-  width: 90%;
-  max-width: 390px;
+  gap: 15px;
+  width: 95%;
+  max-width: 550px;
   background: #fff;
+  padding: 18px;
   border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+}
+
+/* Left Side - Textarea */
+#players-textarea {
+  width: 65%;
+  height: 260px;
+  resize: vertical;
   padding: 10px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
-  animation: fadeIn 0.2s ease-out;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #d4d4d8;
 }
 
-.modal-rside {
+/* Right Side */
+.modal-right {
+  width: 35%;
   display: flex;
-  flex-direction: column; /* vertical layout */
-  gap: 10px;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
 }
 
-.modal-buttons-top button {
-  margin-left: 6px;
+/* Radio buttons */
+.gender-radio {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 16px;
+}
+.gender-radio input {
+  transform: scale(1.2);
+}
+
+/* Buttons */
+.modal-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ok-btn,
+.cancel-btn {
+  padding: 10px;
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 600;
 }
 
 .ok-btn {
   background: #2563eb;
   color: white;
-  padding: 8px 14px;
-  border: none;
-  border-radius: 8px;
+}
+.ok-btn:hover {
+  background: #1e40af;
 }
 
 .cancel-btn {
   background: #e5e7eb;
-  padding: 8px 14px;
-  border: none;
-  border-radius: 8px;
+}
+.cancel-btn:hover {
+  background: #cbd5e1;
 }
 
-.ok-btn,
-.cancel-btn {
-  margin:5px;
-  width: 100px; /* set any width you want */
-  text-align: center;
-}
-.gender-radio {
-  display: flex;
-  flex-direction: column; /* vertical layout */
-  gap: 8px;              /* space between buttons */
-  font-size: 1.5rem;
-  
-}
-
-.gender-radio label {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-  
-}
 
 /* ========================================= */
 /*               INPUT FIELDS                 */
@@ -94,18 +109,6 @@ body {
 .page {
   font-size: 1.0rem;
   animation: fadeIn 0.2s ease-out;
-}
-input, select, textarea {
-  width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #d1d5db;  
-  margin-top: 6px;
-  box-sizing: border-box;
-}
-
-textarea {
-  resize: vertical;
 }
 .card, .card-col {
   background: #fff;

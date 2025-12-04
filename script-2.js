@@ -391,48 +391,57 @@ function findDisjointPairs(playing, usedPairsSet, requiredPairsCount, opponentMa
   // ------------------------------
   //  DFS Backtracking With Scoring
   // ------------------------------
-  function pickBestFromCandidates(candidates) {
-    const usedPlayers = new Set();
-    const selected = [];
-    let best = null;
+function pickBestFromCandidates(candidates) {
+  const usedPlayers = new Set();
+  const selected = [];
+  let best = null;
+  const MAX_BRANCHES = 15000; // limit search
+  let branches = 0;
 
-    function dfs(startIndex, baseScore) {
-      if (selected.length === requiredPairsCount) {
-        if (!best || baseScore > best.score) {
-          best = { score: baseScore, pairs: selected.slice() };
-        }
-        return;
+  function dfs(startIndex, baseScore) {
+    // stop explosion
+    if (branches++ > MAX_BRANCHES) return;
+
+    if (selected.length === requiredPairsCount) {
+      if (!best || baseScore > best.score) {
+        best = { score: baseScore, pairs: selected.slice() };
       }
-
-      for (let i = startIndex; i < candidates.length; i++) {
-        const { a, b, isNew } = candidates[i];
-        if (usedPlayers.has(a) || usedPlayers.has(b)) continue;
-
-        usedPlayers.add(a);
-        usedPlayers.add(b);
-        selected.push([a, b]);
-
-        // opponent freshness score
-        const oppScore = calculateOpponentFreshnessScore(
-          [a, b],
-          selected.slice(0, -1),
-          opponentMap
-        );
-
-        // new-pair priority (100 per new pair)
-        const newPairScore = isNew ? 100 : 0;
-
-        dfs(i + 1, baseScore + newPairScore + oppScore);
-
-        selected.pop();
-        usedPlayers.delete(a);
-        usedPlayers.delete(b);
-      }
+      return;
     }
 
-    dfs(0, 0);
-    return best ? best.pairs : null;
+    // Remaining candidates insufficient → prune
+    const remainingSlots = requiredPairsCount - selected.length;
+    if (candidates.length - startIndex < remainingSlots) return;
+
+    for (let i = startIndex; i < candidates.length; i++) {
+      const { a, b, isNew } = candidates[i];
+      if (usedPlayers.has(a) || usedPlayers.has(b)) continue;
+
+      usedPlayers.add(a);
+      usedPlayers.add(b);
+      selected.push([a, b]);
+
+      // opponent freshness score
+      const oppScore = calculateOpponentFreshnessScore(
+        [a, b],
+        selected.slice(0, -1),
+        opponentMap
+      );
+
+      // new-pair strong priority
+      const newPairScore = isNew ? 100 : 0;
+
+      dfs(i + 1, baseScore + newPairScore + oppScore);
+
+      selected.pop();
+      usedPlayers.delete(a);
+      usedPlayers.delete(b);
+    }
   }
+
+  dfs(0, 0);
+  return best ? best.pairs : null;
+}
 
   // -----------------------------------
   // 1) Try unused (new) pairs only
