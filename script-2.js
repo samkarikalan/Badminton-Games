@@ -582,7 +582,7 @@ function showRound(index) {
   if (!data) return;
   // ✅ Update round title
   const roundTitle = document.getElementById("roundTitle");
-  roundTitle.className = "round-title";
+  roundTitle.className = "roundTitle";
   roundTitle.innerText = data.round;
   // ✅ Create sections safely
   let restDiv = null;

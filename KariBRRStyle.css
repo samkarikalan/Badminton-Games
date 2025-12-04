@@ -160,6 +160,13 @@ textarea {
 /*           BUTTONS (Primary/Secondary)      */
 /* ========================================= */
 
+.row-addplayer {
+  display: flex;
+  gap: 10px;
+  flex-wrap: nowrap; /* ❌ stop wrapping */
+  align-items: center; /* vertical alignment */
+}
+
 button {
   cursor: pointer;
 }
@@ -180,6 +187,7 @@ button {
 }
 .card button {
   background: #800080;
+  padding:6px;
   color: white;
   border: none;
   font-weight: bold;
@@ -351,7 +359,7 @@ button {
 
 .vs {
   display: inline-block;
-  width: 0.5rem;   /* adjust as you like */
+  width: 1rem;   /* adjust as you like */
 }
 /* Player Buttons */
 .Lplayer-btn,
@@ -362,7 +370,7 @@ button {
   font-size: var(--player-font-size);
   padding: 0.25rem;
   margin: 0.25rem 0;
-  color: #fff;
+  color: #000000;
   text-align: center;
   transition: transform 0.2s, background 0.2s;
   cursor: grab;
@@ -456,17 +464,28 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 14px;
-  margin: 0; /* remove vertical margin since card already has padding */
-  padding: 0; /* inner padding handled by card */
+  gap: 1rem;
+  margin-top: 0.75rem;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #2a2a72, #009ffd);
+  border-radius: 0.75rem;
+  box-shadow: 0 0.1875rem 0.5rem rgba(0, 0, 0, 0.15);
 }
-
 /* Round title inside card */
 #roundTitle {
-  font-size: 20px;
-  font-weight: 700;
-  padding: 0 6px;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: #FFD700;
+  color: black;
+  font-size: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  line-height: 1; /* 🔥 important for perfect center */
 }
+
 
 /* Navigation Buttons */
 .round-navigation button {
@@ -527,11 +546,11 @@ button {
 
 .tabs-container {
   display: flex;
-  gap: 8px; /* spacing between inner tabs */
+  gap: 5px; /* spacing between inner tabs */
 }
 
 .tab-btn {
-  padding: 10px 16px;
+  padding: 10px 15px;
   background: transparent;
   border: none;
   border-radius: 1.5rem;
@@ -551,19 +570,19 @@ button {
 
 /* Optional: specific widths for buttons */
 .back-btn {
-  flex: 0 0 60px; /* small width for back button */
+  flex: 0 0 50px; /* small width for back button */
 }
 
 .tabs-container .tab-btn:nth-child(1) {
-  flex: 0 0 120px; /* Players tab wider */
+  flex: 0 0 50px; /* Players tab wider */
 }
 
 .tabs-container .tab-btn:nth-child(2) {
-  flex: 0 0 90px; /* Rounds tab narrower */
+  flex: 0 0 50px; /* Rounds tab narrower */
 }
 
 .tabs-container .tab-btn:nth-child(3) {
-  flex: 0 0 140px; /* Leaderboard tab widest */
+  flex: 0 0 50px; /* Leaderboard tab widest */
 }
 
 .compact-settings {
