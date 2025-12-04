@@ -839,6 +839,13 @@ function rebuildRestQueue(restQueue) {
    }
 }
 
+function RefreshRound() {
+    schedulerState.roundIndex = allRounds.length - 1;
+    currentRoundIndex = schedulerState.roundIndex;
+    const newRound = AischedulerNextRound(schedulerState);
+    allRounds[allRounds.length - 1] = newRound;
+    showRound(currentRoundIndex);
+}
 function report() {
   const container = document.getElementById("reportContainer");
   container.innerHTML = ""; // Clear old cards

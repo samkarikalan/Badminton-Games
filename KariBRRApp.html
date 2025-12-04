@@ -81,10 +81,10 @@
   <!-- ============================= -->
 <div id="page1" class="page" style="display:none;">
   <div class="card">    
-    <div class="row-addplayer">
       <input type="number" id="num-courts" placeholder="Enter Number of Courts" min="1">
+  </div>
+  <div class="card">    
       <button onclick="showImportModal()">Import Multiple Players</button>
-    </div>
   </div>
 
   <!-- Import Modal -->
@@ -147,7 +147,7 @@
 
     <div class="round-navigation">
       <button id="prevBtn" onclick="prevRound()" disabled>« Round</button>
-      <span id="roundTitle">1</span>
+      <div id="roundTitle" onclick="RefreshRound()">R</div>
       <button id="nextBtn" onclick="nextRound()" disabled>Round »</button>
     </div>
   </div>
