@@ -79,67 +79,62 @@
   <!--           PAGE 1               -->
   <!--        (Players Page)          -->
   <!-- ============================= -->
-  <div id="page1" class="page" style="display:none;">
-
-    <div class="card">
+<div id="page1" class="page" style="display:none;">
+  <div class="card">    
+    <div class="row-addplayer">
+      <input type="number" id="num-courts" placeholder="Enter Number of Courts" min="1">
       <button onclick="showImportModal()">Import Multiple Players</button>
     </div>
+  </div>
 
-    <!-- Import Modal -->
-    <div id="importModal">
-      <div class="modal-content">
-        <!-- TEXTAREA -->
-        <textarea id="players-textarea" rows="12" placeholder="Name,Gender&#10;Kari,Male&#10;Bhavani,Female"></textarea>
+  <!-- Import Modal -->
+  <div id="importModal">
+    <div class="modal-content">
+      <!-- TEXTAREA -->
+      <textarea id="players-textarea" rows="12" placeholder="Name,Gender&#10;Kari,Male&#10;Bhavani,Female"></textarea>
 
-        <!-- TOP BAR -->
-        <div class="modal-rside">
+      <!-- TOP BAR -->
+      <div class="modal-rside">
 
-          <div class="gender-radio">
-  		<label><input type="radio" name="genderSelect" value="Male" checked> Male</label>
-  		<label><input type="radio" name="genderSelect" value="Female"> Female</label>
-	</div>
-
-
-          <div class="modal-buttons-top">
-            <button class="ok-btn" onclick="addPlayersFromText()">OK</button>
-            <button class="cancel-btn" onclick="hideImportModal()">Cancel</button>
-          </div>
-
+        <div class="gender-radio">
+          <label><input type="radio" name="genderSelect" value="Male" checked> Male</label>
+          <label><input type="radio" name="genderSelect" value="Female"> Female</label>
         </div>
 
-        
+        <div class="modal-buttons-top">
+          <button class="ok-btn" onclick="addPlayersFromText()">Import</button>
+          <button class="cancel-btn" onclick="hideImportModal()">Cancel</button>
+        </div>
 
-      </div>
+      </div> <!-- .modal-rside -->
+    </div> <!-- .modal-content -->
+  </div> <!-- #importModal CLOSED -->
+
+  <div class="card">
+    <input type="text" id="player-name" placeholder="Enter Player Name">
+    <div class="row-addplayer">	
+      <select id="player-gender">
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+      <button class="add-button" onclick="addPlayer()">Add Player</button>
     </div>
-
-    <div class="card">
-      <input type="text" id="player-name" placeholder="Enter Player Name">
-      <div class ="row-addplayer">	
-        <select id="player-gender">
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-        </select>
-        <button onclick="addPlayer()">Add Player</button>
-      </div>
-    </div>
-
-    <div class="card">
-      <div id="playerList" class="player-list"></div>
-    </div>
-
-    <div class="card">
-      <h3>Set Fixed Pairs (Optional)</h3>
-      <select id="fixed-pair-1"></select>
-      <select id="fixed-pair-2"></select>
-      <button onclick="addFixedPair()">Add Fixed Pair</button>
-      <div id="fixed-pair-list" class="fixed-pairs-list"></div>
-    </div>
-
-    <div class="card">
-      <input type="number" id="num-courts" placeholder="Enter Number of Courts" min="1">
-    </div>
-
   </div>
+
+  <div class="card">
+    <div id="playerList" class="player-list"></div>
+  </div>
+
+  <div class="card">
+    <h3>Set Fixed Pairs (Optional)</h3>
+    <select id="fixed-pair-1"></select>
+    <select id="fixed-pair-2"></select>
+    <button onclick="addFixedPair()">Add Fixed Pair</button>
+    <div id="fixed-pair-list" class="fixed-pairs-list"></div>
+  </div>
+
+</div> <!-- page1 -->
+
 
 
   <!-- ============================= -->

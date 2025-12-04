@@ -127,8 +127,8 @@ textarea {
 .player-edit-card {
   display: flex;
   align-items: center;
-  gap: 2px;
-  padding: 0px 10px;
+  gap: 3px;
+  padding: 0px 15px;
   border-radius: 1.5rem;
   border: 1px solid #ddd;
   transition: all 0.3s;
@@ -151,7 +151,7 @@ textarea {
 .pec-name { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .pec-gender { width: 60px; text-align: center; }
 .pec-delete { width: 60px; text-align: right; }
-.pec-delete .delete { all: unset; background: none; border: none; font-size: 30px; cursor: pointer; }
+.pec-delete .delete { all: unset; background: none; border: none; font-size: 25px; cursor: pointer; }
 .gender-icon.male { color: #1e88e5; font-size: 20px;}
 .gender-icon.female { color: #e91e63; font-size: 20px;}
 
@@ -159,7 +159,14 @@ textarea {
 /* ========================================= */
 /*           BUTTONS (Primary/Secondary)      */
 /* ========================================= */
-
+.card  {
+  width: 98%;
+  padding: 0.5rem;
+  margin: 0.5rem;
+  font-size: 1.15rem;
+  border-radius: 1rem;
+  box-sizing: border-box;
+}
 .row-addplayer {
   display: flex;
   gap: 10px;
@@ -167,20 +174,45 @@ textarea {
   align-items: center; /* vertical alignment */
 }
 
+.add-button {
+  width: 50%;      /* 🔥 different width */
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  border-radius: 1.5rem;
+  box-sizing: border-box;
+  background: #800080;
+  color: white;
+  border: none;
+  font-weight: bold;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.add-button:hover {
+  transform: scale(1.05);
+}
+
+
 button {
   cursor: pointer;
 }
 
 .card input,
-.card select,
-.card button {
+.card select {
   width: 100%;
-  padding: 0.25rem;
+  padding: 0.5rem;
   margin: 0.5rem 0;
   font-size: 1.15rem;
   border-radius: 1rem;
   box-sizing: border-box;
 }
+
+.card button {
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  border-radius: 1rem;
+  box-sizing: border-box;
+}
+
 .card input,
 .card select {
   border: 0.0625rem solid #ccc;
