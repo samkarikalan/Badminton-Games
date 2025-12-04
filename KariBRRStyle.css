@@ -217,7 +217,7 @@ button {
   color: #fff;
   padding: 2px;
   margin: 2px 0;
-  border-radius: 1.5rem;
+  border-radius: 1.1rem;
   border: 1px solid #555;
   box-shadow: 0 0 4px rgba(0,0,0,0.4);
 }
@@ -225,13 +225,13 @@ button {
 /* Rank styling */
 .player-card .rank {
   text-align: center;
-  font-size: 18px;
+  font-size: 1.1rem;
   font-weight: bold;
 }
 
 /* Name column */
 .player-card .name {
-  font-size: 16px;
+  font-size: 1.1rem;
   padding-left: 6px;
 }
 
@@ -247,7 +247,7 @@ button {
   border-radius: 50%;
   background: #1a1a1a;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 1.1rem;
 }
 
 /* Each match container */
@@ -535,7 +535,7 @@ button {
   background: transparent;
   border: none;
   border-radius: 1.5rem;
-  font-size: 1.5rem;
+  font-size: 16px;
   font-weight: 500;
   color: #3a7afe;
   cursor: pointer;
@@ -551,7 +551,7 @@ button {
 
 /* Optional: specific widths for buttons */
 .back-btn {
-  flex: 0 0 50px; /* small width for back button */
+  flex: 0 0 60px; /* small width for back button */
 }
 
 .tabs-container .tab-btn:nth-child(1) {
@@ -576,7 +576,7 @@ button {
     font-family: system-ui,sans-serif;
     
   }
-  .sec { font-weight: 700; font-size: 1.5rem; color: #333; margin: 16px 0 8px 4px; }
+  .sec { font-weight: 700; font-size: 1.1rem; color: #333; margin: 16px 0 8px 4px; }
   .row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 4px; }
   .btn {
     flex: 1;
@@ -586,7 +586,7 @@ button {
     background: #f1f5f9;
     border-radius: 12px;
     font-weight: 600;
-    font-size: 1.5rem;
+    font-size: 1.1rem;
     color: #444;
     cursor: pointer;
     transition: .2s;
