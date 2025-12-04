@@ -546,8 +546,8 @@ PAGE NAVIGATION
 function resetRounds() {
   // 1️⃣ Clear all previous rounds
   allRounds.length = 0;
-  goToRounds()
-  const btn = document.getElementById('goToRoundsBtn');
+  //goToRounds()
+  //const btn = document.getElementById('goToRoundsBtn');
   //btn.enabled;
 }
 
@@ -828,7 +828,8 @@ function rebuildRestQueue(restQueue) {
   // ➜ Additional action when page2 is opened
   if (pageID === "page2") {
      if (allRounds.length <= 1) {
-	resetRounds();
+	     resetRounds();
+		 goToRounds();
      } else {
      goToRounds();
      }
