@@ -1,3 +1,34 @@
+function toggleGender() {
+  const toggle = document.querySelector(".gender-toggle");
+  const hiddenInput = document.getElementById("genderValue");
+
+  toggle.classList.toggle("active");
+
+  const isFemale = toggle.classList.contains("active");
+  hiddenInput.value = isFemale ? "Female" : "Male";
+
+  console.log("Selected Gender:", hiddenInput.value);
+}
+
+function setFontSize(size) {
+  const root = document.documentElement;
+
+  // Update font size variable
+  if (size === "small") root.style.setProperty("--base-font-size", "10px");
+  if (size === "medium") root.style.setProperty("--base-font-size", "15px");
+  if (size === "large") root.style.setProperty("--base-font-size", "20px");
+
+  // Remove active from all buttons
+  document.querySelectorAll(".btn").forEach(el => {
+    el.classList.remove("active");
+  });
+
+  // Add active to selected button
+  document.getElementById(`font_${size}`).classList.add("active");
+}
+
+
+
 let allRounds = [];
 let currentRoundIndex = 0;
 let isOnPage2 = false;
@@ -19,37 +50,7 @@ let schedulerState = {
 	markingWinnerMode: false,
 };
 
-// Function to set font size
-function setFont(size) {
-  let fontSize;
-  switch(size) {
-    case 'small': fontSize = '14px'; break;
-    case 'medium': fontSize = '16px'; break;
-    case 'large': fontSize = '18px'; break;
-    default: fontSize = '16px';
-  }
 
-  // Sections to update
-  const sections = ['player-edit-card', 'teams', 'player-card'];
-  sections.forEach(cls => {
-    document.querySelectorAll(`.${cls}`).forEach(el => {
-      el.style.fontSize = fontSize;
-    });
-  });
-
-  // Update active button style
-  document.querySelectorAll('.row .btn').forEach(btn => btn.classList.remove('active'));
-  document.getElementById(`font_${size}`).classList.add('active');
-
-  // Save choice to localStorage
-  localStorage.setItem('fontSizeChoice', size);
-}
-
-// On page load, apply saved font size
-window.addEventListener('DOMContentLoaded', () => {
-  const savedSize = localStorage.getItem('fontSizeChoice') || 'medium';
-  setFont(savedSize);
-});
 
 // Page initialization
 function initPage() {

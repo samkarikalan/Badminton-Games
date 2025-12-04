@@ -596,7 +596,7 @@ function showRound(index) {
   wrapper.className = isLatest ? 'latest-round' : 'played-round';
   // ✅ Append conditionally
   if (restDiv) {
-    wrapper.append(restDiv, gamesDiv);
+    wrapper.append(gamesDiv,restDiv);
   } else {
     wrapper.append(gamesDiv);
   }
@@ -609,8 +609,9 @@ function showRound(index) {
 function renderRestingPlayers(data, index) {
   const restDiv = document.createElement('div');
   restDiv.className = 'round-header';
+  restDiv.style.paddingLeft = "12px";
   const title = document.createElement('div');
-  title.innerText = 'Resting:';
+  title.innerText = 'Sitting Out:';
   restDiv.appendChild(title);
   const restBox = document.createElement('div');
   restBox.className = 'rest-box';
