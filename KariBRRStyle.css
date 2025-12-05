@@ -149,19 +149,24 @@ body {
 /*             PLAYERS SECTION               */
 /* ========================================= */
 
-/* Player cards */
-
+/* Player Card Container */
 .player-edit-card {
-  display: flex;
+  display: grid;
+  grid-template-columns: 45px 50px 45px 1fr 55px;
+  /*   chk    sl    gender  name  delete  */
+
   align-items: center;
+  gap: 8px;
+
   font-size: 1.3rem;
-  gap: 1rem;
-  padding: 0px 15px;
+  padding: 6px 15px;
   border-radius: 1.5rem;
   border: 1px solid #ddd;
   transition: all 0.3s;
+  margin: 4px 0;
 }
 
+/* Gender-based background */
 .player-edit-card.male {
   background-color: #e3f2fd;
   border-color: #90caf9;
@@ -172,32 +177,72 @@ body {
   border-color: #f48fb1;
 }
 
+/* Inactive state */
 .player-edit-card.inactive {
   opacity: 0.45;
-  background-color: #f1f1f1;
-  border-color: #ccc;
+  background-color: #f1f1f1 !important;
+  border-color: #ccc !important;
   filter: grayscale(0.8);
 }
 
-/* Keep controls clickable even in inactive state */
+/* Keep controls clickable even when inactive */
 .player-edit-card.inactive button,
-.player-edit-card.inactive select {
+.player-edit-card.inactive select,
+.player-edit-card.inactive input[type="checkbox"] {
   opacity: 1 !important;
   pointer-events: auto !important;
   filter: none !important;
 }
 
+/* Columns */
+.pec-active {
+  text-align: center;
+}
 
-.pec-sl { width: 2px; }
-.pec-active { width: 40px; }
-.pec-name { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.pec-gender { width: 60px; text-align: center; }
-.pec-delete { width: 60px; text-align: right; }
-.pec-delete .delete { all: unset; background: none; border: none; font-size: 25px; cursor: pointer; }
-.gender-icon.male { color: #1e88e5; font-size: 20px;}
-.gender-icon.female { color: #e91e63; font-size: 20px;}
+.pec-sl {
+  text-align: center;
+  font-weight: 600;
+}
 
+/* Gender icon column */
+.pec-gender {
+  text-align: center;
+}
 
+/* Gender icon style */
+.gender-icon {
+  font-size: 20px;
+}
+
+.gender-icon.male {
+  color: #1e88e5;
+}
+
+.gender-icon.female {
+  color: #e91e63;
+}
+
+/* Name column – wraps to second line */
+.pec-name {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  line-height: 1.25rem;
+  word-break: break-word;
+  margin-left: -4px; /* reduce gap between gender → name */
+}
+
+/* Delete column */
+.pec-delete {
+  text-align: right;
+}
+
+.pec-delete .delete {
+  all: unset;
+  font-size: 25px;
+  cursor: pointer;
+  line-height: 1;
+}
 /* ========================================= */
 /*           BUTTONS (Primary/Secondary)      */
 /* ========================================= */
