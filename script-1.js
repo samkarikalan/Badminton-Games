@@ -112,16 +112,28 @@ function createPlayerCard(player, index) {
 }
 
 function toggleActive(index, checkbox) {
+  // Update data model first
+  schedulerState.allPlayers[index].active = checkbox.checked;
+
   const card = checkbox.closest(".player-edit-card");
+
+  // Apply the CSS class based on active state
   if (checkbox.checked) {
     card.classList.remove("inactive");
   } else {
     card.classList.add("inactive");
   }
 
-  // Optional: update your player data
-  // allPlayers[index].active = checkbox.checked;
+  // Recalculate active players list
+  schedulerState.activeplayers = schedulerState.allPlayers
+    .filter(p => p.active)
+    .map(p => p.name)
+	.reverse();
+
+  // Refresh UI
+  updateFixedPairSelectors();
 }
+
 /* =========================
    ADD PLAYERS FROM TEXT
 ========================= */
