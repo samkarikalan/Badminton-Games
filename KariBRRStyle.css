@@ -151,22 +151,17 @@ body {
 
 /* Player cards */
 
-/* Player Card Container */
 .player-edit-card {
-  display: grid;
-  grid-template-columns: 55px 60px 45px 1fr 50px;
-  /*   chk   sl   gender  name   delete   */
-
+  display: flex;
   align-items: center;
-  gap: 8px;
-
-  padding: 8px 16px;
-  margin: 4px 0;
+  font-size: 1.3rem;
+  gap: 1rem;
+  padding: 0px 15px;
   border-radius: 1.5rem;
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
+  transition: all 0.3s;
 }
 
-/* Background colors */
 .player-edit-card.male {
   background-color: #e3f2fd;
   border-color: #90caf9;
@@ -177,55 +172,32 @@ body {
   border-color: #f48fb1;
 }
 
-/* Checkbox */
-.pec-active {
-  text-align: center;
+.player-edit-card.inactive {
+  opacity: 0.45;
+  background-color: #f1f1f1;
+  border-color: #ccc;
+  filter: grayscale(0.8);
 }
 
-/* SL number */
-.pec-sl {
-  text-align: center;
-  font-weight: 600;
+/* Keep controls clickable even in inactive state */
+.player-edit-card.inactive button,
+.player-edit-card.inactive select {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  filter: none !important;
 }
 
-/* Gender icon */
-.pec-gender {
-  text-align: center;
-}
 
-/* Adjust gender icon size */
-.gender-icon {
-  font-size: 22px;
-}
+.pec-sl { width: 2px; }
+.pec-active { width: 40px; }
+.pec-name { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pec-gender { width: 60px; text-align: center; }
+.pec-delete { width: 60px; text-align: right; }
+.pec-delete .delete { all: unset; background: none; border: none; font-size: 25px; cursor: pointer; }
+.gender-icon.male { color: #1e88e5; font-size: 20px;}
+.gender-icon.female { color: #e91e63; font-size: 20px;}
 
-.gender-icon.male {
-  color: #1e88e5;
-}
 
-.gender-icon.female {
-  color: #e91e63;
-}
-
-/* Name (wraps cleanly) */
-.pec-name {
-  white-space: normal;
-  line-height: 1.25rem;
-  word-break: break-word;
-  font-size: 1.05rem;
-  margin-left: -4px; /* slightly less space before name */
-}
-
-/* Delete icon */
-.pec-delete {
-  text-align: right;
-}
-
-.pec-delete .delete {
-  all: unset;
-  cursor: pointer;
-  font-size: 26px;
-  line-height: 1;
-}
 /* ========================================= */
 /*           BUTTONS (Primary/Secondary)      */
 /* ========================================= */
