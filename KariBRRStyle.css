@@ -13,15 +13,21 @@ body {
 }
 
 .app-logo-premium {
-  font-size: 20px;
+  font-size: 35px;
   font-weight: 800;
-  background-image: linear-gradient(90deg, #5c00d9, #8d41ff, #7ea0ff);
+  background-image: linear-gradient(135deg,
+  #4b00c6 0%,
+  #8b32ff 50%,
+  #7db4ff 100%
+);
+
+
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   text-shadow: 2px 4px 8px rgba(0,0,0,0.15);
   letter-spacing: -1px;
-  margin: 20px;
+  margin: 10px;
 
   display: flex;
   align-items: center;
@@ -144,10 +150,12 @@ body {
 /* ========================================= */
 
 /* Player cards */
+
 .player-edit-card {
   display: flex;
   align-items: center;
-  gap: 3px;
+  font-size: 1.3rem;
+  gap: 1rem;
   padding: 0px 15px;
   border-radius: 1.5rem;
   border: 1px solid #ddd;
@@ -608,20 +616,26 @@ button {
 
 /* ===== TOP TABS (Updated Style) ===== */
 .top-tabs {
+  position: sticky;           /* correct spelling */
+  top: 0;                     /* required for sticky to activate */
+
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 8px;
+
   margin: 12px auto 18px;
 
-  background: #F2F2F2;        /* Updated: soft modern grey */
+  background: #F2F2F2;
   padding: 10px 12px;
   border-radius: 14px;
 
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);  /* Softer, modern */
-  border: 1px solid #dcdcdc;               /* Light border */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  border: 1px solid #dcdcdc;
 
-  gap: 8px; 
+  z-index: 999;               /* stay above content */
 }
+
 
 .tabs-container {
   display: flex;

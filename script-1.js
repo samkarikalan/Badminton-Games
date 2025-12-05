@@ -89,19 +89,17 @@ function createPlayerCard(player, index) {
     "❔";
 
   card.innerHTML = `
-    <div class="pec-col pec-sl">${index + 1}</div>
-
     <div class="pec-col pec-active">
       <input type="checkbox"
         ${player.active ? "checked" : ""}
         onchange="toggleActive(${index}, this)">
     </div>
-
-    <div class="pec-col pec-name">${player.name}</div>
-
+    <div class="pec-col pec-sl">${index + 1}</div>
     <div class="pec-col pec-gender">
       <span class="gender-icon ${player.gender.toLowerCase()}">${genderIcon}</span>
-    </div>
+    </div> 
+
+    <div class="pec-col pec-name">${player.name}</div>    
 
     <div class="pec-col pec-delete">
       <button class="pec-btn delete" onclick="deletePlayer(${index})">🗑</button>
@@ -555,6 +553,9 @@ function removeFixedPair(el, p1, p2) {
 PAGE NAVIGATION
  
 ========================= */
+function ResetAll() {
+  location.reload(); // This refreshes the entire app clean
+}
 function resetRounds() {
   // 1️⃣ Clear all previous rounds
   allRounds.length = 0;
