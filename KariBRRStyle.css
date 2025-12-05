@@ -581,7 +581,7 @@ button {
   align-items: center;
   margin: 12px auto 18px;
   background: #ffffff;
-  padding: 4px;
+  padding: 10px;
   border-radius: 14px;  
   box-shadow: 0 1px 4px rgba(0,0,0,0.08);
   border: 1px solid #e4e4e7;
@@ -600,7 +600,7 @@ button {
   font-weight: bold;
   cursor: pointer;
   transition: background 0.3s, transform 0.2s;
-  padding: 10px 15px;
+  padding: 5px 15px;
   border-radius: 1.5rem;
   font-size: 16px;
   text-align: center;
