@@ -15,20 +15,18 @@ body {
 .app-logo-premium {
   font-size: 20px;
   font-weight: 800;
-  background-image: linear-gradient(
-    90deg,
-    #5c00d9,
-    #8d41ff,
-    #7ea0ff
-  );
+  background-image: linear-gradient(90deg, #5c00d9, #8d41ff, #7ea0ff);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   text-shadow: 2px 4px 8px rgba(0,0,0,0.15);
   letter-spacing: -1px;
   margin: 20px;
+
   display: flex;
   align-items: center;
+  justify-content: center; /* ← center horizontally */
+  text-align: center;      /* ← fixes multi-line text */
 }
 
 /* ========================================= */
