@@ -152,7 +152,7 @@ body {
 /* Player Card Container */
 .player-edit-card {
   display: grid;
-  grid-template-columns: 45px 50px 45px 1fr 55px;
+  grid-template-columns: 35px 40px 40px 1fr 55px;
   /*   chk    sl    gender  name  delete  */
 
   align-items: center;
