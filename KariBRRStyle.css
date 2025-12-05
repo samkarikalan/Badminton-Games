@@ -575,87 +575,124 @@ button {
 /*          TOP TAB NAVIGATION (iOS)         */
 /* ========================================= */
 
+/* ===== TOP TABS (Updated Style) ===== */
 .top-tabs {
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 12px auto 18px;
-  background: #ffffff;
-  padding: 10px;
-  border-radius: 14px;  
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-  border: 1px solid #e4e4e7;
-  gap: 8px; /* spacing between buttons */
+
+  background: #F2F2F2;        /* Updated: soft modern grey */
+  padding: 10px 12px;
+  border-radius: 14px;
+
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);  /* Softer, modern */
+  border: 1px solid #dcdcdc;               /* Light border */
+
+  gap: 8px; 
 }
 
 .tabs-container {
   display: flex;
-  gap: 5px; /* spacing between inner tabs */
+  gap: 5px;
 }
 
+/* ===== TAB BUTTONS (Updated) ===== */
 .tab-btn {
   background: #800080;
   color: white;
   border: none;
-  font-weight: bold;
+  font-weight: 600;
+
   cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
-  padding: 5px 15px;
-  border-radius: 1.5rem;
-  font-size: 16px;
+  transition: background 0.25s, transform 0.15s;
+
+  padding: 7px 16px;
+  border-radius: 16px;
+
+  font-size: 15px;
   text-align: center;
 }
 
+/* Active Tab – modern gradient */
 .tab-btn.active {
-  background: linear-gradient(to bottom, #3b82f6, #2563eb);
+  background: linear-gradient(to bottom, #6D28D9, #5B21B6);
   color: #fff;
-  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.35);
+  box-shadow: 0 3px 7px rgba(93, 37, 235, 0.35);
 }
 
-/* Optional: specific widths for buttons */
+/* Button width controls */
 .back-btn {
-  flex: 0 0 50px; /* small width for back button */
+  flex: 0 0 50px;
 }
 
 .tabs-container .tab-btn:nth-child(1) {
-  flex: 0 0 50px; /* Players tab wider */
+  flex: 0 0 85px;
 }
 
 .tabs-container .tab-btn:nth-child(2) {
-  flex: 0 0 50px; /* Rounds tab narrower */
+  flex: 0 0 85px;
 }
 
 .tabs-container .tab-btn:nth-child(3) {
-  flex: 0 0 50px; /* Leaderboard tab widest */
+  flex: 0 0 110px;
 }
 
+/* ===== SETTINGS SECTION (Unchanged) ===== */
 .compact-settings {
-   
-    margin: 16px auto;
-    background: #fff;
-    border-radius: 18px;
-    padding: 20px;
-    box-shadow: 0 8px 25px rgba(99,102,241,.15);
-    font-family: system-ui,sans-serif;
-    
-  }
-  .sec { font-weight: 700; font-size: 1.1rem; color: #333; margin: 16px 0 8px 4px; }
-  .row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 4px; }
-  .btn {
-    flex: 1;
-    min-width: 86px;
-    padding: 11px 8px;
-    text-align: center;
-    background: #800080;
-    border-radius: 12px;
-    font-weight: 600;
-    font-size: 1.1rem;
-    color: white;
-    cursor: pointer;
-    transition: .2s;
-  }
-  .btn:hover { background: #e0e7ff; transform: translateY(-2px); }
-  .btn.active { background: #6366f1; color: #fff; }
-  .act .btn { background: #6366f1; color: #fff; padding: 13px 8px; font-size: 0.75rem; }
-  .act .btn:hover { background: #4f46e5; }
+  margin: 16px auto;
+  background: #fff;
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 8px 25px rgba(99,102,241,.15);
+  font-family: system-ui, sans-serif;
+}
 
+.sec { 
+  font-weight: 700; 
+  font-size: 1.1rem; 
+  color: #333; 
+  margin: 16px 0 8px 4px; 
+}
+
+.row { 
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: 10px; 
+  margin-bottom: 4px; 
+}
+
+.btn {
+  flex: 1;
+  min-width: 86px;
+  padding: 11px 8px;
+  text-align: center;
+  background: #800080;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: white;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.btn:hover { 
+  background: #e0e7ff; 
+  transform: translateY(-2px); 
+}
+
+.btn.active { 
+  background: #6366f1; 
+  color: #fff; 
+}
+
+.act .btn { 
+  background: #6366f1; 
+  color: #fff; 
+  padding: 13px 8px; 
+  font-size: 0.75rem; 
+}
+
+.act .btn:hover { 
+  background: #4f46e5; 
+}
