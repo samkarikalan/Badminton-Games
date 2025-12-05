@@ -164,7 +164,21 @@ body {
   border-color: #f48fb1;
 }
 
-.
+.player-edit-card.inactive {
+  opacity: 0.45;
+  background-color: #f1f1f1;
+  border-color: #ccc;
+  filter: grayscale(0.8);
+}
+
+/* Keep controls clickable even in inactive state */
+.player-edit-card.inactive button,
+.player-edit-card.inactive select {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  filter: none !important;
+}
+
 
 .pec-sl { width: 2px; }
 .pec-active { width: 40px; }
