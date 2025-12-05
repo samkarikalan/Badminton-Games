@@ -11,6 +11,9 @@ body {
   background: #f7f7f9;
   color: #222;
 }
+body {
+  background: #f2eef9;
+}
 
 .app-logo-premium {
   font-size: 35px;
