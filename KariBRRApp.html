@@ -154,11 +154,14 @@
 
   <div id="game-results"></div>
 
-  <div class="round-navigation">
-    <button id="prevBtn" onclick="prevRound()" disabled data-i18n="prevRound">« ラウンド</button>
-    <div id="roundTitle" onclick="RefreshRound()" data-i18n="roundShort">R</div>
-    <button id="nextBtn" onclick="nextRound()" disabled data-i18n="nextRound">ラウンド »</button>
-  </div>
+<div class="round-navigation">
+  <button id="prevBtn" onclick="prevRound()" disabled>« Round</button>
+  <div id="roundTitle" onclick="RefreshRound()">R</div>
+  <button id="nextBtn" onclick="nextRound()" disabled>Round »</button>
+
+  <!-- Timer Icon -->
+  <span class="timer-icon" onclick="toggleTimerPanel()">⏱️</span>
+</div>
 
 </div>
 
