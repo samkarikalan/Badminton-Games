@@ -543,6 +543,7 @@ button {
   column-gap: 0.3rem;
   padding: 0.15rem;
   margin: 0.15rem;
+  color: black;
   box-sizing: border-box;
   border-radius: 0.375rem;
   min-height: 5rem;
