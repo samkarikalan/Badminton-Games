@@ -154,7 +154,31 @@
 <!-- ============================= -->
 <div id="page2" class="page" style="display:none;">
 
-  <div id="timerPanel" class="timer-panel hidden">
+  
+
+  <div id="game-results"></div>
+
+<div class="round-navigation">
+  <button id="prevBtn" onclick="prevRound()" disabled>« Round</button>
+  <div id="roundTitle" onclick="RefreshRound()">R</div>
+  <button id="nextBtn" onclick="nextRound()" disabled>Round »</button>
+
+  <!-- Timer Icon -->
+  <span class="timer-icon" onclick="toggleTimerPanel()">⏱️</span>
+</div>
+
+</div>
+
+<!-- ============================= -->
+<!--           PAGE 3              -->
+<!--        Summary / Report       -->
+<!-- ============================= -->
+<div id="page3" class="page" style="display:none;">
+  <div id="reportContainer"></div>
+</div>
+
+
+  <div id="timerPanel" class="timer-panel hidden" style="display:none;" >
   <div class="timer-panel-header">
     <span class="timer-title">Round Timer</span>
     <span class="timer-close" onclick="toggleTimerPanel()">✕</span>
@@ -181,27 +205,5 @@
 <audio id="timerSound">
     <source src="timer.mp3" type="audio/mpeg">
 </audio>
-
-  <div id="game-results"></div>
-
-<div class="round-navigation">
-  <button id="prevBtn" onclick="prevRound()" disabled>« Round</button>
-  <div id="roundTitle" onclick="RefreshRound()">R</div>
-  <button id="nextBtn" onclick="nextRound()" disabled>Round »</button>
-
-  <!-- Timer Icon -->
-  <span class="timer-icon" onclick="toggleTimerPanel()">⏱️</span>
-</div>
-
-</div>
-
-<!-- ============================= -->
-<!--           PAGE 3              -->
-<!--        Summary / Report       -->
-<!-- ============================= -->
-<div id="page3" class="page" style="display:none;">
-  <div id="reportContainer"></div>
-</div>
-
 </body>
 </html>
