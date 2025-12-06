@@ -44,3 +44,24 @@ function resetTimer() {
 function applyNewTime() {
   resetTimer();
 }
+
+
+
+
+
+
+
+
+
+
+function unlockAudio() {
+    const sound = document.getElementById("timerSound");
+
+    sound.play().then(() => {
+        sound.pause();
+        sound.currentTime = 0;
+        console.log("Audio unlocked");
+    }).catch(err => {
+        console.log("Unlock failed:", err);
+    });
+}
