@@ -152,6 +152,31 @@
 <!-- ============================= -->
 <div id="page2" class="page" style="display:none;">
 
+  <div id="timerPanel" class="timer-panel hidden">
+  <div class="timer-panel-header">
+    <span class="timer-title">Round Timer</span>
+    <span class="timer-close" onclick="toggleTimerPanel()">✕</span>
+  </div>
+
+  <div class="timer-display" id="timerDisplay">08:00</div>
+
+  <div class="timer-controls">
+    <button onclick="startTimer()">Start</button>
+    <button onclick="stopTimer()">Stop</button>
+    <button onclick="resetTimer()">Reset</button>
+  </div>
+
+  <div class="timer-edit">
+    <label>Minutes:</label>
+    <input type="number" id="timerInput" value="8" min="1" max="30">
+    <button onclick="applyNewTime()">Apply</button>
+  </div>
+</div>
+
+<audio id="timerSound">
+    <source src="timer.mp3" type="audio/mpeg">
+</audio>
+
   <div id="game-results"></div>
 
 <div class="round-navigation">
