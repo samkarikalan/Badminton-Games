@@ -775,3 +775,83 @@ button {
 .act .btn:hover { 
   background: #4f46e5; 
 }
+
+
+
+.round-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Timer icon beside Round » */
+.timer-icon {
+  font-size: 22px;
+  cursor: pointer;
+  opacity: 0.8;
+  margin-left: 4px;
+  transition: 0.2s;
+}
+
+.timer-icon:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+
+.timer-panel {
+  background: #ffffff;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  padding: 16px;
+  position: sticky;
+  top: 60px;
+  z-index: 999;
+  transition: max-height 0.3s ease;
+  overflow: hidden;
+  max-height: 0;
+}
+
+.timer-panel.hidden {
+  max-height: 0;
+}
+
+.timer-panel.open {
+  max-height: 350px;
+}
+
+.timer-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.timer-close {
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.timer-display {
+  text-align: center;
+  font-size: 48px;
+  font-weight: bold;
+  padding: 10px 0;
+}
+
+.timer-controls,
+.timer-edit {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.timer-edit input {
+  width: 60px;
+  padding: 6px;
+  font-size: 16px;
+  border-radius: 8px;
+}
