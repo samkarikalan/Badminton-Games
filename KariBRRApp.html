@@ -1,35 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Badminton Pair-UP</title>
-  <link rel="stylesheet" href="KariBRRStyle.css">
-  <script src="script-1.js" defer></script>
-  <script src="script-2.js" defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Badminton Pair-UP</title>
+<link rel="stylesheet" href="KariBRRStyle.css">
+<script src="script-1.js" defer></script>
+<script src="script-2.js" defer></script>
+<script src="script-3.js" defer></script>
 </head>
-
 <body>
-<h1 class="app-logo-premium">CLUB Scheduler™</h1>
-  <!-- ============================= -->
-  <!--       TOP TAB NAVIGATION      -->
-  <!-- ============================= -->
+
+<h1 class="app-logo-premium" data-i18n="appTitle">CLUB Scheduler™</h1>
+
+<!-- ============================= -->
+<!--       TOP TAB NAVIGATION      -->
+<!-- ============================= -->
 <div class="top-tabs">
+
   <!-- Left back button -->
-  <button class="tab-btn back-btn active"" onclick="showPage('homePage', this)">Home</button>
+  <button class="tab-btn back-btn active" onclick="showPage('homePage', this)">
+    Home
+  </button>
 
   <!-- Tabs container -->
   <div class="tabs-container">
-    <button class="tab-btn" onclick="showPage('page1', this)">Players</button>
-    <button class="tab-btn" onclick="showPage('page2', this)">Rounds</button>
-    <button class="tab-btn" onclick="showPage('page3', this)">Summary</button>
+    <button class="tab-btn" onclick="showPage('page1', this)" data-i18n="players">選手一覧</button>
+    <button class="tab-btn" onclick="showPage('page2', this)" data-i18n="rounds">試合ラウンド</button>
+    <button class="tab-btn" onclick="showPage('page3', this)" data-i18n="summary">集計</button>
   </div>
+
 </div>
 
-  <!-- ============================= -->
-  <!--           HOME PAGE            -->
-  <!-- ============================= -->
- <div id="homePage" class="page" style="display:block;">
+<!-- ============================= -->
+<!--           HOME PAGE           -->
+<!-- ============================= -->
+<div id="homePage" class="page" style="display:block;">
+
   <div class="compact-settings">
 
     <!-- Language -->
@@ -40,97 +47,84 @@
     </div>
 
     <!-- Font Size -->
-    <div class="sec">Font Size</div>
+    <div class="sec" data-i18n="fontSize">文字サイズ</div>
     <div class="row">
-      <div class="btn active"  onclick="setFontSize('small')" id="font_small">Small</div>
-      <div class="btn" onclick="setFontSize('medium')" id="font_medium">Medium</div>
-      <div class="btn" onclick="setFontSize('large')" id="font_large">Large</div>
-    </div>
-    
-   <!-- Reset -->
-    <div class="sec">Reset</div>
-    <div class="row">
-      <div class="btn" onclick="ResetAll()">Reset All</div>
-      <div class="btn" onclick="resetRounds()">Reset Except Players</div>
+      <div class="btn active" onclick="setFontSize('small')" id="font_small" data-i18n="small">Small</div>
+      <div class="btn" onclick="setFontSize('medium')" id="font_medium" data-i18n="medium">Medium</div>
+      <div class="btn" onclick="setFontSize('large')" id="font_large" data-i18n="large">Large</div>
     </div>
 
-    <!-- Theme 
-    <div class="sec">Theme</div>
+    <!-- Reset -->
+    <div class="sec" data-i18n="reset">リセット</div>
     <div class="row">
-      <div class="btn active" onclick="setTheme('light')" id="theme_light">Light</div>
-      <div class="btn" onclick="setTheme('dark')" id="theme_dark">Dark</div>
-      <div class="btn" onclick="setTheme('purple')" id="theme_purple">Purple</div>
+      <div class="btn" onclick="ResetAll()" data-i18n="resetAll">全てをリセット</div>
+      <div class="btn" onclick="resetRounds()" data-i18n="resetExcept">プレーヤー以外をリセット</div>
     </div>
-    -->
 
-    <!-- Game Mode 
-    <div class="sec">Game Mode</div>
-    <div class="row">
-      <div class="btn active" onclick="setMode('singles')" id="mode_singles">Singles</div>
-      <div class="btn" onclick="setMode('doubles')" id="mode_doubles">Doubles</div>
-      <div class="btn" onclick="setMode('mixed')" id="mode_mixed">Mixed</div>
-      <div class="btn" onclick="setMode('random')" id="mode_random">Random</div>
-    </div>
-    -->
-    <!-- Data 
-    <div class="sec">Data</div>
-    <div class="row act">
-      <div class="btn" onclick="saveSettings()">Save</div>
-      <div class="btn" onclick="loadSettings()">Load</div>
-      <div class="btn" onclick="exportPDF()">Export PDF</div>
-    </div>
-    -->
   </div>
 </div>
-  <!-- ============================= -->
-  <!--           PAGE 1               -->
-  <!--        (Players Page)          -->
-  <!-- ============================= -->
+
+<!-- ============================= -->
+<!--           PAGE 1              -->
+<!--         Players Page          -->
+<!-- ============================= -->
 <div id="page1" class="page" style="display:none;">
+
   <div class="card">    
-      <input type="number" id="num-courts" placeholder="Enter Number of Courts" min="1">
+    <input type="number"
+      id="num-courts"
+      placeholder="コート数を入力"
+      data-i18n-placeholder="enterCourts"
+      min="1">
   </div>
+
   <div class="card">    
-      <button onclick="showImportModal()">Import Multiple Players</button>
+    <button onclick="showImportModal()" data-i18n="importPlayers">複数選手を取り込み</button>
   </div>
 
- <!-- Import Modal -->
-<div id="importModal">
-  <div class="modal-content">
+  <!-- Import Modal -->
+  <div id="importModal">
+    <div class="modal-content">
 
-    <!-- Left Section -->
-    <textarea id="players-textarea" rows="12"
-      placeholder="Name,Gender&#10;Kari,Male&#10;Bhavani,Female"></textarea>
+      <!-- Left Section -->
+      <textarea id="players-textarea" rows="12"
+        placeholder="Name,Gender&#10;Kari,Male&#10;Bhavani,Female"
+        data-i18n-placeholder="importExample">
+      </textarea>
 
-    <!-- Right Section -->
-    <div class="modal-right">
+      <!-- Right Section -->
+      <div class="modal-right">
 
-      <!-- Gender -->
-      <div class="gender-radio">
-        <label><input type="radio" name="genderSelect" value="Male" checked> Male</label>
-        <label><input type="radio" name="genderSelect" value="Female"> Female</label>
-      </div>
+        <!-- Gender -->
+        <div class="gender-radio" data-i18n="gender">性別</div>
+        <div class="gender-radio">
+          <label><input type="radio" name="genderSelect" value="Male"> <span data-i18n="male">男性</span></label>
+          <label><input type="radio" name="genderSelect" value="Female"> <span data-i18n="female">女性</span></label>
+        </div>
 
-      <!-- Buttons -->
-      <div class="modal-buttons">
-        <button class="ok-btn" onclick="addPlayersFromText()">Import</button>
-        <button class="cancel-btn" onclick="hideImportModal()">Cancel</button>
+        <!-- Buttons -->
+        <div class="modal-buttons">
+          <button class="ok-btn" onclick="addPlayersFromText()" data-i18n="import">取り込み</button>
+          <button class="cancel-btn" onclick="hideImportModal()" data-i18n="cancel">キャンセル</button>
+        </div>
+
       </div>
 
     </div>
-
   </div>
-</div>
-
 
   <div class="card">
-    <input type="text" id="player-name" placeholder="Enter Player Name">
-    <div class="row-addplayer">	
+    <input type="text"
+      id="player-name"
+      placeholder="選手名を入力"
+      data-i18n-placeholder="enterPlayerName">
+
+    <div class="row-addplayer">  
       <select id="player-gender">
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
+        <option value="Male" data-i18n="male">男性</option>
+        <option value="Female" data-i18n="female">女性</option>
       </select>
-      <button class="add-button" onclick="addPlayer()">Add Player</button>
+      <button class="add-button" onclick="addPlayer()" data-i18n="addPlayer">選手追加</button>
     </div>
   </div>
 
@@ -139,42 +133,39 @@
   </div>
 
   <div class="card">
-    <h3>Set Fixed Pairs (Optional)</h3>
+    <h3 data-i18n="fixedPairs">固定ペア設定（任意）</h3>
     <select id="fixed-pair-1"></select>
     <select id="fixed-pair-2"></select>
-    <button onclick="addFixedPair()">Add Fixed Pair</button>
+    <button onclick="addFixedPair()" data-i18n="add">追加</button>
+
     <div id="fixed-pair-list" class="fixed-pairs-list"></div>
   </div>
 
 </div> <!-- page1 -->
 
+<!-- ============================= -->
+<!--           PAGE 2              -->
+<!--           Rounds Page         -->
+<!-- ============================= -->
+<div id="page2" class="page" style="display:none;">
 
+  <div id="game-results"></div>
 
-  <!-- ============================= -->
-  <!--           PAGE 2               -->
-  <!--     (Rounds / Draw Page)       -->
-  <!-- ============================= -->
-  <div id="page2" class="page" style="display:none;">
-
-    <div id="game-results"></div>
-
-    <div class="round-navigation">
-      <button id="prevBtn" onclick="prevRound()" disabled>« Round</button>
-      <div id="roundTitle" onclick="RefreshRound()">R</div>
-      <button id="nextBtn" onclick="nextRound()" disabled>Round »</button>
-    </div>
+  <div class="round-navigation">
+    <button id="prevBtn" onclick="prevRound()" disabled data-i18n="prevRound">« ラウンド</button>
+    <div id="roundTitle" onclick="RefreshRound()" data-i18n="roundShort">R</div>
+    <button id="nextBtn" onclick="nextRound()" disabled data-i18n="nextRound">ラウンド »</button>
   </div>
 
+</div>
 
-  <!-- ============================= -->
-  <!--           PAGE 3               -->
-  <!--        (Leaderboard Page)      -->
-  <!-- ============================= -->
-  <div id="page3" class="page" style="display:none;">
-	<div id="reportContainer">
-	</div>
-    
-  </div>
+<!-- ============================= -->
+<!--           PAGE 3              -->
+<!--        Summary / Report       -->
+<!-- ============================= -->
+<div id="page3" class="page" style="display:none;">
+  <div id="reportContainer"></div>
+</div>
 
 </body>
 </html>
