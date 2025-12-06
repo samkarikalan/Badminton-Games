@@ -659,7 +659,7 @@ button {
 }
 
 /* ========================================= */
-/*          TOP TAB NAVIGATION (iOS)         */
+/*          TOP TAB NAVIGATION               */
 /* ========================================= */
 
 /* ===== TOP TABS (Updated Style) ===== */
@@ -714,22 +714,9 @@ button {
   box-shadow: 0 3px 7px rgba(93, 37, 235, 0.35);
 }
 
-/* Button width controls */
-.back-btn {
-  flex: 0 0 50px;
-}
 
-.tabs-container .tab-btn:nth-child(1) {
-  flex: 0 0 85px;
-}
 
-.tabs-container .tab-btn:nth-child(2) {
-  flex: 0 0 85px;
-}
 
-.tabs-container .tab-btn:nth-child(3) {
-  flex: 0 0 110px;
-}
 
 /* ===== SETTINGS SECTION (Unchanged) ===== */
 .compact-settings {

@@ -258,7 +258,7 @@ function deletePlayer(i) {
 /* =========================
    UPDATE PLAYER LIST TABLE
 ========================= */
-function report() {
+function reportold1() {
   const table = document.getElementById('page3-table');
   table.innerHTML = `
     <tr>
@@ -868,18 +868,18 @@ function report() {
   const header = document.createElement("div");
   header.className = "report-header";
   header.innerHTML = `
-    <div class="header-rank">Rank</div>
-    <div class="header-name">Name</div>
-    <div class="header-played">Played</div>
-    <div class="header-rested">Rested</div>
+    <div class="header-rank" data-i18n="rank">Rank</div>
+    <div class="header-name" data-i18n="name">Name</div>
+    <div class="header-played" data-i18n="played">Played</div>
+    <div class="header-rested" data-i18n="rested">Rested</div>
   `;
   container.appendChild(header);
 
-  // Sort players: Most played first → Least played
+  // Sort & add players
   const sortedPlayers = [...schedulerState.allPlayers].sort((a, b) => {
     const playedA = schedulerState.PlayedCount.get(a.name) || 0;
     const playedB = schedulerState.PlayedCount.get(b.name) || 0;
-    return playedB - playedA; // Descending (most active first)
+    return playedB - playedA;
   });
 
   sortedPlayers.forEach((p, index) => {
@@ -889,15 +889,18 @@ function report() {
     const card = document.createElement("div");
     card.className = "player-card";
     card.innerHTML = `
-  <div class="rank">#${index + 1}</div>
-  <div class="name">${p.name.replace(/^\d+\.\s*/, "")}</div>
-  <div class="stat played" style="border-color:${getPlayedColor(played)}">${played}</div>
-  <div class="stat rest" style="border-color:${getRestColor(rest)}">${rest}</div>
-`;
-
+      <div class="rank">#${index + 1}</div>
+      <div class="name">${p.name.replace(/^\d+\.?\s*/, "")}</div>
+      <div class="stat played" style="border-color:${getPlayedColor(played)}">${played}</div>
+      <div class="stat rest" style="border-color:${getRestColor(rest)}">${rest}</div>
+    `;
     container.appendChild(card);
   });
+
+  // ⭐ Important: Apply translation to new elements
+  setLanguage(currentLang);
 }
+
 
 
 
