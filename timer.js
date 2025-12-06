@@ -46,7 +46,11 @@ function applyNewTime() {
 }
 
 
-
+document.getElementById("roundTimerIcon").addEventListener("click", () => {
+    toggleTimerPanel();   // show the panel
+    unlockAudio();        // allow sound (mobile requirement)
+    startTimer();         // immediately begin countdown
+});
 
 
 
