@@ -65,8 +65,16 @@
       <div class="btn" onclick="ResetAll()" data-i18n="resetAll">全てをリセット</div>
       <div class="btn" onclick="resetRounds()" data-i18n="resetExcept">プレーヤー以外をリセット</div>
     </div>
-
-  </div>
+    
+    <div class="sec" data-i18n="Timer">タイマー</div>
+      <div class="row">
+        <div class="timer-slider">
+          <input type="range" id="timerInput" min="1" max="30" value="8" oninput="updateSliderLabel()">
+          <span id="sliderValue">8 min</span>
+         </div>
+      </div>
+    </div>
+  </div>  
 </div>
 
 <!-- ============================= -->
@@ -103,8 +111,8 @@
         <!-- Gender -->
         <div class="gender-radio" data-i18n="gender">性別</div>
         <div class="gender-radio">
-          <label><input type="radio" name="genderSelect" value="Male"> <span data-i18n="male">男性</span></label>
-          <label><input type="radio" name="genderSelect" value="Female"> <span data-i18n="female">女性</span></label>
+          <label><input type="radio" name="genderSelect" value="Male"> <span data-i18n="male">男</span></label>
+          <label><input type="radio" name="genderSelect" value="Female"> <span data-i18n="female">女</span></label>
         </div>
 
         <!-- Buttons -->
@@ -152,9 +160,7 @@
 <!--           PAGE 2              -->
 <!--           Rounds Page         -->
 <!-- ============================= -->
-<div id="page2" class="page" style="display:none;">
-
-  
+<div id="page2" class="page" style="display:none;">  
 
   <div id="game-results"></div>
 
@@ -164,10 +170,19 @@
   <button id="nextBtn" onclick="nextRound()" disabled>Round »</button>
 
   <!-- Timer Icon -->
-  <span class="timer-icon" onclick="toggleTimerPanel()">⏱️</span>
+  <span class="timer-icon" id="timerToggleBtn" onclick="toggleTimer()">⏱️ <span id="timerDisplay">08:00</span></span>
+  <input type="number" id="timerInput" value="8" min="1" class="hidden">
+
 </div>
 
 </div>
+
+
+
+<!-- Timer Sound -->
+<audio id="timerSound">
+  <source src="timer.mp3" type="audio/mpeg">
+</audio>
 
 <!-- ============================= -->
 <!--           PAGE 3              -->
@@ -177,33 +192,5 @@
   <div id="reportContainer"></div>
 </div>
 
-
-  <div id="timerPanel" class="timer-panel hidden" style="display:none;" >
-  <div class="timer-panel-header">
-    <span class="timer-title">Round Timer</span>
-    <span class="timer-close" onclick="toggleTimerPanel()">✕</span>
-  </div>
-
-  <div class="timer-display" id="timerDisplay">08:00</div>
-
-  <div class="timer-controls">
-
-
-    <button onclick="unlockAudio(); startTimer()">Start</button>
-    
-    <button onclick="stopTimer()">Stop</button>
-    <button onclick="resetTimer()">Reset</button>
-  </div>
-
-  <div class="timer-edit">
-    <label>Minutes:</label>
-    <input type="number" id="timerInput" value="8" min="1" max="30">
-    <button onclick="applyNewTime()">Apply</button>
-  </div>
-</div>
-
-<audio id="timerSound">
-    <source src="timer.mp3" type="audio/mpeg">
-</audio>
 </body>
 </html>

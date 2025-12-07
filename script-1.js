@@ -559,6 +559,7 @@ function ResetAll() {
 function resetRounds() {
   // 1️⃣ Clear all previous rounds
   allRounds.length = 0;
+	report();
   //goToRounds()
   //const btn = document.getElementById('goToRoundsBtn');
   //btn.enabled;

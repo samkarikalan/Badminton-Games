@@ -1050,15 +1050,5 @@ function enableTouchDrag(el) {
   });
   document.addEventListener('mouseup', endDrag);
 }
-// Warn before leaving or refreshing
-window.addEventListener('beforeunload', function (e) {
-  // Cancel the event
-  e.preventDefault();
-  // Some browsers require setting returnValue
-  e.returnValue = '';
-  // On mobile, this usually triggers a generic "Leave site?" dialog
-});
-window.onload = function () {
-  const btn = document.getElementById('goToRoundsBtn');
-  //btn.disabled = (allRounds.length === 0);
-};
+
+

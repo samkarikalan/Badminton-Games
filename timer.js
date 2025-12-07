@@ -1,71 +1,80 @@
-let timerInterval = null;
-let remainingSeconds = 8 * 60;
+let timerInterval;
+let remainingSeconds = 0;
+let isRunning = false;
+let alarmTimeout = null;
 
-function toggleTimerPanel() {
-  const panel = document.getElementById("timerPanel");
-  panel.classList.toggle("open");
-  panel.classList.toggle("hidden");
+function toggleTimer() {
+  if (!isRunning) {
+    startTimerAlwaysReset();
+  } else {
+    stopTimer();
+  }
 }
 
-function updateDisplay() {
-  const mins = String(Math.floor(remainingSeconds / 60)).padStart(2, '0');
-  const secs = String(remainingSeconds % 60).padStart(2, '0');
-  document.getElementById('timerDisplay').innerText = `${mins}:${secs}`;
-}
+function startTimerAlwaysReset() {
+  const mins = parseInt(document.getElementById("timerInput").value) || 8;
+  remainingSeconds = mins * 60;
+  updateDisplay();
 
-function startTimer() {
-  if (timerInterval) return;
+  clearInterval(timerInterval);
+  timerInterval = setInterval(runTimer, 1000);
 
-  const endTime = Date.now() + remainingSeconds * 1000;
-
-  timerInterval = setInterval(() => {
-    remainingSeconds = Math.max(0, Math.round((endTime - Date.now()) / 1000));
-    updateDisplay();
-
-    if (remainingSeconds <= 0) {
-      stopTimer();
-      document.getElementById("timerSound").play();
-    }
-  }, 200);
+  document.getElementById("timerToggleBtn").classList.add("running");
+  isRunning = true;
 }
 
 function stopTimer() {
   clearInterval(timerInterval);
-  timerInterval = null;
+  document.getElementById("timerToggleBtn").classList.remove("running");
+  isRunning = false;
 }
 
-function resetTimer() {
-  const mins = parseInt(document.getElementById("timerInput").value) || 8;
-  remainingSeconds = mins * 60;
+function runTimer() {
+  remainingSeconds--;
   updateDisplay();
-  stopTimer();
+
+  if (remainingSeconds <= 0) {
+    stopTimer();
+    playBeep();
+  }
 }
 
-function applyNewTime() {
-  resetTimer();
+function updateDisplay() {
+  const mins = Math.floor(remainingSeconds / 60);
+  const secs = remainingSeconds % 60;
+  document.getElementById("timerDisplay").textContent =
+    `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 }
 
+function playBeep() {
+  const sound = document.getElementById("timerSound");
+  
+  stopAlarm(); // ensure clean start
+  
+  sound.loop = true;
+  sound.play();
 
-document.getElementById("roundTimerIcon").addEventListener("click", () => {
-    toggleTimerPanel();   // show the panel
-    unlockAudio();        // allow sound (mobile requirement)
-    startTimer();         // immediately begin countdown
-});
+  alarmTimeout = setTimeout(() => {
+    stopAlarm();
+  }, 30000); // stop alarm after 30 seconds
+}
+function stopAlarm() {
+  const sound = document.getElementById("timerSound");
+  sound.loop = false;
+  sound.pause();
+  sound.currentTime = 0;
 
+  clearTimeout(alarmTimeout);
+  alarmTimeout = null;
+}
 
+function updateSliderLabel() {
+  document.getElementById("sliderValue").textContent =
+    document.getElementById("timerInput").value + " min";
 
-
-
-
-
-function unlockAudio() {
-    const sound = document.getElementById("timerSound");
-
-    sound.play().then(() => {
-        sound.pause();
-        sound.currentTime = 0;
-        console.log("Audio unlocked");
-    }).catch(err => {
-        console.log("Unlock failed:", err);
-    });
+  if (!isRunning) {
+    const mins = parseInt(document.getElementById("timerInput").value) || 8;
+    remainingSeconds = mins * 60;
+    updateDisplay();
+  }
 }

@@ -155,11 +155,11 @@ body {
 /* Player Card Container */
 .player-edit-card {
   display: grid;
-  grid-template-columns: 35px 40px 40px 1fr 55px;
+  grid-template-columns: 20px 20px 35px 1fr 55px;
   /*   chk    sl    gender  name  delete  */
 
   align-items: center;
-  gap: 8px;
+  gap: 5px;
 
   font-size: 1.3rem;
   padding: 6px 15px;
@@ -505,6 +505,21 @@ button {
   transform: scale(1.01);
   animation: borderPulse 2s ease-in-out infinite;
 }
+ .rest-btn {
+  color: #000 !important;
+}
+
+.played-round .match-card,
+.played-round .rest-btn,
+.played-round .Lplayer-btn,
+.played-round .Rplayer-btn,
+.played-round .teams,
+.played-round .team[data-team-side="L"],
+.played-round .team[data-team-side="R"] {
+  filter: grayscale(40%) opacity(0.7);
+  transform: scale(1);
+  border: 0.0625rem solid #999;
+}
 /* Swap Icons */
 .swap-icon {
   position: absolute;
@@ -593,8 +608,8 @@ button {
   gap: 1rem;
   margin-top: 0.75rem;
   padding: 0.5rem 1rem;
-  background: linear-gradient(135deg, #2a2a72, #009ffd);
-  border-radius: 0.75rem;
+  background: linear-gradient(135deg,  #009ffd);
+  
   box-shadow: 0 0.1875rem 0.5rem rgba(0, 0, 0, 0.15);
 }
 /* Round title inside card */
@@ -620,8 +635,8 @@ button {
   padding: 8px 14px;
   background: #e5e7eb;
   border: none;
-  border-radius: 8px;
-  font-size: 14px;
+  border-radius: 1.5rem;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: transform 0.15s ease, background 0.15s ease;
@@ -674,7 +689,7 @@ button {
   gap: 8px;
 
   margin: 0;                  /* remove top margin */
-  background: linear-gradient(135deg, #2a2a72, #009ffd);          /* black background for top area */
+  background: linear-gradient(135deg,  #009ffd);          /* black background for top area */
   padding: 10px 12px;         /* you can keep inner padding */
   border-radius: 0;           /* no rounded corners for full-width top bar */
 
@@ -786,72 +801,23 @@ button {
 }
 
 /* Timer icon beside Round » */
+
 .timer-icon {
-  font-size: 22px;
   cursor: pointer;
-  opacity: 0.8;
-  margin-left: 4px;
-  transition: 0.2s;
-}
-
-.timer-icon:hover {
-  opacity: 1;
-  transform: scale(1.1);
-}
-
-
-.timer-panel {
-  background: #ffffff;
-  border-bottom: 1px solid #ddd;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-  padding: 16px;
-  position: sticky;
-  top: 60px;
-  z-index: 999;
-  transition: max-height 0.3s ease;
-  overflow: hidden;
-  max-height: 0;
-}
-
-.timer-panel.hidden {
-  max-height: 0;
-}
-
-.timer-panel.open {
-  max-height: 350px;
-}
-
-.timer-panel-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 20px;
-  margin-bottom: 8px;
-}
-
-.timer-close {
-  cursor: pointer;
-  font-size: 24px;
-}
-
-.timer-display {
-  text-align: center;
-  font-size: 48px;
-  font-weight: bold;
-  padding: 10px 0;
-}
-
-.timer-controls,
-.timer-edit {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.timer-edit input {
-  width: 60px;
-  padding: 6px;
+  background: #e0f2fe;
+  padding: 6px 10px;
+  border-radius: 20px;
   font-size: 16px;
-  border-radius: 8px;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.2s;
+}
+.timer-icon.running {
+  background: #fecaca; /* Light red when active */
+}
+
+.hidden {
+  display: none;
 }

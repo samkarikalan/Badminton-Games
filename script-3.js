@@ -26,7 +26,9 @@ const translations = {
     rank: "Rank",
     name: "Name",
     played: "Played",
-    rested: "Rested"
+    rested: "Rested",
+    importExample: "Name,Gender\nKari,Male\nBhavani,Female"
+
   },
   jp: {
     appTitle: "CLUB Scheduler™",
@@ -55,7 +57,8 @@ const translations = {
     rank: "順位",
     name: "名前",
     played: "試合数",
-    rested: "休憩数"
+    rested: "休憩数",
+    importExample: "名前,性別\nカリ,男\nババニ,女"
   }
 };
 
