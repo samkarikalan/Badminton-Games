@@ -10,22 +10,7 @@ function toggleGender() {
   console.log("Selected Gender:", hiddenInput.value);
 }
 
-function setFontSize(size) {
-  const root = document.documentElement;
 
-  // Update font size variable
-  if (size === "small") root.style.setProperty("--base-font-size", "10px");
-  if (size === "medium") root.style.setProperty("--base-font-size", "15px");
-  if (size === "large") root.style.setProperty("--base-font-size", "20px");
-
-  // Remove active from all buttons
-  document.querySelectorAll(".btn").forEach(el => {
-    el.classList.remove("active");
-  });
-
-  // Add active to selected button
-  document.getElementById(`font_${size}`).classList.add("active");
-}
 
 
 
@@ -113,28 +98,6 @@ function createPlayerCard(player, index) {
   return card;
 }
 
-function toggleActive(index, checkbox) {
-  // Update data model first
-  schedulerState.allPlayers[index].active = checkbox.checked;
-
-  const card = checkbox.closest(".player-edit-card");
-
-  // Apply the CSS class based on active state
-  if (checkbox.checked) {
-    card.classList.remove("inactive");
-  } else {
-    card.classList.add("inactive");
-  }
-
-  // Recalculate active players list
-  schedulerState.activeplayers = schedulerState.allPlayers
-    .filter(p => p.active)
-    .map(p => p.name)
-	.reverse();
-
-  // Refresh UI
-  updateFixedPairSelectors();
-}
 
 /* =========================
    ADD PLAYERS FROM TEXT
