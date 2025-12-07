@@ -62,39 +62,6 @@ const translations = {
   }
 };
 
-let currentLang = "en";
-
-function setLanguage(lang) {
-  currentLang = lang;
-  localStorage.setItem("appLanguage", lang); // Save user choice
-
-  // Update UI language buttons
-  document.getElementById('lang_en').classList.toggle('active', lang === 'en');
-  document.getElementById('lang_jp').classList.toggle('active', lang === 'jp');
-
-  // Update normal text
-  document.querySelectorAll("[data-i18n]").forEach(el => {
-    const key = el.dataset.i18n;
-    el.textContent = translations[lang][key] || key;
-  });
-
-  // Update placeholders
-  document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
-    const key = el.dataset.i18nPlaceholder;
-    el.placeholder = translations[lang][key] || "";
-  });
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  const savedLang = localStorage.getItem("appLanguage");
-
-  if (savedLang === "ja" || savedLang === "en") {
-    setLanguage(savedLang);
-  } else {
-    const browserLang = navigator.language.startsWith("ja") ? "ja" : "en";
-    setLanguage(browserLang);
-  }
-});
 
 
 
