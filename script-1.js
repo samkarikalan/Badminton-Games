@@ -515,44 +515,7 @@ function removeFixedPair(el, p1, p2) {
   updateFixedPairSelectors();
 }
 
-/* =========================
- 
-PAGE NAVIGATION
- 
-========================= */
-function ResetAll() {
-  location.reload(); // This refreshes the entire app clean
-}
-function resetRounds() {
-  // 1️⃣ Clear all previous rounds
-  allRounds.length = 0;
-	report();
-  //goToRounds()
-  //const btn = document.getElementById('goToRoundsBtn');
-  //btn.enabled;
-}
-
-const courtSlider = document.getElementById("num-courts");
-const display = document.getElementById("courts-display");
-
-courtSlider.addEventListener("input", () => {
-  display.textContent = courtSlider.value;
-});
-
-courtSlider.addEventListener("change", () => {
-  goToRounds();
-});
-/*
-const courtInput = document.getElementById("num-courts");
-
-courtInput.addEventListener("input", () => {
-  const num = parseInt(courtInput.value.trim());
-  if (num > 0) {
-    goToRounds();
-  }
-});
-
-*/
+/* ===================*/
 function goToRounds() {
   const numCourtsInput = parseInt(document.getElementById('num-courts').value);
   const totalPlayers = schedulerState.activeplayers.length;
