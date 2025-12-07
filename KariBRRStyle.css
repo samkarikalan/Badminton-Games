@@ -132,6 +132,24 @@ body {
 /* ========================================= */
 /*               INPUT FIELDS                 */
 /* ========================================= */
+
+.courts-label {
+  font-size: 18px;
+  margin-bottom: 12px;
+  font-weight: bold;
+}
+
+.courts-slider {
+  width: 80%;
+  margin: 10px 0;
+}
+
+#courts-display {
+  font-size: 22px;
+  font-weight: bold;
+  margin-top: 6px;
+}
+
 .page {
   font-size: 1.0rem;
   animation: fadeIn 0.2s ease-out;

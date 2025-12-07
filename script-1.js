@@ -63,6 +63,10 @@ PLAYER MANAGEMENT
  
 ========================= */
 function showImportModal() {
+  const textarea = document.getElementById("players-textarea");
+  if (!textarea.value.trim()) {
+    textarea.value = "Name,Gender\nKari,Male\nBhavani,Female";
+  }  
   document.getElementById('importModal').style.display = 'block';
 }
 function hideImportModal() {
@@ -565,6 +569,27 @@ function resetRounds() {
   //btn.enabled;
 }
 
+const courtSlider = document.getElementById("num-courts");
+const display = document.getElementById("courts-display");
+
+courtSlider.addEventListener("input", () => {
+  display.textContent = courtSlider.value;
+});
+
+courtSlider.addEventListener("change", () => {
+  goToRounds();
+});
+/*
+const courtInput = document.getElementById("num-courts");
+
+courtInput.addEventListener("input", () => {
+  const num = parseInt(courtInput.value.trim());
+  if (num > 0) {
+    goToRounds();
+  }
+});
+
+*/
 function goToRounds() {
   const numCourtsInput = parseInt(document.getElementById('num-courts').value);
   const totalPlayers = schedulerState.activeplayers.length;
@@ -843,9 +868,9 @@ function rebuildRestQueue(restQueue) {
   if (pageID === "page2") {
      if (allRounds.length <= 1) {
 	     resetRounds();
-		 goToRounds();
+		 //goToRounds();
      } else {
-     goToRounds();
+     //goToRounds();
      }
    }
   

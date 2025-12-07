@@ -81,15 +81,7 @@
 <!--           PAGE 1              -->
 <!--         Players Page          -->
 <!-- ============================= -->
-<div id="page1" class="page" style="display:none;">
-
-  <div class="card">    
-    <input type="number"
-      id="num-courts"
-      placeholder="コート数を入力"
-      data-i18n-placeholder="enterCourts"
-      min="1">
-  </div>
+<div id="page1" class="page" style="display:none;"> 
 
   <div class="card">    
     <button onclick="showImportModal()" data-i18n="importPlayers">複数選手を取り込み</button>
@@ -163,6 +155,23 @@
 <div id="page2" class="page" style="display:none;">  
 
   <div id="game-results"></div>
+   <div class="card">
+
+  <label for="num-courts" class="courts-label">
+    Enter No. of Games
+  </label>
+
+  <input type="range"
+    id="num-courts"
+    min="1"
+    max="20"
+    value="1"
+    class="courts-slider">
+
+  <div id="courts-display">1</div>
+
+</div>
+
 
 <div class="round-navigation">
   <button id="prevBtn" onclick="prevRound()" disabled>« Round</button>
