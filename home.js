@@ -1,3 +1,30 @@
+function showPage(pageID, el) {
+  // Hide all pages
+  document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+
+  // Show selected page
+  document.getElementById(pageID).style.display = 'block';
+
+  // Update active tab styling
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  if (el) el.classList.add('active');
+
+  // ➜ Additional action when page2 is opened
+  if (pageID === "page2") {
+     if (allRounds.length <= 1) {
+	     resetRounds();
+		 //goToRounds();
+     } else {
+     //goToRounds();
+     }
+   }
+  
+	if (pageID === "page3") {
+     report();
+   }
+}
+
+
 let currentLang = "en";
 
 document.addEventListener("DOMContentLoaded", () => {
