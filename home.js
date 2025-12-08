@@ -3,7 +3,7 @@ let currentLang = "en";
 document.addEventListener("DOMContentLoaded", () => {
   const savedLang = localStorage.getItem("appLanguage");
 
-  if (savedLang === "ja" || savedLang === "en") {
+  if (savedLang === "jp" || savedLang === "en") {
     setLanguage(savedLang);
   } else {
     const browserLang = navigator.language.startsWith("ja") ? "ja" : "en";
