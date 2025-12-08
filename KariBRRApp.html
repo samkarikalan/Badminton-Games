@@ -11,7 +11,6 @@
 <script src="script-3.js" defer></script>
 <script src="timer.js" defer></script>
 </head>
-
 <body>
 
 <h1 class="app-logo-premium" data-i18n="appTitle">CLUB Scheduler™</h1>
@@ -25,7 +24,7 @@
   <button class="tab-btn back-btn active"
         onclick="showPage('homePage', this)"
         data-i18n="home">
-    ホーム
+  ホーム
   </button>
 
   <!-- Tabs container -->
@@ -47,8 +46,9 @@
     <!-- Language -->
     <div class="sec">Language</div>
     <div class="row">
-      <div class="btn lang-btn active" onclick="setLanguage('en')" id="lang_en">English</div>
-      <div class="btn lang-btn" onclick="setLanguage('ja')" id="lang_ja">日本語</div>
+      <div class="btn active" onclick="setLanguage('en')" id="lang_en">English</div>
+      <!-- use 'ja' (not 'jp') to match translations keys -->
+      <div class="btn" onclick="setLanguage('ja')" id="lang_ja">日本語</div>
     </div>
 
     <!-- Font Size -->
@@ -65,19 +65,18 @@
       <div class="btn" onclick="ResetAll()" data-i18n="resetAll">全てをリセット</div>
       <div class="btn" onclick="resetRounds()" data-i18n="resetExcept">プレーヤー以外をリセット</div>
     </div>
-
-    <!-- Timer -->
+    
     <div class="sec" data-i18n="Timer">タイマー</div>
-    <div class="row">
-      <div class="timer-slider">
-        <input type="range" id="timerInputHome" min="1" max="30" value="8" oninput="updateSliderLabel()">
-        <span id="sliderValue">8 min</span>
+      <div class="row">
+        <div class="timer-slider">
+          <!-- home range slider - unique id 'timerRange' -->
+          <input type="range" id="timerRange" min="1" max="30" value="8" oninput="updateSliderLabel()">
+          <span id="sliderValue">8 min</span>
+         </div>
       </div>
     </div>
-
-  </div>  <!-- end compact-settings -->
-
-</div> <!-- end homePage -->
+  </div>  
+</div>
 
 <!-- ============================= -->
 <!--           PAGE 1              -->
@@ -96,7 +95,8 @@
       <!-- Left Section -->
       <textarea id="players-textarea" rows="12"
         placeholder="Name,Gender&#10;Kari,Male&#10;Bhavani,Female"
-        data-i18n-placeholder="importExample"></textarea>
+        data-i18n-placeholder="importExample">
+      </textarea>
 
       <!-- Right Section -->
       <div class="modal-right">
@@ -147,7 +147,7 @@
     <div id="fixed-pair-list" class="fixed-pairs-list"></div>
   </div>
 
-</div> <!-- end page1 -->
+</div> <!-- page1 -->
 
 <!-- ============================= -->
 <!--           PAGE 2              -->
@@ -156,35 +156,36 @@
 <div id="page2" class="page" style="display:none;">  
 
   <div id="game-results"></div>
+   <div class="card">
 
-  <div class="card">
+  <label for="num-courts" class="courts-label">
+    Enter No. of Games
+  </label>
 
-    <label for="num-courts" class="courts-label" data-i18n="enterGames">
-      Enter No. of Games
-    </label>
+  <input type="range"
+    id="num-courts"
+    min="1"
+    max="20"
+    value="1"
+    class="courts-slider">
 
-    <input type="range"
-      id="num-courts"
-      min="1"
-      max="20"
-      value="1"
-      class="courts-slider">
+  <div id="courts-display">1</div>
 
-    <div id="courts-display">1</div>
+</div>
 
-  </div>
+<div class="round-navigation">
+  <button id="prevBtn" onclick="prevRound()" disabled>« Round</button>
+  <div id="roundTitle" onclick="RefreshRound()">R</div>
+  <button id="nextBtn" onclick="nextRound()" disabled>Round »</button>
 
-  <div class="round-navigation">
-    <button id="prevBtn" onclick="prevRound()" disabled>« Round</button>
-    <div id="roundTitle" onclick="RefreshRound()">R</div>
-    <button id="nextBtn" onclick="nextRound()" disabled>Round »</button>
+  <!-- Timer Icon -->
+  <span class="timer-icon" id="timerToggleBtn" onclick="toggleTimer()">⏱️ <span id="timerDisplay">08:00</span></span>
+  <!-- numeric minutes input uses unique id 'timerMinutes' -->
+  <input type="number" id="timerMinutes" value="8" min="1" class="hidden">
 
-    <!-- Timer Icon -->
-    <span class="timer-icon" id="timerToggleBtn" onclick="toggleTimer()">⏱️ <span id="timerDisplay">08:00</span></span>
-    <input type="number" id="timerInput" value="8" min="1" class="hidden">
-  </div>
+</div>
 
-</div> <!-- end page2 -->
+</div>
 
 <!-- Timer Sound -->
 <audio id="timerSound">
