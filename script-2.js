@@ -578,6 +578,9 @@ function clearPreviousRound() {
   document.querySelectorAll('.selected, .selected-team, .swapping').forEach(el => {
     el.classList.remove('selected', 'selected-team', 'swapping');
   });
+  const roundTitle = document.getElementById("roundTitle");
+  roundTitle.className = "roundTitle";
+  roundTitle.innerText = "R";
 }
 
 

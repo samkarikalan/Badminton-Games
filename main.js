@@ -1,92 +1,30 @@
+function showPage(pageID, el) {
+  // Hide all pages
+  document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
 
-let allRounds = [];
-let currentRoundIndex = 0;
-let isOnPage2 = false;
+  // Show selected page
+  document.getElementById(pageID).style.display = 'block';
 
-let schedulerState = {
-    numCourts: 0,
-    allPlayers: [],
-    activeplayers: [],
-    fixedPairs: [],
-    PlayedCount: new Map(),
-    restCount: new Map(),
-    restQueue: new Map(),
-    PlayerScoreMap: new Map(),
-    playedTogether: new Map(),
-    fixedMap: new Map(),
-    roundIndex: 0,
-    pairPlayedSet: new Set(),
-    opponentMap: new Map(), // 🆕 per-player opponent tracking
-	markingWinnerMode: false,
-};
+  // Update active tab styling
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  if (el) el.classList.add('active');
 
-function ResetAll() {
-  location.reload(); // This refreshes the entire app clean
+  // ➜ Additional action when page2 is opened
+  if (pageID === "page2") {
+     if (allRounds.length <= 1) {
+	     resetRounds();
+		 //goToRounds();
+     } else {
+     //goToRounds();
+     }
+   }
+  
+	if (pageID === "page3") {
+     report();
+   }
 }
 
-function resetRounds() {
-  // 1️⃣ Clear all previous rounds
-  allRounds.length = 0;
-  initScheduler(1);  
-  clearPreviousRound();
-  goToRounds();
-  report(); 
-}
 
-const courtInput = document.getElementById("num-courts");
-courtInput.addEventListener("input", () => {
-  const num = parseInt(courtInput.value.trim());
-  if (num > 0) {
-    goToRounds();
-  }
-});
-
-
-function goToRounds() {
-  const numCourtsInput = parseInt(document.getElementById('num-courts').value);
-  const totalPlayers = schedulerState.activeplayers.length;
-  if (!totalPlayers) {
-    alert('Please add players first!');
-    return;
-  }
-
-  if (!numCourtsInput) {
-    alert('Please enter no of Courts!');
-    return;
-  }  
-  // Auto-calculate courts based on player count ÷ 4
-  let autoCourts = Math.floor(totalPlayers / 4);
-  if (autoCourts < 1) autoCourts = 1;
-  // Use the smaller of user-input or calculated courts
-  const numCourts = numCourtsInput
-    ? Math.min(numCourtsInput, autoCourts)
-    : autoCourts;
-  if (!numCourts) {
-    alert('Number of courts could not be determined!');
-    return;
-  }
-  if (allRounds.length <= 1) {
-    initScheduler(numCourts);
-    allRounds = [AischedulerNextRound(schedulerState)];
-    currentRoundIndex = 0;
-    showRound(0);
-  } else {   
-      schedulerState.numCourts = numCourts;      
-      schedulerState.fixedMap = new Map();
-      let highestRestCount = -Infinity;
-      updateScheduler();      
-      schedulerState.roundIndex = allRounds.length - 1;
-      currentRoundIndex = schedulerState.roundIndex;
-      const newRound = AischedulerNextRound(schedulerState);
-      allRounds[allRounds.length - 1] = newRound;
-       showRound(currentRoundIndex);
-    }  
-  /*
-  document.getElementById('page1').style.display = 'none';
-  document.getElementById('page2').style.display = 'block';
-  isOnPage2 = true;
-  */
-}
 
 function goBack() {
   updatePlayerList();
@@ -329,8 +267,24 @@ function report() {
 }
 
 
+function toggleGender() {
+  const toggle = document.querySelector(".gender-toggle");
+  const hiddenInput = document.getElementById("genderValue");
+
+  toggle.classList.toggle("active");
+
+  const isFemale = toggle.classList.contains("active");
+  hiddenInput.value = isFemale ? "Female" : "Male";
+
+  console.log("Selected Gender:", hiddenInput.value);
+}
 
 
+// Page initialization
+function initPage() {
+  document.getElementById("page1").style.display = 'block';
+  document.getElementById("page2").style.display = 'none';
+}
 
 
 
