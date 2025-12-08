@@ -49,34 +49,49 @@ function setLanguage(lang) {
   currentLang = lang;
   localStorage.setItem("appLanguage", lang); // Save user choice
 
-  // Update UI language buttons
-  document.getElementById('lang_en').classList.toggle('active', lang === 'en');
-  document.getElementById('lang_jp').classList.toggle('active', lang === 'jp');
+  // Remove 'active' from any language buttons (IDs that start with lang_)
+  document.querySelectorAll("[id^='lang_']").forEach(el => {
+    el.classList.remove("active");
+  });
+
+  // Add 'active' to the selected language button
+  const btn = document.getElementById(`lang_${lang}`);
+  if (btn) btn.classList.add("active");
 
   // Update normal text
   document.querySelectorAll("[data-i18n]").forEach(el => {
     const key = el.dataset.i18n;
-    el.textContent = translations[lang][key] || key;
+    // guard: translations and translations[lang] should exist
+    if (typeof translations !== "undefined" && translations[lang]) {
+      el.textContent = translations[lang][key] || key;
+    } else {
+      el.textContent = key;
+    }
   });
 
   // Update placeholders
   document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
     const key = el.dataset.i18nPlaceholder;
-    el.placeholder = translations[lang][key] || "";
+    if (typeof translations !== "undefined" && translations[lang]) {
+      el.placeholder = translations[lang][key] || "";
+    } else {
+      el.placeholder = "";
+    }
   });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   const savedLang = localStorage.getItem("appLanguage");
 
-  if (savedLang === "ja" || savedLang === "en") {
+  // match the ids and HTML which use 'jp' / 'en'
+  if (savedLang === "jp" || savedLang === "en") {
     setLanguage(savedLang);
   } else {
-    const browserLang = navigator.language.startsWith("ja") ? "ja" : "en";
+    // detect browser language: if Japanese -> use 'jp', otherwise 'en'
+    const browserLang = navigator.language && navigator.language.startsWith("ja") ? "jp" : "en";
     setLanguage(browserLang);
   }
 });
-
 ======================== */
 function ResetAll() {
   location.reload(); // This refreshes the entire app clean
