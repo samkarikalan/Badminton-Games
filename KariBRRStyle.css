@@ -839,3 +839,12 @@ button {
 .hidden {
   display: none;
 }
+
+.field-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+
