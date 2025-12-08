@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (savedLang === "jp" || savedLang === "en") {
     setLanguage(savedLang);
   } else {
-    const browserLang = navigator.language.startsWith("ja") ? "ja" : "en";
+    const browserLang = navigator.language.startsWith("jp") ? "jp" : "en";
     setLanguage(browserLang);
   }
 });
