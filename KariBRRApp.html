@@ -127,10 +127,17 @@
 
   <div id="game-results"></div>
   
-
+<!--
 <div class="card">
   <input type="number" id="num-courts" 
-    data-i18n-placeholder="maxcourts"></div>  
+    data-i18n-placeholder="maxcourts"></div>  -->
+<div class="card">
+  <label for="num-courts" class="field-label">Number of Courts</label>
+  <select id="num-courts" class="court-select">
+    <option value="" disabled selected>Select number</option>
+  </select>
+</div>
+  
 <div class="round-navigation">
   <button id="prevBtn" onclick="prevRound()" disabled data-i18n="pround"></button>  
   <div id="roundTitle" onclick="RefreshRound()">R</div>
