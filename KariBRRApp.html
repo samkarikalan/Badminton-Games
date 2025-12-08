@@ -25,15 +25,14 @@
   <button class="tab-btn back-btn active"
         onclick="showPage('homePage', this)"
         data-i18n="home">
-  ホーム
-</button>
+   </button>
 
 
   <!-- Tabs container -->
   <div class="tabs-container">
-    <button class="tab-btn" onclick="showPage('page1', this)" data-i18n="players">選手一覧</button>
-    <button class="tab-btn" onclick="showPage('page2', this)" data-i18n="rounds">試合ラウンド</button>
-    <button class="tab-btn" onclick="showPage('page3', this)" data-i18n="summary">集計</button>
+    <button class="tab-btn" onclick="showPage('page1', this)" data-i18n="players"></button>
+    <button class="tab-btn" onclick="showPage('page2', this)" data-i18n="rounds"></button>
+    <button class="tab-btn" onclick="showPage('page3', this)" data-i18n="summary"></button>
   </div>
 
 </div>
@@ -53,7 +52,7 @@
     </div>
 
     <!-- Font Size -->
-    <div class="sec" data-i18n="fontSize">文字サイズ</div>
+    <div class="sec" data-i18n="fontSize"></div>
     <div class="row">
       <div class="btn active" onclick="setFontSize('small')" id="font_small" data-i18n="small">Small</div>
       <div class="btn" onclick="setFontSize('medium')" id="font_medium" data-i18n="medium">Medium</div>
@@ -61,13 +60,13 @@
     </div>
 
     <!-- Reset -->
-    <div class="sec" data-i18n="reset">リセット</div>
+    <div class="sec" data-i18n="reset"></div>
     <div class="row">
-      <div class="btn" onclick="ResetAll()" data-i18n="resetAll">全てをリセット</div>
-      <div class="btn" onclick="resetRounds()" data-i18n="resetExcept">プレーヤー以外をリセット</div>
+      <div class="btn" onclick="ResetAll()" data-i18n="resetAll"></div>
+      <div class="btn" onclick="resetRounds()" data-i18n="resetExcept"></div>
     </div>
     
-    <div class="sec" data-i18n="Timer">タイマー</div>
+    <div class="sec" data-i18n="Timer"></div>
       <div class="row">
         <div class="timer-slider">
           <input type="range" id="timerInput" min="1" max="30" value="8" oninput="updateSliderLabel()">
@@ -85,52 +84,20 @@
 <div id="page1" class="page" style="display:none;"> 
 
   <div class="card">    
-    <button onclick="showImportModal()" data-i18n="importPlayers">複数選手を取り込み</button>
-  </div>
-
-  <!-- Import Modal -->
-  <div id="importModal">
-    <div class="modal-content">
-
-      <!-- Left Section -->
-      <textarea id="players-textarea" rows="12"
-        placeholder="Name,Gender&#10;Kari,Male&#10;Bhavani,Female"
-        data-i18n-placeholder="importExample">
-      </textarea>
-
-      <!-- Right Section -->
-      <div class="modal-right">
-
-        <!-- Gender -->
-        <div class="gender-radio" data-i18n="gender">性別</div>
-        <div class="gender-radio">
-          <label><input type="radio" name="genderSelect" value="Male"> <span data-i18n="male">男</span></label>
-          <label><input type="radio" name="genderSelect" value="Female"> <span data-i18n="female">女</span></label>
-        </div>
-
-        <!-- Buttons -->
-        <div class="modal-buttons">
-          <button class="ok-btn" onclick="addPlayersFromText()" data-i18n="import">取り込み</button>
-          <button class="cancel-btn" onclick="hideImportModal()" data-i18n="cancel">キャンセル</button>
-        </div>
-
-      </div>
-
-    </div>
-  </div>
+    <button onclick="showImportModal()" data-i18n="importPlayers"></button>
+  </div> 
 
   <div class="card">
     <input type="text"
       id="player-name"
-      placeholder="選手名を入力"
       data-i18n-placeholder="enterPlayerName">
 
     <div class="row-addplayer">  
       <select id="player-gender">
-        <option value="Male" data-i18n="male">男性</option>
-        <option value="Female" data-i18n="female">女性</option>
+        <option value="Male" data-i18n="male"></option>
+        <option value="Female" data-i18n="female"></option>
       </select>
-      <button class="add-button" onclick="addPlayer()" data-i18n="addPlayer">選手追加</button>
+      <button class="add-button" onclick="addPlayer()" data-i18n="addPlayer"></button>
     </div>
   </div>
 
@@ -139,10 +106,10 @@
   </div>
 
   <div class="card">
-    <h3 data-i18n="fixedPairs">固定ペア設定（任意）</h3>
+    <h3 data-i18n="fixedPairs"></h3>
     <select id="fixed-pair-1"></select>
     <select id="fixed-pair-2"></select>
-    <button onclick="addFixedPair()" data-i18n="add">追加</button>
+    <button onclick="addFixedPair()" data-i18n="add"></button>
 
     <div id="fixed-pair-list" class="fixed-pairs-list"></div>
   </div>
@@ -158,11 +125,13 @@
   <div id="game-results"></div>
   
 
-<div class="card"><input type="number" id="num-courts" placeholder="Enter Number of Courts" min="1"></div>  
+<div class="card">
+  <input type="number" id="num-courts" 
+    data-i18n-placeholder="maxcourts"></div>  
 <div class="round-navigation">
-  <button id="prevBtn" onclick="prevRound()" disabled>« Round</button>
+  <button id="prevBtn" onclick="prevRound()" disabled data-i18n="pround"></button>  
   <div id="roundTitle" onclick="RefreshRound()">R</div>
-  <button id="nextBtn" onclick="nextRound()" disabled>Round »</button> 
+  <button id="nextBtn" onclick="nextRound()" disabled data-i18n="nround"></button>  
   <!-- Timer Icon -->
   <span class="timer-icon" id="timerToggleBtn" onclick="toggleTimer()">⏱️ <span id="timerDisplay">08:00</span></span>
   <input type="number" id="timerInput" value="8" min="1" class="hidden">
@@ -185,5 +154,37 @@
   <div id="reportContainer"></div>
 </div>
 
+<!-- ============================= -->
+<!--           Import Modal        -->
+<!-- ============================= -->
+  <!-- Import Modal -->
+  <div id="importModal">
+    <div class="modal-content">
+
+      <!-- Left Section -->
+      <textarea id="players-textarea" rows="12"
+        data-i18n-placeholder="importExample">
+      </textarea>
+
+      <!-- Right Section -->
+      <div class="modal-right">
+
+        <!-- Gender -->
+        <div class="gender-radio" data-i18n="gender"></div>
+        <div class="gender-radio">
+          <label><input type="radio" name="genderSelect" value="Male"> <span data-i18n="male"></span></label>
+          <label><input type="radio" name="genderSelect" value="Female"> <span data-i18n="female"></span></label>
+        </div>
+
+        <!-- Buttons -->
+        <div class="modal-buttons">
+          <button class="ok-btn" onclick="addPlayersFromText()" data-i18n="import"></button>
+          <button class="cancel-btn" onclick="hideImportModal()" data-i18n="cancel"></button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
 </body>
 </html>

@@ -20,8 +20,8 @@ const translations = {
     addPlayer: "Add Player",
     fixedPairs: "Set Fixed Pairs (Optional)",
     add: "Add",
-    prevRound: "« Round",
-    nextRound: "Round »",
+    pround: "« Round",
+    nround: "Round »",
     roundShort: "R",
     rank: "Rank",
     name: "Name",
@@ -32,7 +32,11 @@ const translations = {
     min: "min",
     selectPlayer1: "Select Player 1",
     selectPlayer2: "Select Player 2",
-
+    small: "Small",
+    medium: "Medium",
+    large: "Large",
+    maxcourts: "Enter Number of Courts"
+   
   },
   jp: {
     appTitle: "CLUB Scheduler™",
@@ -47,16 +51,16 @@ const translations = {
     enterCourts: "コート数を入力",
     importPlayers: "複数選手を取り込み",
     gender: "性別",
-    male: "男性",
-    female: "女性",
+    male: "男",
+    female: "女",
     import: "取り込み",
     cancel: "キャンセル",
     enterPlayerName: "選手名を入力",
     addPlayer: "選手追加",
     fixedPairs: "固定ペア設定（任意）",
     add: "追加",
-    prevRound: "« ラウンド",
-    nextRound: "ラウンド »",
+    pround: "« ラウンド",
+    nround: "ラウンド »",
     roundShort: "R",
     rank: "順位",
     name: "名前",
@@ -66,7 +70,12 @@ const translations = {
     Timer: "タイマー",
     min: "分",
     selectPlayer1: "プレーヤー1を選択",
-    selectPlayer2: "プレーヤー2を選択"
+    selectPlayer2: "プレーヤー2を選択",
+    small: "小",
+    medium: "中",
+    large: "中",
+    maxcourts: "コートの数を入力してください"
+    
 
   }
 };
