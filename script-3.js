@@ -27,7 +27,11 @@ const translations = {
     name: "Name",
     played: "Played",
     rested: "Rested",
-    importExample: "Name,Gender\nKari,Male\nBhavani,Female"
+    importExample: "Name,Gender\nKari,Male\nBhavani,Female",
+    Timer: "Timer",
+    min: "min",
+    selectPlayer1: "Select Player 1",
+    selectPlayer2: "Select Player 2",
 
   },
   jp: {
@@ -58,9 +62,15 @@ const translations = {
     name: "名前",
     played: "試合数",
     rested: "休憩数",
-    importExample: "名前,性別\nカリ,男\nババニ,女"
+    importExample: "名前,性別\nカリ,男\nババニ,女",
+    Timer: "タイマー",
+    min: "分",
+    selectPlayer1: "プレーヤー1を選択",
+    selectPlayer2: "プレーヤー2を選択"
+
   }
 };
+
 
 
 

@@ -10,10 +10,6 @@ function toggleGender() {
   console.log("Selected Gender:", hiddenInput.value);
 }
 
-
-
-
-
 let allRounds = [];
 let currentRoundIndex = 0;
 let isOnPage2 = false;
@@ -50,8 +46,8 @@ PLAYER MANAGEMENT
 function showImportModal() {
   const textarea = document.getElementById("players-textarea");
   if (!textarea.value.trim()) {
-    textarea.value = "Name,Gender\nKari,Male\nBhavani,Female";
-  }  
+    textarea.placeholder = "Name,Gender\nKari,Male\nBhavani,Female";
+  } 
   document.getElementById('importModal').style.display = 'block';
 }
 function hideImportModal() {
@@ -98,6 +94,28 @@ function createPlayerCard(player, index) {
   return card;
 }
 
+function toggleActive(index, checkbox) {
+  // Update data model first
+  schedulerState.allPlayers[index].active = checkbox.checked;
+
+  const card = checkbox.closest(".player-edit-card");
+
+  // Apply the CSS class based on active state
+  if (checkbox.checked) {
+    card.classList.remove("inactive");
+  } else {
+    card.classList.add("inactive");
+  }
+
+  // Recalculate active players list
+  schedulerState.activeplayers = schedulerState.allPlayers
+    .filter(p => p.active)
+    .map(p => p.name)
+	.reverse();
+
+  // Refresh UI
+  updateFixedPairSelectors();
+}
 
 /* =========================
    ADD PLAYERS FROM TEXT
@@ -466,8 +484,9 @@ function updateFixedPairSelectors() {
   const sel1 = document.getElementById('fixed-pair-1');
   const sel2 = document.getElementById('fixed-pair-2');
   const pairedPlayers = new Set(schedulerState.fixedPairs.flat());
-  sel1.innerHTML = '<option value="">-- Select Player 1 --</option>';
-  sel2.innerHTML = '<option value="">-- Select Player 2 --</option>';
+  sel1.innerHTML = '<option value="" data-i18n="selectPlayer1"></option>';
+  sel2.innerHTML = '<option value="" data-i18n="selectPlayer2"></option>';
+  //sel2.innerHTML = '<option value="">-- Select Player 2 --</option>';
   // Only active players
   schedulerState.activeplayers.slice().reverse().forEach(p => {
     if (!pairedPlayers.has(p)) {
@@ -515,7 +534,44 @@ function removeFixedPair(el, p1, p2) {
   updateFixedPairSelectors();
 }
 
-/* ===================*/
+/* =========================
+ 
+PAGE NAVIGATION
+ 
+========================= */
+function ResetAll() {
+  location.reload(); // This refreshes the entire app clean
+}
+function resetRounds() {
+  // 1️⃣ Clear all previous rounds
+  allRounds.length = 0;
+	report();
+  //goToRounds()
+  //const btn = document.getElementById('goToRoundsBtn');
+  //btn.enabled;
+}
+
+const courtSlider = document.getElementById("num-courts");
+const display = document.getElementById("courts-display");
+
+courtSlider.addEventListener("input", () => {
+  display.textContent = courtSlider.value;
+});
+
+courtSlider.addEventListener("change", () => {
+  goToRounds();
+});
+/*
+const courtInput = document.getElementById("num-courts");
+
+courtInput.addEventListener("input", () => {
+  const num = parseInt(courtInput.value.trim());
+  if (num > 0) {
+    goToRounds();
+  }
+});
+
+*/
 function goToRounds() {
   const numCourtsInput = parseInt(document.getElementById('num-courts').value);
   const totalPlayers = schedulerState.activeplayers.length;

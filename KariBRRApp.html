@@ -10,6 +10,7 @@
 <script src="script-2.js" defer></script>
 <script src="script-3.js" defer></script>
 <script src="timer.js" defer></script>
+
 </head>
 <body>
 
@@ -25,7 +26,8 @@
         onclick="showPage('homePage', this)"
         data-i18n="home">
   ホーム
-  </button>
+</button>
+
 
   <!-- Tabs container -->
   <div class="tabs-container">
@@ -47,8 +49,7 @@
     <div class="sec">Language</div>
     <div class="row">
       <div class="btn active" onclick="setLanguage('en')" id="lang_en">English</div>
-      <!-- use 'ja' (not 'jp') to match translations keys -->
-      <div class="btn" onclick="setLanguage('ja')" id="lang_ja">日本語</div>
+      <div class="btn" onclick="setLanguage('jp')" id="lang_jp">日本語</div>
     </div>
 
     <!-- Font Size -->
@@ -69,8 +70,7 @@
     <div class="sec" data-i18n="Timer">タイマー</div>
       <div class="row">
         <div class="timer-slider">
-          <!-- home range slider - unique id 'timerRange' -->
-          <input type="range" id="timerRange" min="1" max="30" value="8" oninput="updateSliderLabel()">
+          <input type="range" id="timerInput" min="1" max="30" value="8" oninput="updateSliderLabel()">
           <span id="sliderValue">8 min</span>
          </div>
       </div>
@@ -156,36 +156,21 @@
 <div id="page2" class="page" style="display:none;">  
 
   <div id="game-results"></div>
-   <div class="card">
+  
 
-  <label for="num-courts" class="courts-label">
-    Enter No. of Games
-  </label>
-
-  <input type="range"
-    id="num-courts"
-    min="1"
-    max="20"
-    value="1"
-    class="courts-slider">
-
-  <div id="courts-display">1</div>
-
-</div>
-
+<div class="card"><input type="number" id="num-courts" placeholder="Enter Number of Courts" min="1"></div>  
 <div class="round-navigation">
   <button id="prevBtn" onclick="prevRound()" disabled>« Round</button>
   <div id="roundTitle" onclick="RefreshRound()">R</div>
-  <button id="nextBtn" onclick="nextRound()" disabled>Round »</button>
-
+  <button id="nextBtn" onclick="nextRound()" disabled>Round »</button> 
   <!-- Timer Icon -->
   <span class="timer-icon" id="timerToggleBtn" onclick="toggleTimer()">⏱️ <span id="timerDisplay">08:00</span></span>
-  <!-- numeric minutes input uses unique id 'timerMinutes' -->
-  <input type="number" id="timerMinutes" value="8" min="1" class="hidden">
-
+  <input type="number" id="timerInput" value="8" min="1" class="hidden">
 </div>
 
 </div>
+
+
 
 <!-- Timer Sound -->
 <audio id="timerSound">
