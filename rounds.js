@@ -32,7 +32,14 @@ function resetRounds() {
   goToRounds();
   report(); 
 }
+const courtSelect = document.getElementById("num-courts");
 
+for (let i = 1; i <= 20; i++) {
+  const opt = document.createElement("option");
+  opt.value = i;
+  opt.textContent = i;
+  courtSelect.appendChild(opt);
+}
 const courtInput = document.getElementById("num-courts");
 courtInput.addEventListener("input", () => {
   const num = parseInt(courtInput.value.trim());
