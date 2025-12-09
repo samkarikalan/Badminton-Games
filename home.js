@@ -43,11 +43,11 @@ function setFontSize(size) {
   if (size === "medium") root.style.setProperty("--base-font-size", "15px");
   if (size === "large") root.style.setProperty("--base-font-size", "20px");
 
-  // Remove active from all buttons
-  document.querySelectorAll(".btn").forEach(el => {
+  // Only remove active from font-size buttons, not all .btn elements
+  document.querySelectorAll("#font_small, #font_medium, #font_large").forEach(el => {
     el.classList.remove("active");
   });
 
-  // Add active to selected button
+  // Add active to selected font size
   document.getElementById(`font_${size}`).classList.add("active");
 }
