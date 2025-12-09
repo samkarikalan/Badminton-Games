@@ -467,7 +467,59 @@ function updateFixedPairSelectors() {
     }
   });
 }
-function addFixedPair() {
+
+function modifyFixedPair(p1 = null, p2 = null) {
+  // If called from delete button (icon), values passed.
+  // If called from main button, read from selectors:
+  const p1 = document.getElementById('fixed-pair-1').value;
+  const p2 = document.getElementById('fixed-pair-2').value;
+  if (!p1 || !p2) {
+    p1 = document.getElementById('fixed-pair-1').value;
+    p2 = document.getElementById('fixed-pair-2').value;
+  }
+
+  if (!p1 || !p2) {
+    alert("Please select both players.");
+    return;
+  }
+
+  if (p1 === p2) {
+    alert("You cannot pair the same player with themselves.");
+    return;
+  }
+
+  const pairKey = [p1, p2].sort().join('&');
+
+  // Check if pair already exists
+  const index = schedulerState.fixedPairs.findIndex(
+    pair => pair.sort().join('&') === pairKey
+  );
+
+  // -------------------------
+  // REMOVE if exists
+  // -------------------------
+  if (index !== -1) {
+    schedulerState.fixedPairs.splice(index, 1);
+    removeFixedCard(pairKey);
+    updateFixedPairSelectors();
+    return;
+  }
+	
+function removeFixedCard(key) {
+  const card = document.querySelector(`[data-key="${key}"]`);
+  if (card) card.remove();
+}
+	
+  // -------------------------
+  // ADD if does not exist
+  // -------------------------
+  schedulerState.fixedPairs.push([p1, p2]);
+  addFixedCard(p1, p2, pairKey);
+  updateFixedPairSelectors();
+}
+
+
+function addFixedPairold() {
   const p1 = document.getElementById('fixed-pair-1').value;
   const p2 = document.getElementById('fixed-pair-2').value;
   if (!p1 || !p2) {
