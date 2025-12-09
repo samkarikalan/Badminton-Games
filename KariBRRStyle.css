@@ -842,7 +842,7 @@ button {
 
 
 
-.row-field {
+.row-fieldold {
   display: flex;
   align-items: center;
   gap: 12px;            /* spacing between label and dropdown */
@@ -853,6 +853,23 @@ button {
   width: 120px;         /* adjust based on your layout */
   font-size: 0.95rem;
   color: #333;
+}
+
+.row-field {
+  display: grid;
+  grid-template-columns: 55px 55px 1fr ;
+  /*   sl    name   delete  */
+
+  align-items: center;
+  gap: 8px;
+
+  font-size: 1.25rem;
+  padding: 8px 15px;
+  border-radius: 1.5rem;
+  border: 1px solid #ccc;
+  margin: 5px 0;
+  background: B5EBDD;
+  transition: 0.25s ease;
 }
 
 .court-select {
