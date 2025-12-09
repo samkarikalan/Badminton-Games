@@ -840,6 +840,14 @@ button {
   display: none;
 }
 
+.court-select {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #fff;
+}
 .field-label {
   display: block;
   margin-bottom: 6px;
