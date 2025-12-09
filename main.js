@@ -1,3 +1,5 @@
+let lastPage = null;
+
 function showPage(pageID, el) {
   // Hide all pages
   document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
@@ -15,14 +17,20 @@ function showPage(pageID, el) {
 	     resetRounds();
 		 //goToRounds();
      } else {
-     //goToRounds();
+		 if (lastPage === "page1") {
+          goToRounds();
+		 }
      }
    }
   
 	if (pageID === "page3") {
      report();
    }
+	 // Update last visited page
+  lastPage = pageID;
 }
+	
+
 
 
 
