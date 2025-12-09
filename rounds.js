@@ -20,18 +20,7 @@ let schedulerState = {
 	markingWinnerMode: false,
 };
 
-function ResetAll() {
-  location.reload(); // This refreshes the entire app clean
-}
 
-function resetRounds() {
-  // 1️⃣ Clear all previous rounds
-  allRounds.length = 0;
-  initScheduler(1);  
-  clearPreviousRound();
-  goToRounds();
-  report(); 
-}
 const courtSelect = document.getElementById("num-courts");
 
 for (let i = 1; i <= 20; i++) {
