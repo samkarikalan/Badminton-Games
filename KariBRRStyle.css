@@ -865,7 +865,7 @@ button {
 
 .fixed-card {
   display: grid;
-  grid-template-columns: 35px 1fr 55px;
+  grid-template-columns: 1fr 55px;
   /*   sl    name   delete  */
 
   align-items: center;
@@ -876,7 +876,7 @@ button {
   border-radius: 1.5rem;
   border: 1px solid #ccc;
   margin: 5px 0;
-  background: black;
+  background: B5EBDD;
   transition: 0.25s ease;
 }
 
