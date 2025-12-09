@@ -54,7 +54,9 @@ function setFontSize(size) {
 
 function ResetAll() {
   location.reload(); // This refreshes the entire app clean
+  document.getElementById("reset_all").classList.remove("active");
 }
+
 
 function resetRounds() {
   // 1️⃣ Clear all previous rounds
@@ -63,4 +65,6 @@ function resetRounds() {
   clearPreviousRound();
   goToRounds();
   report(); 
+  document.getElementById("reset_rounds").classList.remove("active");
 }
+
