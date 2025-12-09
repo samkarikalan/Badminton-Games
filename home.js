@@ -51,3 +51,16 @@ function setFontSize(size) {
   // Add active to selected font size
   document.getElementById(`font_${size}`).classList.add("active");
 }
+
+function ResetAll() {
+  location.reload(); // This refreshes the entire app clean
+}
+
+function resetRounds() {
+  // 1️⃣ Clear all previous rounds
+  allRounds.length = 0;
+  initScheduler(1);  
+  clearPreviousRound();
+  goToRounds();
+  report(); 
+}
