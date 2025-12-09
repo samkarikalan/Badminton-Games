@@ -862,3 +862,46 @@ button {
   border: 1px solid #ccc;
   border-radius: 6px;
 }
+
+.fixed-card {
+  display: grid;
+  grid-template-columns: 35px 1fr 55px;
+  /*   sl    name   delete  */
+
+  align-items: center;
+  gap: 8px;
+
+  font-size: 1.25rem;
+  padding: 8px 15px;
+  border-radius: 1.5rem;
+  border: 1px solid #ccc;
+  margin: 5px 0;
+  background: #fafafa;
+  transition: 0.25s ease;
+}
+
+/* Serial number (or bullet) */
+.fixed-sl {
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Name */
+.fixed-name {
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.3rem;
+}
+
+/* Delete button container */
+.fixed-delete {
+  text-align: right;
+}
+
+/* Use your existing delete style */
+.fixed-delete .delete {
+  all: unset;
+  font-size: 25px;
+  cursor: pointer;
+  line-height: 1;
+}
