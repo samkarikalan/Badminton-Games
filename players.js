@@ -519,7 +519,7 @@ function addFixedCard(p1, p2, key) {
   card.setAttribute("data-key", key);
 
   card.innerHTML = `
-    <div class="fixed-sl">•</div>
+    
     <div class="fixed-name">${p1} & ${p2}</div>
     <div class="fixed-delete">
       <button class="pec-btn delete"
