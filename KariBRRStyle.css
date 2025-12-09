@@ -842,14 +842,14 @@ button {
 
 .court-select {
   width: 100%;
-  padding: 10px;
+  padding: 2px;
   font-size: 1rem;
   border-radius: 6px;
   border: 1px solid #ccc;
   background: #fff;
 }
 .field-label {
-  display: block;
+  display: flex;
   margin-bottom: 6px;
   font-size: 0.9rem;
   color: #444;
