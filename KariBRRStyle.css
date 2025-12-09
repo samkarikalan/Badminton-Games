@@ -840,19 +840,25 @@ button {
   display: none;
 }
 
-.court-select {
-  width: 100%;
-  padding: 2px;
-  font-size: 1rem;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  background: #fff;
-}
-.field-label {
+
+
+.row-field {
   display: flex;
-  margin-bottom: 6px;
-  font-size: 0.9rem;
-  color: #444;
+  align-items: center;
+  gap: 12px;            /* spacing between label and dropdown */
+  margin: 8px 0;
 }
 
+.row-label {
+  width: 120px;         /* adjust based on your layout */
+  font-size: 0.95rem;
+  color: #333;
+}
 
+.court-select {
+  flex: 1;
+  padding: 2px 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
