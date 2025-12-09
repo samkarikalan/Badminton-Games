@@ -137,15 +137,17 @@
   <select id="num-courts" class="court-select">
     <option value="" disabled selected>Select</option>
   </select>
+  <!-- Timer Icon -->
+  <span class="timer-icon" id="timerToggleBtn" onclick="toggleTimer()">⏱️ <span id="timerDisplay">08:00</span></span>
+  <input type="number" id="timerInput" value="8" min="1" class="hidden">
 </div>
   
 <div class="round-navigation">
   <button id="prevBtn" onclick="prevRound()" disabled data-i18n="pround"></button>  
   <div id="roundTitle" onclick="RefreshRound()">R</div>
   <button id="nextBtn" onclick="nextRound()" disabled data-i18n="nround"></button>  
-  <!-- Timer Icon -->
-  <span class="timer-icon" id="timerToggleBtn" onclick="toggleTimer()">⏱️ <span id="timerDisplay">08:00</span></span>
-  <input type="number" id="timerInput" value="8" min="1" class="hidden">
+  
+  
 </div>
 
 </div>
