@@ -471,8 +471,6 @@ function updateFixedPairSelectors() {
 function modifyFixedPair(p1 = null, p2 = null) {
   // If called from delete button (icon), values passed.
   // If called from main button, read from selectors:
-  const p1 = document.getElementById('fixed-pair-1').value;
-  const p2 = document.getElementById('fixed-pair-2').value;
   if (!p1 || !p2) {
     p1 = document.getElementById('fixed-pair-1').value;
     p2 = document.getElementById('fixed-pair-2').value;
@@ -504,12 +502,7 @@ function modifyFixedPair(p1 = null, p2 = null) {
     updateFixedPairSelectors();
     return;
   }
-	
-function removeFixedCard(key) {
-  const card = document.querySelector(`[data-key="${key}"]`);
-  if (card) card.remove();
-}
-	
+
   // -------------------------
   // ADD if does not exist
   // -------------------------
@@ -518,6 +511,29 @@ function removeFixedCard(key) {
   updateFixedPairSelectors();
 }
 
+function addFixedCard(p1, p2, key) {
+  const list = document.getElementById('fixed-pair-list');
+
+  const card = document.createElement("div");
+  card.className = "fixed-card";
+  card.setAttribute("data-key", key);
+
+  card.innerHTML = `
+    <div class="fixed-sl">•</div>
+    <div class="fixed-name">${p1} & ${p2}</div>
+    <div class="fixed-delete">
+      <button class="pec-btn delete"
+              onclick="modifyFixedPair('${p1}', '${p2}')">🗑</button>
+    </div>
+  `;
+
+  list.appendChild(card);
+}
+
+function removeFixedCard(key) {
+  const card = document.querySelector(`[data-key="${key}"]`);
+  if (card) card.remove();
+}
 
 function addFixedPairold() {
   const p1 = document.getElementById('fixed-pair-1').value;
