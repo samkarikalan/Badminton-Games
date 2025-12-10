@@ -1,7 +1,9 @@
 let timerInterval;
 let remainingSeconds = 0;
 let isRunning = false;
-let alarmTimeout = null;
+
+let alarmTimeout = null;        // stops alarm after 30 sec
+let alarmRepeatTimeout = null;  // stops individual repeats
 
 /* ================================
    MOBILE AUDIO UNLOCK
@@ -18,18 +20,15 @@ function unlockAudio() {
       sound.pause();
       sound.currentTime = 0;
       audioUnlocked = true;
-      console.log("Audio unlocked");
     })
-    .catch(() => {
-      console.log("Unlock failed (normal on first try)");
-    });
+    .catch(() => {});
 }
 
 /* ================================
    TIMER TOGGLE
 ================================ */
 function toggleTimer() {
-  unlockAudio();   // <<< REQUIRED for mobile sound
+  unlockAudio();  // required for mobile
 
   if (!isRunning) {
     startTimerAlwaysReset();
@@ -47,6 +46,9 @@ function startTimerAlwaysReset() {
   timerInterval = setInterval(runTimer, 1000);
 
   document.getElementById("timerToggleBtn").classList.add("running");
+
+  stopAlarm(); // ensure clean start
+
   isRunning = true;
 }
 
@@ -55,7 +57,7 @@ function stopTimer() {
   document.getElementById("timerToggleBtn").classList.remove("running");
   isRunning = false;
 
-  stopAlarm();  // stop all sound immediately
+  stopAlarm(); // stop alarm immediately
 }
 
 /* ================================
@@ -79,12 +81,11 @@ function updateDisplay() {
 }
 
 /* ================================
-   MOBILE-SAFE BEEP REPEATER
+   MOBILE-SAFE ALARM
 ================================ */
 function playBeep() {
   const sound = document.getElementById("timerSound");
-
-  stopAlarm(); // clean state
+  stopAlarm(); // reset all before starting
 
   let count = 0;
 
@@ -93,14 +94,13 @@ function playBeep() {
     sound.play().catch(() => {});
 
     count++;
-    if (count < 20) { 
-      setTimeout(playOnce, 1500); // repeat without loop
+    if (count < 20) {
+      alarmRepeatTimeout = setTimeout(playOnce, 1500);
     }
   }
 
   playOnce();
 
-  // stop after ~30 sec (20 repeats)
   alarmTimeout = setTimeout(() => {
     stopAlarm();
   }, 30000);
@@ -108,11 +108,19 @@ function playBeep() {
 
 function stopAlarm() {
   const sound = document.getElementById("timerSound");
+
   sound.pause();
   sound.currentTime = 0;
 
-  clearTimeout(alarmTimeout);
-  alarmTimeout = null;
+  if (alarmTimeout) {
+    clearTimeout(alarmTimeout);
+    alarmTimeout = null;
+  }
+
+  if (alarmRepeatTimeout) {
+    clearTimeout(alarmRepeatTimeout);
+    alarmRepeatTimeout = null;
+  }
 }
 
 /* ================================
