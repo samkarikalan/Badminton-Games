@@ -57,7 +57,12 @@ function stopTimer() {
   document.getElementById("timerToggleBtn").classList.remove("running");
   isRunning = false;
 
-  stopAlarm(); // stop alarm immediately
+  stopAlarm();   // stop sound
+
+  // 🔥 Reset countdown back to selected minutes
+  const mins = parseInt(document.getElementById("timerInput").value) || 8;
+  remainingSeconds = mins * 60;
+  updateDisplay();
 }
 
 /* ================================
