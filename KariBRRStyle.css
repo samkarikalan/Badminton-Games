@@ -819,7 +819,6 @@ button {
 }
 
 /* Timer icon beside Round » */
-
 .timer-icon {
   cursor: pointer;
   background: #e0f2fe;
@@ -827,8 +826,11 @@ button {
   border-radius: 20px;
   font-size: 16px;
   user-select: none;
-  display: inline-flex;
-  align-items: center;
+
+  display: inline-flex;        /* keeps it inline but flex-enabled */
+  align-items: center;         /* vertical center */
+  justify-content: center;     /* horizontal center */
+  
   gap: 6px;
   transition: background 0.2s;
 }
@@ -851,7 +853,7 @@ button {
 
 .row-label {
   width: 120px;         /* adjust based on your layout */
-  font-size: 0.95rem;
+  font-size: 1.1rem;
   color: #333;
 }
 
