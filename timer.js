@@ -54,6 +54,8 @@ function stopTimer() {
   clearInterval(timerInterval);
   document.getElementById("timerToggleBtn").classList.remove("running");
   isRunning = false;
+
+  stopAlarm();  // stop all sound immediately
 }
 
 /* ================================
