@@ -819,9 +819,29 @@ button {
 }
 
 /* Timer icon beside Round » */
+.row-field {
+  display: grid;
+  grid-template-columns: 75px 120px 1fr ;
+  /*   sl    name   delete  */
+
+  align-items: center;
+  gap: 8px;
+
+  font-size: 1.25rem;
+  padding: 8px 15px;
+  border-radius: 1.5rem;
+  border: 1px solid #ccc;
+  margin: 5px 0;
+  background: B5EBDD;
+  transition: 0.25s ease;
+}
+
 .timer-icon {
   cursor: pointer;
-  background: #e0f2fe;
+  background: #d7efff;   /* softer, richer */
+  border-color: #90caf9; 
+  color: #0f172a;
+  
   padding: 6px 10px;
   border-radius: 20px;
   font-size: 1.2rem;
@@ -850,22 +870,7 @@ button {
   color: #333;
 }
 
-.row-field {
-  display: grid;
-  grid-template-columns: 55px 100px 1fr ;
-  /*   sl    name   delete  */
 
-  align-items: center;
-  gap: 8px;
-
-  font-size: 1.25rem;
-  padding: 8px 15px;
-  border-radius: 1.5rem;
-  border: 1px solid #ccc;
-  margin: 5px 0;
-  background: B5EBDD;
-  transition: 0.25s ease;
-}
 
 .court-select {
   flex: 1;
