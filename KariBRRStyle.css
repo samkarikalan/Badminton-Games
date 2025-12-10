@@ -877,7 +877,7 @@ button {
 
 
 
-.court-select {
+.court-selectold {
   flex: 1;
   padding: 1px 1px;
   font-size: 1.1em;
@@ -885,6 +885,12 @@ button {
   border-radius: 6px;
 }
 
+.court-select {
+  display: inline-flex;
+  padding: 1px 3px;
+  line-height: 1;
+  margin: -1px 0;
+}
 .fixed-card {
   display: grid;
   grid-template-columns: 1fr 55px;
