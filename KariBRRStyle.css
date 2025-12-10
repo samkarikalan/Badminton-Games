@@ -819,9 +819,14 @@ button {
 }
 
 /* Timer icon beside Round » */
+/*display: grid;
+  grid-template-columns: 60px 1fr minmax(60px, auto) minmax(60px, auto);
+  align-items: center;
+  gap: 10px;*/
+
 .row-field {
   display: grid;
-  grid-template-columns: 75px 120px 1fr ;
+  grid-template-columns: 75px auto auto ;
   /*   sl    name   delete  */
 
   align-items: center;
@@ -874,7 +879,7 @@ button {
 
 .court-select {
   flex: 1;
-  padding: 1px 5px;
+  padding: 1px 1px;
   font-size: 1.1em;
   border: 1px solid #ccc;
   border-radius: 6px;
