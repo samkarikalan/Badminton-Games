@@ -49,7 +49,8 @@ document.getElementById("courtMinus").onclick = () => {
 
 
 function goToRounds() {
-  const numCourtsInput = parseInt(document.getElementById('num-courts').value);
+  const numCourtsInput = parseInt(document.getElementById("num-courts").textContent);
+  //const numCourtsInput = parseInt(document.getElementById('num-courts').value);
   const totalPlayers = schedulerState.activeplayers.length;
   if (!totalPlayers) {
     alert('Please add players first!');
