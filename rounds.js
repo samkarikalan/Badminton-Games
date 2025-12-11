@@ -34,6 +34,7 @@ let courts = 1;
 
 function updateCourtDisplay() {
   document.getElementById("num-courts").textContent = courts;
+  goToRounds(); // auto trigger
 }
 
 document.getElementById("courtPlus").onclick = () => {
@@ -45,14 +46,6 @@ document.getElementById("courtMinus").onclick = () => {
   if (courts > 1) courts--;
   updateCourtDisplay();
 };
-
-const courtInput = document.getElementById("num-courts");
-courtInput.addEventListener("input", () => {
-  const num = parseInt(courtInput.value.trim());
-  if (num > 0) {
-    goToRounds();
-  }
-});
 
 
 function goToRounds() {
