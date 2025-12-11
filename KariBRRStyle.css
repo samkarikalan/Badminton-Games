@@ -891,14 +891,20 @@ button {
   line-height: 1;
   margin: -1px 0;
 }
-.court-roller {
-  width: 70px;          /* compact width */
-  height: 110px;        /* small fixed height */
+.roller-box {
+  height: 32px;          /* fixed height */
+  overflow: hidden;      /* hides extra options */
+  border-radius: 6px;
+}
+
+.roller-select {
+  width: 60px;
+  height: 32px;          /* same height as box */
   font-size: 1em;
   border-radius: 6px;
   padding: 2px 4px;
-  overflow-y: auto;      /* scroll only inside, not whole page */
   background: #f7f7f7;
+  appearance: none;      /* clean neutral look */
 }
 
 .fixed-card {
