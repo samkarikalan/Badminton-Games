@@ -20,7 +20,7 @@ let schedulerState = {
 	markingWinnerMode: false,
 };
 
-
+/*
 const courtSelect = document.getElementById("num-courts");
 
 for (let i = 1; i <= 20; i++) {
@@ -29,6 +29,23 @@ for (let i = 1; i <= 20; i++) {
   opt.textContent = i;
   courtSelect.appendChild(opt);
 }
+*/
+let courts = 1;
+
+function updateCourtDisplay() {
+  document.getElementById("num-courts").textContent = courts;
+}
+
+document.getElementById("courtPlus").onclick = () => {
+  courts++;
+  updateCourtDisplay();
+};
+
+document.getElementById("courtMinus").onclick = () => {
+  if (courts > 1) courts--;
+  updateCourtDisplay();
+};
+
 const courtInput = document.getElementById("num-courts");
 courtInput.addEventListener("input", () => {
   const num = parseInt(courtInput.value.trim());
