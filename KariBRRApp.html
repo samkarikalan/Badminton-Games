@@ -133,14 +133,16 @@
     data-i18n-placeholder="maxcourts"></div>  -->
 <div class="row-field">
   <label for="num-courts" class="row-label">Courts</label>
-  <select id="num-courts" class="court-roller" size="5">
-  <option value="" disabled selected>--</option>
-  <script>
-    for (let i = 1; i <= 20; i++) {
-      document.write(`<option value="${i}">${i}</option>`);
-    }
-  </script>
-</select>
+  <div class="roller-box">
+  <select id="num-courts" class="roller-select">
+    <option value="" disabled selected>--</option>
+    <script>
+      for (let i = 1; i <= 20; i++) {
+        document.write(`<option value="${i}">${i}</option>`);
+      }
+    </script>
+  </select>
+</div>
   <!--
   <select id="num-courts" class="court-select">
     <option value="" disabled selected>Select</option>
