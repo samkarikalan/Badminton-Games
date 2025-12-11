@@ -514,11 +514,11 @@ button {
   transition: transform 0.2s, background 0.2s;
   cursor: grab;
 
-  width: fit-content;       /* grows with text length */
-  max-width: 100%;          /* stops at parent width */
-  white-space: nowrap;      /* keep in single line */
-  overflow: hidden;         /* hide overflow */
-  text-overflow: ellipsis;  /* add ... when overflow */
+  width: fit-content;   /* grows with text */
+  max-width: 100%;      /* parent decides max width */
+  
+  white-space: normal;  /* ⭐ ALLOWS MULTI-LINE */
+  overflow-wrap: break-word; /* wrap long names */
 }
 .Lplayer-btn {
   background: #28a745;
