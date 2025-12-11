@@ -907,6 +907,51 @@ button {
   appearance: none;      /* clean neutral look */
 }
 
+.court-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 260px;
+  padding: 16px 22px;
+  border-radius: 18px;
+  background: linear-gradient(to bottom right, #d6efff, #b3e0ff);
+  border: 4px solid #006aa8;
+  font-size: 28px;
+  font-weight: 700;
+  color: #000;
+}
+
+.court-label {
+  margin-right: 8px;
+}
+
+#num-courts {
+  margin-right: auto;
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+.court-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  font-size: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  background: #0d8b52;
+  color: white;
+}
+
+.minus {
+  background: #f05d5d;
+}
+
+.plus {
+  background: #0d8b52;
+}
+
+
 .fixed-card {
   display: grid;
   grid-template-columns: 1fr 55px;
