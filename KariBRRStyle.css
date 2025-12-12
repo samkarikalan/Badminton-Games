@@ -500,10 +500,20 @@ button {
   cursor: grab;
 }
 */
+.rest-btn {  
+  border: none;
+  border-radius: 0.375rem;
+  font-size: var(--player-font-size);
+  padding: 0.25rem;
+  margin: 0.25rem 0;
+  color: #000000;
+  text-align: center;
+  transition: transform 0.2s, background 0.2s;
+  cursor: grab;
+}
 
 .Lplayer-btn,
-.Rplayer-btn,
-.rest-btn {
+.Rplayer-btn {
   border: none;
   border-radius: 0.375rem;
   font-size: var(--player-font-size);
@@ -522,6 +532,12 @@ button {
 
   white-space: normal;    /* MULTI-LINE enabled */
   overflow-wrap: break-word; /* wraps long names */
+}
+
+.Lplayer-btn,
+.Rplayer-btn,
+.rest-btn {
+  touch-action: manipulation;  
 }
 .Lplayer-btn {
   background: #28a745;
