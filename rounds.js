@@ -30,7 +30,7 @@ for (let i = 1; i <= 20; i++) {
   courtSelect.appendChild(opt);
 }
 */
-let courts = 1;
+let courts = 0;
 
 function updateCourtDisplay() {
   document.getElementById("num-courts").textContent = courts;
