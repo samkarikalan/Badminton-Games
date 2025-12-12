@@ -77,11 +77,19 @@ body {
 }
 
 /* Right Side */
-.modal-right {
+.modal-rightold{
   width: 35%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.modal-right {
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* FIXED */
+  gap: 20px;                   /* keeps spacing clean */
 }
 
 /* Radio buttons */
