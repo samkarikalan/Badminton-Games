@@ -31,7 +31,7 @@ for (let i = 1; i <= 20; i++) {
 }
 */
 let courts = 0;
-
+/*
 function updateCourtDisplay() {
   document.getElementById("num-courts").textContent = courts;
   goToRounds(); // auto trigger
@@ -46,6 +46,58 @@ document.getElementById("courtMinus").onclick = () => {
   if (courts > 1) courts--;
   updateCourtDisplay();
 };
+*/
+function updateCourtDisplay() {
+  document.getElementById("num-courts").textContent = courts;
+  updateCourtButtons(); // update both + and -
+  goToRounds(); // auto trigger
+}
+
+// PLUS button
+document.getElementById("courtPlus").onclick = () => {
+  const totalPlayers = schedulerState.activeplayers.length;
+  const allowedCourts = Math.floor(totalPlayers / 4);
+
+  if (courts < allowedCourts) {
+    courts++;
+    updateCourtDisplay();
+  }
+};
+
+// MINUS button
+document.getElementById("courtMinus").onclick = () => {
+  if (courts > 1) {
+    courts--;
+    updateCourtDisplay();
+  }
+};
+
+// Enable / disable buttons
+function updateCourtButtons() {
+  const totalPlayers = schedulerState.activeplayers.length;
+  const allowedCourts = Math.floor(totalPlayers / 4);
+
+  const plusBtn = document.getElementById("courtPlus");
+  const minusBtn = document.getElementById("courtMinus");
+
+  // PLUS disable logic
+  if (courts >= allowedCourts) {
+    plusBtn.disabled = true;
+    plusBtn.classList.add("disabled-btn");
+  } else {
+    plusBtn.disabled = false;
+    plusBtn.classList.remove("disabled-btn");
+  }
+
+  // MINUS disable logic
+  if (courts <= 1) {
+    minusBtn.disabled = true;
+    minusBtn.classList.add("disabled-btn");
+  } else {
+    minusBtn.disabled = false;
+    minusBtn.classList.remove("disabled-btn");
+  }
+}
 
 
 function goToRounds() {
