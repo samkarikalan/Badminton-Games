@@ -999,6 +999,10 @@ button {
   background: #0d8b52;
 }
 
+.disabled-btn {
+  opacity: 0.4;
+  pointer-events: none;
+}
 .court-card {
   display: flex;
   align-items: center;
