@@ -10,8 +10,8 @@
   <script src="players.js" defer></script>
   <script src="rounds.js" defer></script>
 
-<script src="script-2.js" defer></script>
-<script src="script-3.js" defer></script>
+<script src="games.js" defer></script>
+<script src="engjap.js" defer></script>
 <script src="timer.js" defer></script>
 
 </head>
@@ -132,8 +132,10 @@
   <input type="number" id="num-courts" 
     data-i18n-placeholder="maxcourts"></div>  -->
 <div class="row-field">
-  <label for="num-courts" class="row-label">Courts</label>
+  
   <div class="court-card">
+    <label for="num-courts" class="row-label" data-i18n="courts"></label>
+
   <button class="circle-btn" id="courtMinus">−</button>
 
   <span id="num-courts">1</span>

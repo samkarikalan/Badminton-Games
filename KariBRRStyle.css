@@ -874,30 +874,79 @@ button {
 
 .row-field {
   display: grid;
-  grid-template-columns: 75px auto auto ;
+  grid-template-columns:  auto auto ;
   /*   sl    name   delete  */
-
   align-items: center;
-  gap: 8px;
-
-  font-size: 1.25rem;
-  padding: 8px 15px;
+  gap: 15px;   
+  padding: 5px 5px;
   border-radius: 1.5rem;
   border: 1px solid #ccc;
-  margin: 5px 0;
+  margin: 1px 0;
   background: B5EBDD;
   transition: 0.25s ease;
+}
+
+.court-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(to bottom right, #d6f0ff, #b8e0f8);
+  border: 1px solid #0a66a3;
+  border-radius: 1.5rem;
+  padding: 5px 5px;
+  width: fit-content;
+  font-family: sans-serif;
+}
+.row-label {
+  width: auto;         /* adjust based on your layout */
+  font-size: 17px;
+  padding: 5px 5px;
+  color: #333;
+}
+
+.minus {
+  background: #f05d5d;
+}
+
+.plus {
+  background: #0d8b52;
+}
+
+.disabled-btn {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+
+#num-courts {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.circle-btn {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: none;
+  background: #1a8656;
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;  
+  
 }
 
 .timer-icon {
   cursor: pointer;
   background: #d7efff;   /* softer, richer */
+  border: 1px solid #0a66a3;
   border-color: #90caf9; 
   color: #0f172a;
   
-  padding: 6px 10px;
+  padding: 6px 5px;
   border-radius: 20px;
-  font-size: 1.2rem;
+  font-size: 20px;
   user-select: none;
 
   display: inline-flex;        /* keeps it inline but flex-enabled */
@@ -917,122 +966,7 @@ button {
 
 
 
-.row-label {
-  width: 120px;         /* adjust based on your layout */
-  font-size: 1.1rem;
-  color: #333;
-}
 
-
-
-.court-selectold {
-  flex: 1;
-  padding: 1px 1px;
-  font-size: 1.1em;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-}
-
-.court-select {
-  display: inline-flex;
-  padding: 1px 3px;
-  line-height: 1;
-  margin: -1px 0;
-}
-.roller-box {
-  height: 32px;          /* fixed height */
-  overflow: hidden;      /* hides extra options */
-  border-radius: 6px;
-}
-
-.roller-select {
-  width: 60px;
-  height: 32px;          /* same height as box */
-  font-size: 1em;
-  border-radius: 6px;
-  padding: 2px 4px;
-  background: #f7f7f7;
-  appearance: none;      /* clean neutral look */
-}
-
-.court-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 260px;
-  padding: 16px 22px;
-  border-radius: 18px;
-  background: linear-gradient(to bottom right, #d6efff, #b3e0ff);
-  border: 4px solid #006aa8;
-  font-size: 28px;
-  font-weight: 700;
-  color: #000;
-}
-
-.court-label {
-  margin-right: 8px;
-}
-
-#num-courts {
-  margin-right: auto;
-  margin-left: 10px;
-  font-weight: bold;
-}
-
-.court-btn {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: none;
-  font-size: 30px;
-  font-weight: bold;
-  cursor: pointer;
-  background: #0d8b52;
-  color: white;
-}
-
-.minus {
-  background: #f05d5d;
-}
-
-.plus {
-  background: #0d8b52;
-}
-
-.disabled-btn {
-  opacity: 0.4;
-  pointer-events: none;
-}
-.court-card {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-
-  background: linear-gradient(to bottom right, #d6f0ff, #b8e0f8);
-  border: 1px solid #0a66a3;
-  border-radius: 5px;
-  padding: 5px 5px;
-  width: fit-content;
-  font-family: sans-serif;
-}
-
-#num-courts {
-  font-size: 1.1rem;
-  font-weight: 700;
-}
-
-.circle-btn {
-  width: 1.5rem;
-  height: 1.5rem;
-  border-radius: 50%;
-  border: none;
-  background: #1a8656;
-  color: white;
-  font-size: 1.1rem;
-  font-weight: bold;
-  cursor: pointer;
-}
 
 
 .fixed-card {

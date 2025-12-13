@@ -20,33 +20,10 @@ let schedulerState = {
 	markingWinnerMode: false,
 };
 
-/*
-const courtSelect = document.getElementById("num-courts");
 
-for (let i = 1; i <= 20; i++) {
-  const opt = document.createElement("option");
-  opt.value = i;
-  opt.textContent = i;
-  courtSelect.appendChild(opt);
-}
-*/
-let courts = 0;
-/*
-function updateCourtDisplay() {
-  document.getElementById("num-courts").textContent = courts;
-  goToRounds(); // auto trigger
-}
 
-document.getElementById("courtPlus").onclick = () => {
-  courts++;
-  updateCourtDisplay();
-};
+let courts = 1;
 
-document.getElementById("courtMinus").onclick = () => {
-  if (courts > 1) courts--;
-  updateCourtDisplay();
-};
-*/
 function updateCourtDisplay() {
   document.getElementById("num-courts").textContent = courts;
   updateCourtButtons(); // update both + and -
