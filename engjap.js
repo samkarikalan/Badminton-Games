@@ -75,7 +75,7 @@ const translations = {
     selectPlayer2: "プレーヤー2を選択",
     small: "小",
     medium: "中",
-    large: "中",
+    large: "大",
     maxcourts: "コートの数を入力してください",
     sittingOut: "休憩中:",
     courts: "コート"
