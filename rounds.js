@@ -2,6 +2,7 @@
 let allRounds = [];
 let currentRoundIndex = 0;
 let isOnPage2 = false;
+let resetRest = false;
 
 let schedulerState = {
     numCourts: 0,
@@ -28,6 +29,9 @@ function updateCourtDisplay() {
   document.getElementById("num-courts").textContent = courts;
   updateCourtButtons(); // update both + and -
   goToRounds(); // auto trigger
+  const totalPlayers = schedulerState.activeplayers.length;
+  const rest = totalPlayers
+  if 
 }
 
 // PLUS button
