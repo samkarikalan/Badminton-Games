@@ -148,7 +148,7 @@ body {
 }
 
 .courts-slider {
-  width: 80%;
+  width: 90%;
   margin: 10px 0;
 }
 
@@ -964,8 +964,20 @@ button {
   display: none;
 }
 
+.timer-slider {
+  width: 90%;
+  margin: 0 auto;   /* centers it */
+}
 
+.timer-slider input[type="range"] {
+  width: 100%;      /* slider fills the container */
+}
 
+.sec {
+  font-size: 14px;
+  text-align: center;
+  padding: 3px; 
+}
 
 
 
