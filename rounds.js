@@ -206,6 +206,35 @@ function updateScheduler() {
     
 }
 
+/* ================================
+   🔁 1-3-2-4 QUEUE REORDER (GUARDED)
+================================ */
+
+function reorder1324(queue) {
+  const total = queue.length;
+  const quarter = Math.floor(total / 4);
+
+  const q1 = queue.slice(0, quarter);
+  const q2 = queue.slice(quarter, quarter * 2);
+  const q3 = queue.slice(quarter * 2, quarter * 3);
+  const q4 = queue.slice(quarter * 3);
+
+  return [...q1, ...q3, ...q2, ...q4];
+}
+
+// 🔍 check if ALL pairs exhausted
+function allPairsExhausted(queue, pairPlayedSet) {
+  for (let i = 0; i < queue.length; i++) {
+    for (let j = i + 1; j < queue.length; j++) {
+      const key = [queue[i], queue[j]].sort().join("&");
+      if (!pairPlayedSet.has(key)) return false;
+    }
+  }
+  return true;
+}
+
+
+
 function updSchedule(roundIndex, schedulerState) {
   const data = allRounds[roundIndex];
   if (!data) return;
@@ -295,6 +324,16 @@ for (const r of resting) {
       playedTogether.set(key, roundIndex); // <<-- IMPORTANT FIX
     }
   }
+
+	// ✅ EXECUTE ONLY WHEN BOTH CONDITIONS ARE TRUE
+if ( resetRest === true &&
+  allPairsExhausted(schedulerState.restQueue, pairPlayedSet)
+) {
+  schedulerState.restQueue = reorder1324(schedulerState.restQueue);
+
+  // optional: prevent repeated execution
+  schedulerState.resetRest = false;
+}
 }
 
 function createRestQueue() {
