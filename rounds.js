@@ -378,7 +378,7 @@ for (const r of resting) {
   // ensure A&B:C&D === C&D:A&B
   const gameKey = [p1, p2].sort().join(":");
 
-  gameMap.add(gameKey);
+  gamesMap.add(gameKey);
 }
 
 	// ✅ EXECUTE ONLY WHEN BOTH CONDITIONS ARE TRUE
