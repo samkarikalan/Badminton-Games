@@ -29,9 +29,17 @@ function updateCourtDisplay() {
   document.getElementById("num-courts").textContent = courts;
   updateCourtButtons(); // update both + and -
   goToRounds(); // auto trigger
-  const totalPlayers = schedulerState.activeplayers.length;
-  const rest = totalPlayers
-  if 
+
+  const totalPlayers = activeplayers.length;
+  const numPlayersPerRound = courts * 4;
+  const numResting = Math.max(totalPlayers - numPlayersPerRound, 0);
+
+  if (numResting >= numPlayersPerRound) {
+    resetRest = true;
+  } else {
+    resetRest = false;
+  }
+	
 }
 
 // PLUS button
