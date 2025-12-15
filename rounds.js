@@ -175,7 +175,7 @@ function initScheduler(numCourts) {
   schedulerState.playedTogether = new Map();
   schedulerState.fixedMap = new Map();
   schedulerState.pairPlayedSet = new Set();
-  schedulerState.gamesMap= new Map(),
+  schedulerState.gamesMap = new Set();
   schedulerState.roundIndex = 0;
   // 🆕 Initialize opponentMap — nested map for opponent counts
   schedulerState.opponentMap = new Map();
