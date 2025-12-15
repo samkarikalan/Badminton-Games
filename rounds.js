@@ -30,7 +30,7 @@ function updateCourtDisplay() {
   updateCourtButtons(); // update both + and -
   goToRounds(); // auto trigger
 
-  const totalPlayers = activeplayers.length;
+  const totalPlayers = schedulerState.activeplayers.length;
   const numPlayersPerRound = courts * 4;
   const numResting = Math.max(totalPlayers - numPlayersPerRound, 0);
 
@@ -332,7 +332,7 @@ if ( resetRest === true &&
   schedulerState.restQueue = reorder1324(schedulerState.restQueue);
 
   // optional: prevent repeated execution
-  schedulerState.resetRest = false;
+  //schedulerState.resetRest = false;
 }
 }
 
