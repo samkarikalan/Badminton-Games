@@ -17,7 +17,8 @@ let schedulerState = {
     fixedMap: new Map(),
     roundIndex: 0,
     pairPlayedSet: new Set(),
-    opponentMap: new Map(), // 🆕 per-player opponent tracking
+	pairPlayedSet: new Set(),
+    gamesMap: new Map(), // 🆕 per-player opponent tracking
 	markingWinnerMode: false,
 };
 
@@ -174,6 +175,7 @@ function initScheduler(numCourts) {
   schedulerState.playedTogether = new Map();
   schedulerState.fixedMap = new Map();
   schedulerState.pairPlayedSet = new Set();
+  schedulerState.gamesMap= new Map(),
   schedulerState.roundIndex = 0;
   // 🆕 Initialize opponentMap — nested map for opponent counts
   schedulerState.opponentMap = new Map();
@@ -288,6 +290,7 @@ function updSchedule(roundIndex, schedulerState) {
     PlayerScoreMap,
     opponentMap,
     pairPlayedSet,
+	gamesMap,
     playedTogether, // <<-- Missing in your version
   } = schedulerState;
 
@@ -366,6 +369,17 @@ for (const r of resting) {
       playedTogether.set(key, roundIndex); // <<-- IMPORTANT FIX
     }
   }
+
+    // 4️⃣ Track pairs played together (with round info)
+  for (const game of games) {
+  const p1 = game.pair1.slice().sort().join("&");
+  const p2 = game.pair2.slice().sort().join("&");
+
+  // ensure A&B:C&D === C&D:A&B
+  const gameKey = [p1, p2].sort().join(":");
+
+  gameMap.add(gameKey);
+}
 
 	// ✅ EXECUTE ONLY WHEN BOTH CONDITIONS ARE TRUE
 if ( resetRest === true &&
