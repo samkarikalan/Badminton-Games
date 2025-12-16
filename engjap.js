@@ -37,7 +37,10 @@ const translations = {
     large: "Large",
     maxcourts: "Enter Number of Courts",
     sittingOut: "Sitting Out:",
-    courts: "Courts"
+    courts: "Courts",
+    theme: "Theme",
+    light: "Light",
+    dark: "Dark"
    
   },
   jp: {
@@ -78,7 +81,10 @@ const translations = {
     large: "大",
     maxcourts: "コートの数を入力してください",
     sittingOut: "休憩中:",
-    courts: "コート"
+    courts: "コート",
+    theme: "テーマ",
+    light: "ライト",
+    dark: "ダーク"
     
 
   }
