@@ -799,6 +799,116 @@ button {
 
 
 /* ===== SETTINGS SECTION (Unchanged) ===== */
+
+/* ===== Settings Wrapper ===== */
+.settings-wrap {
+  display: grid;
+  gap: 14px;
+  padding: 8px;
+}
+
+/* ===== Card ===== */
+.settings-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: 0 8px 25px rgba(99,102,241,.15);
+  transition: background .25s ease, box-shadow .25s ease;
+}
+
+/* ===== Section ===== */
+.sec {
+  font-weight: 700;
+  font-size: 14px;
+  text-align: center;
+  color: #374151;
+  margin-bottom: 10px;
+}
+
+/* ===== Card Backgrounds ===== */
+.card-language { background: linear-gradient(180deg, #ffffff, #eef2ff); }
+.card-font     { background: linear-gradient(180deg, #ffffff, #f5f3ff); }
+.card-theme    { background: linear-gradient(180deg, #ffffff, #f1f5f9); }
+.card-reset    { background: linear-gradient(180deg, #fff7ed, #ffffff); }
+.card-timer    { background: linear-gradient(180deg, #f0f9ff, #ffffff); }
+
+/* ===== Buttons ===== */
+.btn {
+  flex: 1;
+  padding: 12px 8px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #7c3aed, #6366f1);
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.btn:active {
+  transform: scale(.96);
+}
+
+.btn.active {
+  background: linear-gradient(135deg, #4f46e5, #4338ca);
+  box-shadow: 0 6px 16px rgba(79,70,229,.45);
+}
+
+/* Reset buttons */
+.btn.warn {
+  background: linear-gradient(135deg, #fb923c, #f97316);
+}
+.btn.danger {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+/* ===== Timer ===== */
+.timer-slider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.timer-slider input[type="range"] {
+  flex: 1;
+  height: 6px;
+  border-radius: 6px;
+  appearance: none;
+  background: linear-gradient(to right, #6366f1, #a5b4fc);
+}
+
+.timer-slider span {
+  min-width: 60px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+/* ===== Dark Theme ===== */
+.app-dark {
+  background: #020617;
+  color: #e5e7eb;
+}
+
+.app-dark .settings-card {
+  background: #020617;
+  box-shadow: 0 10px 30px rgba(0,0,0,.7);
+}
+
+.app-dark .sec {
+  color: #c7d2fe;
+}
+
+.app-dark .btn {
+  background: linear-gradient(135deg, #4338ca, #312e81);
+}
+
+.app-dark .btn.active {
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+}
+
+
 .compact-settings {
   margin: 16px auto;
   background: #fff;
