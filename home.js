@@ -1,6 +1,41 @@
 
 let currentLang = "en";
 
+/* ===== Timer ===== */
+function updateSliderLabel() {
+  const val = document.getElementById('timerInput').value;
+  document.getElementById('sliderValue').textContent = val + ' min';
+}
+
+/* ===== Theme ===== */
+function initTheme() {
+  const saved = localStorage.getItem('app-theme');
+  if (saved) {
+    applyTheme(saved);
+  } else {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    applyTheme(prefersDark ? 'dark' : 'light');
+  }
+}
+
+function applyTheme(mode) {
+  document.body.classList.toggle('app-dark', mode === 'dark');
+
+  document.getElementById('theme_light')?.classList.toggle('active', mode === 'light');
+  document.getElementById('theme_dark')?.classList.toggle('active', mode === 'dark');
+
+  localStorage.setItem('app-theme', mode);
+}
+
+function setTheme(mode) {
+  applyTheme(mode);
+}
+
+/* ===== Init ===== */
+initTheme();
+updateSliderLabel();
+
+
 document.addEventListener("DOMContentLoaded", () => {
   const savedLang = localStorage.getItem("appLanguage");
 
