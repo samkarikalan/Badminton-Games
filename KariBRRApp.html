@@ -43,43 +43,59 @@
 <!-- ============================= -->
 <!--           HOME PAGE           -->
 <!-- ============================= -->
-<div id="homePage" class="page" style="display:block;">
+<div id="homePage" class="page">
 
-  <div class="compact-settings">
+  <div class="settings-wrap">
 
     <!-- Language -->
-    <div class="sec">Language</div>
-    <div class="row">
-      <div class="btn active" onclick="setLanguage('en')" id="lang_en">English</div>
-      <div class="btn" onclick="setLanguage('jp')" id="lang_jp">日本語</div>
+    <div class="settings-card card-language">
+      <div class="sec">Language</div>
+      <div class="row">
+        <div class="btn active" id="lang_en" onclick="setLanguage('en')">English</div>
+        <div class="btn" id="lang_jp" onclick="setLanguage('jp')">日本語</div>
+      </div>
     </div>
 
     <!-- Font Size -->
-    <div class="sec" data-i18n="fontSize"></div>
-    <div class="row">
-      <div class="btn active" onclick="setFontSize('small')" id="font_small" data-i18n="small">Small</div>
-      <div class="btn" onclick="setFontSize('medium')" id="font_medium" data-i18n="medium">Medium</div>
-      <div class="btn" onclick="setFontSize('large')" id="font_large" data-i18n="large">Large</div>
+    <div class="settings-card card-font">
+      <div class="sec">Font Size</div>
+      <div class="row">
+        <div class="btn active" id="font_small" onclick="setFontSize('small')">Small</div>
+        <div class="btn" id="font_medium" onclick="setFontSize('medium')">Medium</div>
+        <div class="btn" id="font_large" onclick="setFontSize('large')">Large</div>
+      </div>
+    </div>
+
+    <!-- Theme -->
+    <div class="settings-card card-theme">
+      <div class="sec">Theme</div>
+      <div class="row">
+        <div class="btn active" id="theme_light" onclick="setTheme('light')">☀️ Light</div>
+        <div class="btn" id="theme_dark" onclick="setTheme('dark')">🌙 Dark</div>
+      </div>
     </div>
 
     <!-- Reset -->
-    <div class="sec" data-i18n="reset"></div>
-    <div class="row">
- <div class="btn" id="reset_all" onclick="ResetAll()" data-i18n="resetAll"></div>
-<div class="btn" id="reset_rounds" onclick="resetRounds()" data-i18n="resetExcept"></div>
-    </div>
-    
-    <div class="sec" data-i18n="Timer"></div>
+    <div class="settings-card card-reset">
+      <div class="sec">Reset</div>
       <div class="row">
-        <div class="timer-slider">
-          <input type="range" id="timerInput" min="1" max="30" value="8" oninput="updateSliderLabel()">
-          <span id="sliderValue">8 min</span>
-         </div>
+        <div class="btn danger" onclick="ResetAll()">Reset All</div>
+        <div class="btn warn" onclick="resetRounds()">Reset Rounds</div>
       </div>
     </div>
-  </div>  
-</div>
 
+    <!-- Timer -->
+    <div class="settings-card card-timer">
+      <div class="sec">Timer</div>
+      <div class="timer-slider">
+        <input type="range" id="timerInput" min="1" max="30" value="8" oninput="updateSliderLabel()">
+        <span id="sliderValue">8 min</span>
+      </div>
+    </div>
+
+  </div>
+
+</div>
 <!-- ============================= -->
 <!--           PAGE 1              -->
 <!--         Players Page          -->
