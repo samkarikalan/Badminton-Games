@@ -801,46 +801,69 @@ button {
 /* ===== SETTINGS SECTION (Unchanged) ===== */
 
 /* ===== Settings Wrapper ===== */
+
+/* ===============================
+   SETTINGS LAYOUT
+================================ */
 .settings-wrap {
   display: grid;
-  gap: 14px;
-  padding: 8px;
+  gap: 10px;          /* compact */
+  padding: 6px;
 }
 
-/* ===== Card ===== */
+/* ===============================
+   CARD
+================================ */
 .settings-card {
   background: #ffffff;
-  border-radius: 18px;
-  padding: 16px;
-  box-shadow: 0 8px 25px rgba(99,102,241,.15);
+  border-radius: 14px;      /* compact */
+  padding: 12px;           /* compact */
+  box-shadow: 0 6px 18px rgba(99,102,241,.14);
   transition: background .25s ease, box-shadow .25s ease;
 }
 
-/* ===== Section ===== */
+/* ===============================
+   SECTION TITLE
+================================ */
 .sec {
   font-weight: 700;
-  font-size: 14px;
+  font-size: 13px;
   text-align: center;
   color: #374151;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
+  letter-spacing: .2px;
 }
 
-/* ===== Card Backgrounds ===== */
+/* ===============================
+   ROW
+================================ */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* ===============================
+   CARD BACKGROUNDS (LIGHT)
+================================ */
 .card-language { background: linear-gradient(180deg, #ffffff, #eef2ff); }
 .card-font     { background: linear-gradient(180deg, #ffffff, #f5f3ff); }
 .card-theme    { background: linear-gradient(180deg, #ffffff, #f1f5f9); }
 .card-reset    { background: linear-gradient(180deg, #fff7ed, #ffffff); }
 .card-timer    { background: linear-gradient(180deg, #f0f9ff, #ffffff); }
 
-/* ===== Buttons ===== */
+/* ===============================
+   BUTTONS
+================================ */
 .btn {
   flex: 1;
-  padding: 12px 8px;
-  border-radius: 14px;
+  min-width: 80px;
+  padding: 9px 6px;          /* compact */
+  border-radius: 10px;
   background: linear-gradient(135deg, #7c3aed, #6366f1);
-  color: #fff;
+  color: #ffffff;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 14px;
   text-align: center;
   cursor: pointer;
   user-select: none;
@@ -853,118 +876,72 @@ button {
 
 .btn.active {
   background: linear-gradient(135deg, #4f46e5, #4338ca);
-  box-shadow: 0 6px 16px rgba(79,70,229,.45);
+  box-shadow: 0 4px 12px rgba(79,70,229,.45);
 }
 
 /* Reset buttons */
 .btn.warn {
   background: linear-gradient(135deg, #fb923c, #f97316);
 }
+
 .btn.danger {
   background: linear-gradient(135deg, #ef4444, #dc2626);
 }
 
-/* ===== Timer ===== */
+/* ===============================
+   TIMER
+================================ */
 .timer-slider {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 }
 
 .timer-slider input[type="range"] {
   flex: 1;
-  height: 6px;
+  height: 5px;
   border-radius: 6px;
   appearance: none;
   background: linear-gradient(to right, #6366f1, #a5b4fc);
 }
 
 .timer-slider span {
-  min-width: 60px;
+  min-width: 52px;
   font-weight: 700;
+  font-size: 13px;
   color: #1e293b;
 }
 
-/* ===== Dark Theme ===== */
+/* ===============================
+   DIM / NIGHT MODE (SOFT)
+   same theme, just darker
+================================ */
 .app-dark {
-  background: #020617;
-  color: #e5e7eb;
+  background: #eef0f6;          /* slightly darker page */
+  color: #1f2937;
 }
 
 .app-dark .settings-card {
-  background: #020617;
-  box-shadow: 0 10px 30px rgba(0,0,0,.7);
+  background: #f4f5fb;          /* soft grey */
+  box-shadow: 0 5px 14px rgba(55,65,81,.18);
 }
 
 .app-dark .sec {
-  color: #c7d2fe;
+  color: #374151;
 }
 
 .app-dark .btn {
-  background: linear-gradient(135deg, #4338ca, #312e81);
+  background: linear-gradient(135deg, #5b21b6, #4f46e5);
 }
 
 .app-dark .btn.active {
-  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  background: linear-gradient(135deg, #4338ca, #3730a3);
+  box-shadow: 0 4px 10px rgba(67,56,202,.45);
 }
 
-
-.compact-settings {
-  margin: 16px auto;
-  background: #fff;
-  border-radius: 18px;
-  padding: 20px;
-  box-shadow: 0 8px 25px rgba(99,102,241,.15);
-  font-family: system-ui, sans-serif;
-}
-
-.sec { 
-  font-weight: 700; 
-  font-size: 1.1rem; 
-  color: #333; 
-  margin: 16px 0 8px 4px; 
-}
-
-.row { 
-  display: flex; 
-  flex-wrap: wrap; 
-  gap: 10px; 
-  margin-bottom: 4px; 
-}
-
-.btn {
-  flex: 1;
-  min-width: 86px;
-  padding: 11px 8px;
-  text-align: center;
-  background: #800080;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 1.1rem;
-  color: white;
-  cursor: pointer;
-  transition: .2s;
-}
-
-.btn:hover { 
-  background: #e0e7ff; 
-  transform: translateY(-2px); 
-}
-
-.btn.active { 
-  background: #6366f1; 
-  color: #fff; 
-}
-
-.act .btn { 
-  background: #6366f1; 
-  color: #fff; 
-  padding: 13px 8px; 
-  font-size: 0.75rem; 
-}
-
-.act .btn:hover { 
-  background: #4f46e5; 
+/* Keep reset card warm */
+.app-dark .card-reset {
+  background: linear-gradient(180deg, #fff1e6, #f4f5fb);
 }
 
 
