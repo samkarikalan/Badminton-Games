@@ -407,20 +407,30 @@ function renderRestingPlayers(data, index) {
   const restDiv = document.createElement('div');
   restDiv.className = 'round-header';
   restDiv.style.paddingLeft = "12px";
+
   const title = document.createElement('div');
   title.setAttribute("data-i18n", "sittingOut");
   restDiv.appendChild(title);
+
   const restBox = document.createElement('div');
   restBox.className = 'rest-box';
-  if (data.resting.length === 0) {
+
+  if (!data.resting || data.resting.length === 0) {
     const span = document.createElement('span');
     span.innerText = 'None';
     restBox.appendChild(span);
   } else {
-    data.resting.forEach(player => {
-      restBox.appendChild(makeRestButton(player, data, index));
+    // ✅ send full player object instead of string
+    data.resting.forEach(playerName => {
+      const playerObj = schedulerState.allPlayers.find(p => p.name === playerName);
+      if (playerObj) {
+        restBox.appendChild(
+          makeRestButton(playerObj, data, index)
+        );
+      }
     });
   }
+
   restDiv.appendChild(restBox);
   return restDiv;
 }
@@ -732,21 +742,25 @@ function makePlayerButton2(name, teamSide, gameIndex, playerIndex, data, index) 
 
   return btn;
 }
+
+
 function makeRestButton(player, data, index) {
   const btn = document.createElement('button');
-  let genderIcon = "";
-
-if (IS_MIXED_SESSION) {
-  genderIcon =
-    player?.gender === "Male" ? "👨 " :
-    player?.gender === "Female" ? "👩 " :
-    "";
-}
-  btn.innerText = `${genderIcon} ${player}`;
-  //btn.innerText = player;
   btn.className = 'rest-btn';
-  // 🎨 Color by player number
-  const match = player.match(/\.?#(\d+)/);
+
+  // 👨 / 👩 icon (only if mixed session)
+  let genderIcon = "";
+  if (IS_MIXED_SESSION) {
+    genderIcon =
+      player.gender === "Male" ? "👨 " :
+      player.gender === "Female" ? "👩 " :
+      "";
+  }
+
+  btn.innerText = `${genderIcon}${player.name}`;
+
+  // 🎨 Optional: color by player number
+  const match = player.name.match(/\.?#(\d+)/);
   if (match) {
     const num = parseInt(match[1]);
     const hue = (num * 40) % 360;
@@ -754,28 +768,40 @@ if (IS_MIXED_SESSION) {
   } else {
     btn.style.backgroundColor = '#777';
   }
+
   btn.style.color = 'white';
+
   const isLatestRound = index === allRounds.length - 1;
-  if (!isLatestRound) return btn; // not interactive if not latest
+  if (!isLatestRound) return btn;
+
   // ✅ Tap-to-move between Rest ↔ Team
   const handleTap = (e) => {
     e.preventDefault();
-    // If a team player selected → move from rest to team
+
     if (window.selectedPlayer) {
       const src = window.selectedPlayer;
       if (src.from === 'team') {
-        handleDropRestToTeam(e, src.teamSide, src.gameIndex, src.playerIndex, data, index, player);
+        handleDropRestToTeam(
+          e,
+          src.teamSide,
+          src.gameIndex,
+          src.playerIndex,
+          data,
+          index,
+          player.name
+        );
       }
       window.selectedPlayer = null;
       document.querySelectorAll('.selected').forEach(b => b.classList.remove('selected'));
     } else {
-      // Select this resting player
-      window.selectedPlayer = { playerName: player, from: 'rest' };
+      window.selectedPlayer = { playerName: player.name, from: 'rest' };
       btn.classList.add('selected');
     }
   };
+
   btn.addEventListener('click', handleTap);
   btn.addEventListener('touchstart', handleTap);
+
   return btn;
 }
 function makeTeamButton(label, teamSide, gameIndex, data, index) {
