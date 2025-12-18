@@ -758,6 +758,80 @@ function makePlayerButton2(name, teamSide, gameIndex, playerIndex, data, index) 
 
 function makeRestButton(player, data, index) {
   const btn = document.createElement('button');
+
+  let genderIcon = "";
+  if (IS_MIXED_SESSION) {
+    genderIcon =
+      player.gender === "Male" ? "👨 " :
+      player.gender === "Female" ? "👩 " :
+      "";
+  }
+
+  const label = player.displayName || player.name;
+  btn.innerText = `${genderIcon}${label}`;
+  btn.className = 'rest-btn';
+
+  /* ───────── COLOR LOGIC ───────── */
+
+  const restMatch = label.match(/#(\d+)/);
+  const restCount = restMatch ? parseInt(restMatch[1], 10) : 0;
+
+  if (IS_MIXED_SESSION && genderIcon) {
+    // 🎨 Gender base hue + rest-based lightness
+    const hue = player.gender === "Male" ? 200 : 330;
+    const lightness = Math.min(90, 65 + restCount * 5); // lighter with rest
+
+    btn.style.backgroundColor = `hsl(${hue}, 70%, ${lightness}%)`;
+    btn.style.color = "#000";
+  } else {
+    // ♻️ Original rest-count rainbow
+    if (restMatch) {
+      const hue = (restCount * 40) % 360;
+      btn.style.backgroundColor = `hsl(${hue}, 60%, 85%)`;
+    } else {
+      btn.style.backgroundColor = '#eee';
+    }
+    btn.style.color = "#000";
+  }
+
+  /* ─────────────────────────────── */
+
+  const isLatestRound = index === allRounds.length - 1;
+  if (!isLatestRound) return btn;
+
+  const handleTap = (e) => {
+    e.preventDefault();
+
+    if (window.selectedPlayer) {
+      const src = window.selectedPlayer;
+      if (src.from === 'team') {
+        handleDropRestToTeam(
+          e,
+          src.teamSide,
+          src.gameIndex,
+          src.playerIndex,
+          data,
+          index,
+          label
+        );
+      }
+      window.selectedPlayer = null;
+      document.querySelectorAll('.selected')
+        .forEach(b => b.classList.remove('selected'));
+    } else {
+      window.selectedPlayer = { playerName: label, from: 'rest' };
+      btn.classList.add('selected');
+    }
+  };
+
+  btn.addEventListener('click', handleTap);
+  btn.addEventListener('touchstart', handleTap);
+
+  return btn;
+}
+
+function makeRestButton2(player, data, index) {
+  const btn = document.createElement('button');
   btn.className = 'rest-btn';
 
   // 👨 / 👩 icon (only if mixed session)
