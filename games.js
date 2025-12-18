@@ -424,7 +424,107 @@ function renderRestingPlayers(data, index) {
   restDiv.appendChild(restBox);
   return restDiv;
 }
+
 function renderGames(data, index) {
+  const wrapper = document.createElement('div');
+
+  data.games.forEach((game, gameIndex) => {
+    const teamsDiv = document.createElement('div');
+    teamsDiv.className = 'teams';
+
+    const makeTeamDiv = (teamSide) => {
+      const teamDiv = document.createElement('div');
+      teamDiv.className = 'team';
+      teamDiv.dataset.teamSide = teamSide;
+      teamDiv.dataset.gameIndex = gameIndex;
+
+      const swapIcon = document.createElement('div');
+      swapIcon.className = 'swap-icon';
+      swapIcon.innerHTML = '🔁';
+      teamDiv.appendChild(swapIcon);
+
+      // 👥 Players
+      const teamPairs = teamSide === 'L' ? game.pair1 : game.pair2;
+      const playerNames = [];
+
+      teamPairs.forEach((p, i) => {
+        playerNames.push(p);
+        teamDiv.appendChild(
+          makePlayerButton(p, teamSide, gameIndex, i, data, index)
+        );
+      });
+
+      // 🎨 SET TEAM TYPE (men / women / mixed)
+      const teamType = getTeamTypeFromPairs(playerNames);
+      teamDiv.dataset.teamType = teamType;
+
+      // 🔁 Swap logic (latest round only)
+      const isLatestRound = index === allRounds.length - 1;
+      if (isLatestRound) {
+        swapIcon.addEventListener('click', (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+
+          if (window.selectedTeam) {
+            const src = window.selectedTeam;
+            if (src.gameIndex !== gameIndex) {
+              handleTeamSwapAcrossCourts(
+                src,
+                { teamSide, gameIndex },
+                data,
+                index
+              );
+            }
+            window.selectedTeam = null;
+            document
+              .querySelectorAll('.selected-team')
+              .forEach(el => el.classList.remove('selected-team'));
+          } else {
+            window.selectedTeam = { teamSide, gameIndex };
+            teamDiv.classList.add('selected-team');
+          }
+        });
+      }
+
+      return teamDiv;
+    };
+
+    const team1 = makeTeamDiv('L');
+    const team2 = makeTeamDiv('R');
+
+    const vs = document.createElement('span');
+    vs.className = 'vs';
+    vs.innerText = '  ';
+
+    teamsDiv.append(team1, vs, team2);
+    wrapper.appendChild(teamsDiv);
+  });
+
+  return wrapper;
+}
+
+function getGenderByName(playerName) {
+  const p = schedulerState.allPlayers.find(pl => pl.name === playerName);
+  return p ? p.gender : null; // "M" | "F"
+}
+
+function getTeamTypeFromPairs(playerNames) {
+  let hasMale = false;
+  let hasFemale = false;
+
+  for (const name of playerNames) {
+    const gender = getGenderByName(name);
+    if (gender === "M") hasMale = true;
+    if (gender === "F") hasFemale = true;
+  }
+
+  if (hasMale && hasFemale) return "mixed";
+  if (hasMale) return "men";
+  if (hasFemale) return "women";
+  return "unknown";
+}
+
+function renderGamesold(data, index) {
   const wrapper = document.createElement('div');
   data.games.forEach((game, gameIndex) => {
     // 🟦 Create the main container for the match
