@@ -457,7 +457,7 @@ function renderGames(data, index) {
       // 🎨 SET TEAM TYPE (men / women / mixed)
       const teamType = getTeamTypeFromPairs(playerNames);
       teamDiv.dataset.teamType = teamType;
-
+      
       // 🔁 Swap logic (latest round only)
       const isLatestRound = index === allRounds.length - 1;
       if (isLatestRound) {
@@ -505,7 +505,7 @@ function renderGames(data, index) {
 
 function getGenderByName(playerName) {
   const p = schedulerState.allPlayers.find(pl => pl.name === playerName);
-  return p ? p.gender : null; // "M" | "F"
+  return p ? p.gender : null; // "Male" | "Female"
 }
 
 function getTeamTypeFromPairs(playerNames) {
@@ -514,13 +514,15 @@ function getTeamTypeFromPairs(playerNames) {
 
   for (const name of playerNames) {
     const gender = getGenderByName(name);
-    if (gender === "M") hasMale = true;
-    if (gender === "F") hasFemale = true;
+
+    if (gender === "Male") hasMale = true;
+    if (gender === "Female") hasFemale = true;
   }
 
   if (hasMale && hasFemale) return "mixed";
   if (hasMale) return "men";
   if (hasFemale) return "women";
+
   return "unknown";
 }
 
