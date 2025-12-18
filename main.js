@@ -13,6 +13,7 @@ function showPage(pageID, el) {
 
   // ➜ Additional action when page2 is opened
   if (pageID === "page2") {
+	 updateMixedSessionFlag();
      if (allRounds.length <= 1) {
 	     resetRounds();
 		 //goToRounds();
@@ -29,6 +30,22 @@ function showPage(pageID, el) {
 	 // Update last visited page
   lastPage = pageID;
 }
+
+let IS_MIXED_SESSION = false;
+
+function updateMixedSessionFlag() {
+  let hasMale = false;
+  let hasFemale = false;
+
+  for (const p of schedulerState.allPlayers) {
+    if (p.gender === "Male") hasMale = true;
+    if (p.gender === "Female") hasFemale = true;
+    if (hasMale && hasFemale) break;
+  }
+
+  IS_MIXED_SESSION = hasMale && hasFemale;
+}
+
 	
 
 
