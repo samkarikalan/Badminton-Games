@@ -598,10 +598,14 @@ function makePlayerButton(name, teamSide, gameIndex, playerIndex, data, index) {
   // 🎨 Gender lookup
   const player = schedulerState.allPlayers.find(p => p.name === name);
 
-  const genderIcon =
-    player?.gender === "Male" ? "👨" :
-    player?.gender === "Female" ? "👩" :
-    "❔";
+  let genderIcon = "";
+
+if (IS_MIXED_SESSION) {
+  genderIcon =
+    player?.gender === "Male" ? "👨 " :
+    player?.gender === "Female" ? "👩 " :
+    "";
+}
 
   // Set text
   btn.innerText = `${genderIcon} ${name}`;
@@ -730,7 +734,16 @@ function makePlayerButton2(name, teamSide, gameIndex, playerIndex, data, index) 
 }
 function makeRestButton(player, data, index) {
   const btn = document.createElement('button');
-  btn.innerText = player;
+  let genderIcon = "";
+
+if (IS_MIXED_SESSION) {
+  genderIcon =
+    player?.gender === "Male" ? "👨 " :
+    player?.gender === "Female" ? "👩 " :
+    "";
+}
+  btn.innerText = `${genderIcon} ${player}`;
+  //btn.innerText = player;
   btn.className = 'rest-btn';
   // 🎨 Color by player number
   const match = player.match(/\.?#(\d+)/);
