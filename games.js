@@ -402,6 +402,8 @@ function showRound(index) {
   document.getElementById('prevBtn').disabled = index === 0;
   document.getElementById('nextBtn').disabled = false;
 }
+
+
 // Resting players display
 function renderRestingPlayers(data, index) {
   const restDiv = document.createElement('div');
@@ -420,12 +422,21 @@ function renderRestingPlayers(data, index) {
     span.innerText = 'None';
     restBox.appendChild(span);
   } else {
-    // ✅ send full player object instead of string
-    data.resting.forEach(playerName => {
-      const playerObj = schedulerState.allPlayers.find(p => p.name === playerName);
+    data.resting.forEach(restName => {
+      // 🔑 Extract real player name (before #)
+      const baseName = restName.split('#')[0];
+
+      const playerObj = schedulerState.allPlayers.find(
+        p => p.name === baseName
+      );
+
       if (playerObj) {
         restBox.appendChild(
-          makeRestButton(playerObj, data, index)
+          makeRestButton(
+            { ...playerObj, displayName: restName }, // keep #count
+            data,
+            index
+          )
         );
       }
     });
@@ -434,6 +445,7 @@ function renderRestingPlayers(data, index) {
   restDiv.appendChild(restBox);
   return restDiv;
 }
+
 
 function renderGamestmp(data, index) {
   const wrapper = document.createElement('div');
@@ -756,8 +768,8 @@ function makeRestButton(player, data, index) {
       player.gender === "Female" ? "👩 " :
       "";
   }
-
-  btn.innerText = `${genderIcon}${player.name}`;
+  btn.innerText = `${genderIcon}${player.displayName || player.name}`;
+  //btn.innerText = `${genderIcon}${player.name}`;
 
   // 🎨 Optional: color by player number
   const match = player.name.match(/\.?#(\d+)/);
