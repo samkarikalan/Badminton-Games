@@ -582,7 +582,7 @@ button {
 .played-round .teams,
 .played-round .team[data-team-side="L"],
 .played-round .team[data-team-side="R"] {
-  filter: grayscale(40%) opacity(0.7);
+  filter: grayscale(20%) opacity(0.3);
   transform: scale(1);
   border: 0.0625rem solid #999;
 }
@@ -646,6 +646,49 @@ button {
 .rest-btn:hover {
   transform: scale(1.05);
   opacity: 0.9;
+}
+
+
+/* LEFT – MEN */
+.team[data-team-side="L"][data-team-type="men"] {
+  background: linear-gradient(145deg, #b3e5fc, #81d4fa);
+}
+
+/* LEFT – WOMEN */
+.team[data-team-side="L"][data-team-type="women"] {
+  background: linear-gradient(145deg, #f8bbd0, #f48fb1);
+}
+
+/* LEFT – MIXED */
+.team[data-team-side="L"][data-team-type="mixed"] {
+  background: linear-gradient(
+    to bottom,
+    #b3e5fc 0%,
+    #b3e5fc 50%,
+    #f8bbd0 50%,
+    #f8bbd0 100%
+  );
+}
+
+/* RIGHT – MEN */
+.team[data-team-side="R"][data-team-type="men"] {
+  background: linear-gradient(145deg, #90caf9, #64b5f6);
+}
+
+/* RIGHT – WOMEN */
+.team[data-team-side="R"][data-team-type="women"] {
+  background: linear-gradient(145deg, #f48fb1, #f06292);
+}
+
+/* RIGHT – MIXED */
+.team[data-team-side="R"][data-team-type="mixed"] {
+  background: linear-gradient(
+    to bottom,
+    #90caf9 0%,
+    #90caf9 50%,
+    #f48fb1 50%,
+    #f48fb1 100%
+  );
 }
 
 /* ========================================= */
@@ -1111,22 +1154,3 @@ button {
   line-height: 1;
 }
 
-
-
-/* Player cards (new – additive only) */
-.player-top,
-.player-bottom {
-  background: #fff;
-  border-radius: 8px;
-  padding: 6px 10px;
-  font-weight: 500;
-}
-
-/* TEMP borders */
-.player-top {
-  border: 2px solid #1e88e5; /* blue */
-}
-
-.player-bottom {
-  border: 2px solid #ec407a; /* pink */
-}
