@@ -425,7 +425,7 @@ function renderRestingPlayers(data, index) {
   return restDiv;
 }
 
-function renderGames(data, index) {
+function renderGamestmp(data, index) {
   const wrapper = document.createElement('div');
 
   data.games.forEach((game, gameIndex) => {
@@ -526,7 +526,7 @@ function getTeamTypeFromPairs(playerNames) {
   return "unknown";
 }
 
-function renderGamesold(data, index) {
+function renderGames(data, index) {
   const wrapper = document.createElement('div');
   data.games.forEach((game, gameIndex) => {
     // 🟦 Create the main container for the match
@@ -590,21 +590,35 @@ function renderGamesold(data, index) {
 }
 function makePlayerButton(name, teamSide, gameIndex, playerIndex, data, index) {
   const btn = document.createElement('button');
+
   btn.className = teamSide === 'L' ? 'Lplayer-btn' : 'Rplayer-btn';
   btn.innerText = name;
+
+  // 🎨 ADD GENDER CLASS
+  const gender = getGenderByName(name);
+  if (gender === "Male") btn.classList.add('male');
+  if (gender === "Female") btn.classList.add('female');
+
   const isLatestRound = index === allRounds.length - 1;
-  if (!isLatestRound) return btn; // not interactive if not latest
-  // ✅ Click/tap to select or swap (no long press)
+  if (!isLatestRound) return btn;
+
   const handleTap = (e) => {
     e.preventDefault();
-    // If another player already selected → swap between teams
+
     if (window.selectedPlayer) {
       const src = window.selectedPlayer;
+
       if (src.from === 'rest') {
-        // Coming from rest list → move into team
-        handleDropRestToTeam(e, teamSide, gameIndex, playerIndex, data, index, src.playerName);
+        handleDropRestToTeam(
+          e,
+          teamSide,
+          gameIndex,
+          playerIndex,
+          data,
+          index,
+          src.playerName
+        );
       } else {
-        // Swap between team slots
         handleDropBetweenTeams(
           e,
           teamSide,
@@ -615,11 +629,11 @@ function makePlayerButton(name, teamSide, gameIndex, playerIndex, data, index) {
           src
         );
       }
-      // Clear selection
+
       window.selectedPlayer = null;
-      document.querySelectorAll('.selected').forEach(b => b.classList.remove('selected'));
+      document.querySelectorAll('.selected')
+        .forEach(b => b.classList.remove('selected'));
     } else {
-      // Select this player for swap
       window.selectedPlayer = {
         playerName: name,
         teamSide,
@@ -630,8 +644,10 @@ function makePlayerButton(name, teamSide, gameIndex, playerIndex, data, index) {
       btn.classList.add('selected');
     }
   };
+
   btn.addEventListener('click', handleTap);
   btn.addEventListener('touchstart', handleTap);
+
   return btn;
 }
 function makeRestButton(player, data, index) {
