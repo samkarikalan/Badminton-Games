@@ -676,6 +676,25 @@ button {
   overflow-wrap: break-word;
 }
 
+/* Gender colors */
+.Lplayer-btn.male,
+.Rplayer-btn.male {
+  background: linear-gradient(145deg, #b3e5fc, #81d4fa);
+}
+
+.Lplayer-btn.female,
+.Rplayer-btn.female {
+  background: linear-gradient(145deg, #f8bbd0, #f48fb1);
+}
+
+/* Keep text readable */
+.Lplayer-btn,
+.Rplayer-btn {
+  color: #000;
+  font-weight: 600;
+}
+
+ 
 /* ========================================= */
 /*         ROUND NAVIGATION BAR               */
 /* ========================================= */
