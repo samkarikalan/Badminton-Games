@@ -635,12 +635,14 @@ function makePlayerButton(name, teamSide, gameIndex, playerIndex, data, index) {
 
   /* ───────── COLOR OVERRIDE ───────── */
 
-  if (!genderIcon) {
-    // 🚫 No gender → neutral button
-    btn.style.background = "";
-    btn.style.color = "";
-  }
-
+if (IS_MIXED_SESSION && genderIcon) {
+  const hue = player.gender === "Male" ? 200 : 330;
+  btn.style.backgroundColor = `hsl(${hue}, 65%, 55%)`;
+  btn.style.color = "#000";
+} else {
+  btn.style.backgroundColor = "#f5f5f5";
+  btn.style.color = "#000";
+}
   /* ───────────────────────────────── */
 
   const isLatestRound = index === allRounds.length - 1;
