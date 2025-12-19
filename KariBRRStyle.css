@@ -669,8 +669,7 @@ button {
   border-radius: 0.375rem;
   padding: 0.25rem 0.6rem;
   margin: 0.25rem auto;
-  width: fit-content;
-  max-width: 100%;
+  
   text-align: center;
   white-space: normal;
   overflow-wrap: break-word;
@@ -693,6 +692,25 @@ button {
   color: #000;
   font-weight: 600;
 }
+
+.Lplayer-btn,
+.Rplayer-btn,
+.rest-btn {
+  width: 100%;              /* full width of team */
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.Lplayer-btn,
+.Rplayer-btn {
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 
  
 /* ========================================= */
