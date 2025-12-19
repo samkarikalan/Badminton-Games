@@ -710,6 +710,12 @@ button {
   align-items: center;
 }
 
+/* REMOVE hard-coded colors */
+.Lplayer-btn,
+.Rplayer-btn {
+  background: #f5f5f5; /* neutral */
+  color: #000;
+}
 
  
 /* ========================================= */
