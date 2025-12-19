@@ -717,7 +717,31 @@ button {
   color: #000;
 }
 
- 
+.gender-btn {
+  width: 26px;
+  height: 26px;
+  margin-right: 8px;
+
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 14px;
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+.gender-btn.male {
+  background: #2196f3;
+  color: #fff;
+}
+
+.gender-btn.female {
+  background: #e91e63;
+  color: #fff;
+}
+
 /* ========================================= */
 /*         ROUND NAVIGATION BAR               */
 /* ========================================= */
