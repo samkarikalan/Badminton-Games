@@ -614,6 +614,91 @@ function renderGames(data, index) {
 function makePlayerButton(name, teamSide, gameIndex, playerIndex, data, index) {
   const btn = document.createElement('button');
 
+  // Determine if gender icons should be shown
+  const showGender = IS_MIXED_SESSION;
+
+  // Get player object
+  const baseName = name.split('#')[0];
+  const player = schedulerState.allPlayers.find(p => p.name === baseName);
+
+  // Gender icon
+  let genderIcon = "";
+  if (showGender && player?.gender) {
+    genderIcon =
+      player.gender === "Male" ? "👨 " :
+      player.gender === "Female" ? "👩 " :
+      "";
+  }
+
+  btn.innerText = `${genderIcon}${name}`;
+  btn.className = teamSide === 'L' ? 'Lplayer-btn' : 'Rplayer-btn';
+
+  /* ───────── COLOR OVERRIDE ───────── */
+
+  if (!genderIcon) {
+    // 🚫 No gender → neutral button
+    btn.style.background = "";
+    btn.style.color = "";
+  }
+
+  /* ───────────────────────────────── */
+
+  const isLatestRound = index === allRounds.length - 1;
+  if (!isLatestRound) return btn;
+
+  const handleTap = (e) => {
+    e.preventDefault();
+
+    if (window.selectedPlayer) {
+      const src = window.selectedPlayer;
+
+      if (src.from === 'rest') {
+        handleDropRestToTeam(
+          e,
+          teamSide,
+          gameIndex,
+          playerIndex,
+          data,
+          index,
+          src.playerName
+        );
+      } else {
+        handleDropBetweenTeams(
+          e,
+          teamSide,
+          gameIndex,
+          playerIndex,
+          data,
+          index,
+          src
+        );
+      }
+
+      window.selectedPlayer = null;
+      document.querySelectorAll('.selected')
+        .forEach(b => b.classList.remove('selected'));
+    } else {
+      window.selectedPlayer = {
+        playerName: name,
+        teamSide,
+        gameIndex,
+        playerIndex,
+        from: 'team'
+      };
+      btn.classList.add('selected');
+    }
+  };
+
+  btn.addEventListener('click', handleTap);
+  btn.addEventListener('touchstart', handleTap);
+
+  return btn;
+}
+
+
+function makePlayerButton3(name, teamSide, gameIndex, playerIndex, data, index) {
+  const btn = document.createElement('button');
+
   // Base class
   btn.className = teamSide === 'L' ? 'Lplayer-btn' : 'Rplayer-btn';
 
