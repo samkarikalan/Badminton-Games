@@ -694,8 +694,7 @@ button {
 }
 
 .Lplayer-btn,
-.Rplayer-btn,
-.rest-btn {
+.Rplayer-btn {
   width: 100%;              /* full width of team */
   box-sizing: border-box;
   text-align: center;
