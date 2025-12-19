@@ -620,29 +620,24 @@ function makePlayerButton(name, teamSide, gameIndex, playerIndex, data, index) {
   // Get player object
   const baseName = name.split('#')[0];
   const player = schedulerState.allPlayers.find(p => p.name === baseName);
-
-  // Gender icon
-  let genderIcon = "";
-  if (showGender && player?.gender) {
-    genderIcon =
-      player.gender === "Male" ? "👨 " :
-      player.gender === "Female" ? "👩 " :
-      "";
-  }
-
-  btn.innerText = `${genderIcon}${name}`;
+  
+  btn.textContent = name;
   btn.className = teamSide === 'L' ? 'Lplayer-btn' : 'Rplayer-btn';
+  
 
   /* ───────── COLOR OVERRIDE ───────── */
+if (IS_MIXED_SESSION && player?.gender) {
+  const genderBtn = document.createElement('span');
+  genderBtn.className =
+    'gender-btn ' +
+    (player.gender === 'Female' ? 'female' : 'male');
 
-if (IS_MIXED_SESSION && genderIcon) {
-  const hue = player.gender === "Male" ? 200 : 330;
-  btn.style.backgroundColor = `hsl(${hue}, 65%, 55%)`;
-  btn.style.color = "#000";
-} else {
-  btn.style.backgroundColor = "#f5f5f5";
-  btn.style.color = "#000";
+  genderBtn.textContent =
+    player.gender === 'Female' ? '👩' : '👨';
+
+  btn.prepend(genderBtn);
 }
+
   /* ───────────────────────────────── */
 
   const isLatestRound = index === allRounds.length - 1;
