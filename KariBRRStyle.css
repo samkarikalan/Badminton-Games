@@ -582,7 +582,7 @@ button {
 .played-round .teams,
 .played-round .team[data-team-side="L"],
 .played-round .team[data-team-side="R"] {
-  filter: grayscale(20%) opacity(0.3);
+  filter: grayscale(20%) opacity(0.9);
   transform: scale(1);
   border: 0.0625rem solid #999;
 }
@@ -718,8 +718,8 @@ button {
 }
 
 .gender-btn {
-  width: 26px;
-  height: 26px;
+  width: 40px;
+  height: 40px;
   margin-right: 8px;
 
   border-radius: 50%;
@@ -727,13 +727,13 @@ button {
   align-items: center;
   justify-content: center;
 
-  font-size: 14px;
+  font-size: 20px;
   pointer-events: none;
   flex-shrink: 0;
 }
 
 .gender-btn.male {
-  background: #2196f3;
+  background: black;
   color: #fff;
 }
 
