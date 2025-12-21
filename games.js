@@ -706,8 +706,8 @@ function makePlayerButton3(name, teamSide, gameIndex, playerIndex, data, index) 
 
 if (IS_MIXED_SESSION) {
   genderIcon =
-    player?.gender === "Male" ? "👨 " :
-    player?.gender === "Female" ? "👩 " :
+    player?.gender === "Male" ? "👨‍💼 " :
+    player?.gender === "Female" ? "🙎‍♀️ " :
     "";
 }
 
