@@ -381,6 +381,8 @@ for (const r of resting) {
   gamesMap.add(gameKey);
 }
 
+// after tracking pairs & games
+checkAndResetPairCycle(schedulerState, games, roundIndex);
 	// ✅ EXECUTE ONLY WHEN BOTH CONDITIONS ARE TRUE
 if ( resetRest === true &&
   allPairsExhausted(schedulerState.restQueue, pairPlayedSet)
@@ -472,6 +474,52 @@ function report() {
 }
 
 
+function checkAndResetPairCycle(schedulerState, games, roundIndex) {
+  const {
+    activeplayers,
+    pairPlayedSet,
+    playedTogether,
+    gamesMap,
+    opponentMap
+  } = schedulerState;
+
+  // --- exhaustion check (INCLUDING latest round) ---
+  const bases = activeplayers.map(p => p.split('#')[0]);
+  const totalPossiblePairs =
+    (bases.length * (bases.length - 1)) / 2;
+
+  if (pairPlayedSet.size < totalPossiblePairs) return false;
+
+  // --- snapshot latest round ---
+  const latestPairs = [];
+  const latestGames = [];
+
+  for (const game of games) {
+    const p1 = game.pair1.slice().sort().join("&");
+    const p2 = game.pair2.slice().sort().join("&");
+
+    latestPairs.push(p1, p2);
+    latestGames.push([p1, p2].sort().join(":"));
+  }
+
+  // --- reset pairing-related state ---
+  pairPlayedSet.clear();
+  playedTogether.clear();
+  gamesMap.clear();
+  opponentMap.clear();
+
+  // --- restore ONLY latest round ---
+  for (const key of latestPairs) {
+    pairPlayedSet.add(key);
+    playedTogether.set(key, roundIndex);
+  }
+
+  for (const gk of latestGames) {
+    gamesMap.add(gk);
+  }
+
+  return true; // cycle reset happened
+}
 
 
 
