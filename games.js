@@ -9,6 +9,125 @@ function AischedulerNextRound(schedulerState) {
     fixedPairs,
     restCount,
     opponentMap,
+    pairPlayedSet
+  } = schedulerState;
+
+  const totalPlayers = activeplayers.length;
+  const playersPerRound = numCourts * 4;
+  const numResting = Math.max(totalPlayers - playersPerRound, 0);
+
+  /* ==========================
+     1️⃣ RESTING / PLAYING
+  ========================== */
+
+  let resting = [];
+  let playing = [];
+
+  if (numResting > 0) {
+    resting = schedulerState.restQueue.slice(0, numResting);
+    playing = activeplayers.filter(p => !resting.includes(p));
+  } else {
+    playing = activeplayers.slice(0, playersPerRound);
+  }
+
+  /* ==========================
+     2️⃣ FIXED PAIRS
+  ========================== */
+
+  const playingSet = new Set(playing);
+  const fixedPairsThisRound = fixedPairs.filter(
+    ([a, b]) => playingSet.has(a) && playingSet.has(b)
+  );
+
+  const fixedPlayers = new Set(fixedPairsThisRound.flat());
+  let freePlayers = playing.filter(p => !fixedPlayers.has(p));
+
+  const requiredPairs = playersPerRound / 2;
+  const neededFreePairs = requiredPairs - fixedPairsThisRound.length;
+
+  /* ==========================
+     3️⃣ BEST FREE PAIRS
+  ========================== */
+
+  let freePairs =
+    findDisjointPairs(
+      freePlayers,
+      pairPlayedSet,
+      neededFreePairs,
+      opponentMap
+    ) || [];
+
+  // fallback safety
+  if (freePairs.length < neededFreePairs) {
+    const used = new Set(freePairs.flat());
+    for (let i = 0; i < freePlayers.length; i++) {
+      for (let j = i + 1; j < freePlayers.length; j++) {
+        const a = freePlayers[i], b = freePlayers[j];
+        if (used.has(a) || used.has(b)) continue;
+        freePairs.push([a, b]);
+        used.add(a); used.add(b);
+        if (freePairs.length === neededFreePairs) break;
+      }
+      if (freePairs.length === neededFreePairs) break;
+    }
+  }
+
+  const allPairs = [...fixedPairsThisRound, ...freePairs];
+
+  /* ==========================
+     4️⃣ BEST COURT MATCHUPS
+  ========================== */
+
+  const matchupScores = getMatchupScores(allPairs, opponentMap);
+
+  const games = [];
+  const usedPairs = new Set();
+
+  for (const m of matchupScores) {
+    const k1 = m.pair1.join("&");
+    const k2 = m.pair2.join("&");
+    if (usedPairs.has(k1) || usedPairs.has(k2)) continue;
+
+    games.push({
+      court: games.length + 1,
+      pair1: [...m.pair1],
+      pair2: [...m.pair2]
+    });
+
+    usedPairs.add(k1);
+    usedPairs.add(k2);
+
+    if (games.length === numCourts) break;
+  }
+
+  /* ==========================
+     5️⃣ REST DISPLAY
+  ========================== */
+
+  const restingWithCount = resting.map(p => {
+    const cnt = restCount.get(p) || 0;
+    return `${p}#${cnt + 1}`;
+  });
+
+  schedulerState.roundIndex = (schedulerState.roundIndex || 0) + 1;
+
+  return {
+    round: schedulerState.roundIndex,
+    resting: restingWithCount,
+    playing,
+    games
+  };
+}
+
+
+
+function bestAischedulerNextRound(schedulerState) {
+  const {
+    activeplayers,
+    numCourts,
+    fixedPairs,
+    restCount,
+    opponentMap,
   } = schedulerState;
 
   const totalPlayers = activeplayers.length;
