@@ -137,10 +137,26 @@ function addPlayersFromText() {
 
     // Keep the prefix as-is (do NOT remove numbering or dash)
     // Extract parentheses content if present
-    const parenMatch = line.match(/\(([^)]+)\)/);
-    if (parenMatch) {
-      line = parenMatch[1].trim();
-    }
+    //const parenMatch = line.match(/\(([^)]+)\)/);
+    
+	  //if (parenMatch) {
+      //line = parenMatch[1].trim();
+    //}
+
+	  // Extract parentheses content if present
+const parenMatch = line.match(/\(([^)]+)\)/);
+if (parenMatch) {
+  line = parenMatch[1].trim();
+}
+
+// --- normalize to: [number(optional)] + first name ---
+const match = line.match(/^(\d+\.?\s*)?(.*)$/);
+if (match) {
+  const prefix = match[1] || "";          // "10. " | "10 " | ""
+  const namePart = match[2].trim();       // "Kari Kaplan"
+  const firstName = namePart.split(/\s+/)[0];
+  line = prefix + firstName;
+}
 
     // Avoid duplicates (case-insensitive)
     if (!schedulerState.allPlayers.some(p => p.name.toLowerCase() === line.toLowerCase())) {
