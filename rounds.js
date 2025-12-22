@@ -211,8 +211,66 @@ function updateScheduler() {
 /* ================================
    🔁 1-3-2-4 QUEUE REORDER (GUARDED)
 ================================ */
+function reorder1324(queue, roundIndex = 0) {
+  const total = queue.length;
 
-function reorder1324(queue) {
+  if (total < 4 || total % 2 !== 0) {
+    return queue.slice();
+  }
+
+  // 1️⃣ split into pairs
+  const pairs = [];
+  for (let i = 0; i < total; i += 2) {
+    pairs.push([queue[i], queue[i + 1]]);
+  }
+
+  const pCount = pairs.length;
+
+  // 2️⃣ 4 or 6 pairs (8 / 12 players)
+  if (pCount === 4 || pCount === 6) {
+    const size = Math.floor(pCount / 4);
+
+    const g1 = pairs.slice(0, size);
+    const g2 = pairs.slice(size, size * 2);
+    const g3 = pairs.slice(size * 2, size * 3);
+    const g4 = pairs.slice(size * 3);
+
+    // deterministic rotations (no randomness)
+    const patterns = [
+      [g1, g4, g2, g3], // 1-4-2-3
+      [g2, g1, g4, g3], // rotate
+      [g3, g2, g1, g4], // rotate
+    ];
+
+    const pattern = patterns[roundIndex % patterns.length];
+    return pattern.flat().flat();
+  }
+
+  // 3️⃣ 8+ pairs (16+ players)
+  if (pCount >= 8) {
+    const size = Math.floor(pCount / 8);
+    const groups = [];
+
+    for (let i = 0; i < 8; i++) {
+      groups.push(pairs.slice(i * size, (i + 1) * size));
+    }
+
+    const patterns = [
+      [0, 2, 4, 6, 1, 3, 5, 7],
+      [1, 3, 5, 7, 2, 4, 6, 0],
+      [2, 4, 6, 0, 3, 5, 7, 1],
+      [3, 5, 7, 1, 4, 6, 0, 2],
+    ];
+
+    const order = patterns[roundIndex % patterns.length];
+    return order.flatMap(i => groups[i]).flat();
+  }
+
+  // 4️⃣ fallback → rotate pairs by roundIndex
+  const offset = roundIndex % pCount;
+  return [...pairs.slice(offset), ...pairs.slice(0, offset)].flat();
+}
+function old2reorder1324(queue) {
   const total = queue.length;
 
   // 🔹 Case: 8 or 12 players → divide by 4
