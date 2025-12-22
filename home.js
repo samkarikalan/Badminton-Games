@@ -74,9 +74,9 @@ function setFontSize(size) {
   const root = document.documentElement;
 
   // Update font size variable
-  if (size === "small") root.style.setProperty("--base-font-size", "10px");
+  if (size === "small") root.style.setProperty("--base-font-size", "12px");
   if (size === "medium") root.style.setProperty("--base-font-size", "15px");
-  if (size === "large") root.style.setProperty("--base-font-size", "20px");
+  if (size === "large") root.style.setProperty("--base-font-size", "18px");
 
   // Only remove active from font-size buttons, not all .btn elements
   document.querySelectorAll("#font_small, #font_medium, #font_large").forEach(el => {
