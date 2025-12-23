@@ -1208,11 +1208,23 @@ button {
 
 
 /* 🔒 Global interaction lock */
+.lock-icon {
+  margin-left: 10px;
+  cursor: pointer;
+  font-size: 20px;
+  user-select: none;
+}
+
+body.locked .lock-icon {
+  opacity: 0.7;
+}
+
+/* 🔒 GLOBAL INTERACTION LOCK */
 body.locked .Lplayer-btn,
 body.locked .Rplayer-btn,
 body.locked .rest-btn,
 body.locked .swap-icon {
-  pointer-events: none;   /* blocks click + touch */
-  opacity: 0.45;          /* visual feedback */
+  pointer-events: none;
+  opacity: 0.45;
 }
 
