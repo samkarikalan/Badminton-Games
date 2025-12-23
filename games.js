@@ -1286,3 +1286,18 @@ function enableTouchDrag(el) {
 }
 
 
+let interactionLocked = true;
+
+// Apply initial state
+document.body.classList.add('locked');
+
+document.getElementById('lockToggleBtn').addEventListener('click', () => {
+  interactionLocked = !interactionLocked;
+
+  document.body.classList.toggle('locked', interactionLocked);
+
+  // Icon feedback
+  document.getElementById('lockToggleBtn').textContent =
+    interactionLocked ? '🔒' : '🔓';
+});
+
