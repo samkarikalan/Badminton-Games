@@ -1207,27 +1207,12 @@ button {
 
 
 
-.lock-btn {
-  padding: 8px 14px;
-  font-size: 16px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
+/* 🔒 Global interaction lock */
+body.locked .Lplayer-btn,
+body.locked .Rplayer-btn,
+body.locked .rest-btn,
+body.locked .swap-icon {
+  pointer-events: none;   /* blocks click + touch */
+  opacity: 0.45;          /* visual feedback */
 }
 
-.lock-btn.locked {
-  background: #555;
-  color: #fff;
-}
-
-.lock-btn.unlocked {
-  background: #2ecc71;
-  color: #000;
-}
-
-.locked .Lplayer-btn,
-.locked .Rplayer-btn,
-.locked .rest-btn {
-  opacity: 0.5;
-  pointer-events: none;
-}
