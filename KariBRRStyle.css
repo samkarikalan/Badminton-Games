@@ -1205,3 +1205,29 @@ button {
   line-height: 1;
 }
 
+
+
+.lock-btn {
+  padding: 8px 14px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.lock-btn.locked {
+  background: #555;
+  color: #fff;
+}
+
+.lock-btn.unlocked {
+  background: #2ecc71;
+  color: #000;
+}
+
+.locked .Lplayer-btn,
+.locked .Rplayer-btn,
+.locked .rest-btn {
+  opacity: 0.5;
+  pointer-events: none;
+}
