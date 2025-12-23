@@ -209,32 +209,60 @@
 <!-- ============================= -->
   <!-- Import Modal -->
   <div id="importModal">
-    <div class="modal-content">
+  <div class="modal-content">
 
-      <!-- Left Section -->
-      <textarea id="players-textarea" rows="12"
-        data-i18n-placeholder="importExample">
-      </textarea>
+    <!-- Left Section -->
+    <textarea
+      id="players-textarea"
+      rows="12"
+      data-i18n-placeholder="importExample"
+      placeholder="Enter or paste player names"
+    ></textarea>
 
-      <!-- Right Section -->
-      <div class="modal-right">
+    <!-- Right Section -->
+    <div class="modal-right">
 
-        <!-- Gender -->
-        <div class="gender-radio" data-i18n="gender"></div>
-        <div class="gender-radio">
-          <label><input type="radio" name="genderSelect" value="Male"> <span data-i18n="male"></span></label>
-          <label><input type="radio" name="genderSelect" value="Female"> <span data-i18n="female"></span></label>
-        </div>
+      <!-- Gender -->
+      <div class="gender-radio" data-i18n="gender"></div>
+      <div class="gender-radio">
+        <label>
+          <input type="radio" name="genderSelect" value="Male" checked>
+          <span data-i18n="male"></span>
+        </label>
+        <label>
+          <input type="radio" name="genderSelect" value="Female">
+          <span data-i18n="female"></span>
+        </label>
+      </div>
 
-        <!-- Buttons -->
-        <div class="modal-buttons">
-          <button class="ok-btn" onclick="addPlayersFromText()" data-i18n="import"></button>
-          <button class="cancel-btn" onclick="hideImportModal()" data-i18n="cancel"></button>
-        </div>
+      <!-- Action Buttons -->
+      <div class="modal-buttons">
+
+        <!-- 📋 Paste (NEW) -->
+        <button
+          class="paste-btn"
+          onclick="pastePlayersText()"
+        >📋 Paste</button>
+
+        <!-- ⬇️ Import (existing) -->
+        <button
+          class="ok-btn"
+          onclick="addPlayersFromText()"
+          data-i18n="import"
+        ></button>
+
+        <!-- ✖ Cancel (existing) -->
+        <button
+          class="cancel-btn"
+          onclick="hideImportModal()"
+          data-i18n="cancel"
+        ></button>
 
       </div>
 
     </div>
+
   </div>
+</div>
 </body>
 </html>
