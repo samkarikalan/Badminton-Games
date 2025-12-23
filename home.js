@@ -103,3 +103,61 @@ function resetRounds() {
   document.getElementById("reset_rounds").classList.remove("active");
 }
 
+async function exportAllRoundsToPDF() {
+  if (!allRounds || allRounds.length === 0) {
+    alert('No rounds to export');
+    return;
+  }
+
+  const resultsDiv = document.getElementById('game-results');
+  const originalIndex = currentRoundIndex ?? 0;
+
+  const opt = {
+    margin: 10,
+    filename: 'Rounds_Schedule.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  };
+
+  const worker = html2pdf().set(opt);
+
+  for (let i = 0; i < allRounds.length; i++) {
+    showRound(i);
+
+    // allow DOM to paint
+    await new Promise(r => setTimeout(r, 150));
+
+    const page = document.createElement('div');
+
+    const title = document.createElement('h2');
+    title.style.textAlign = 'center';
+    title.style.marginBottom = '10px';
+    title.textContent = allRounds[i].round;
+
+    page.appendChild(title);
+    page.appendChild(resultsDiv.cloneNode(true));
+
+    await worker.from(page).toPdf().get('pdf').then(pdf => {
+      if (i !== allRounds.length - 1) pdf.addPage();
+    });
+  }
+
+  worker.save();
+
+  // Restore UI
+  showRound(originalIndex);
+}
+
+
+function saveSchedule() {
+  // Placeholder – implement later
+  console.log('Save schedule clicked');
+
+  // Future ideas:
+  // localStorage.setItem('savedSchedule', JSON.stringify(allRounds));
+  // export JSON
+  // cloud sync
+
+  alert('Save feature coming soon');
+}
