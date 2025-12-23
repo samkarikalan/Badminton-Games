@@ -1,3 +1,22 @@
+function pastePlayersText() {
+  const textarea = document.getElementById('players-textarea');
+
+  if (navigator.clipboard && navigator.clipboard.readText) {
+    navigator.clipboard.readText()
+      .then(text => {
+        textarea.value += (textarea.value ? '\n' : '') + text;
+        textarea.focus();
+      })
+      .catch(() => {
+        alert('Paste not allowed. Long-press and paste instead.');
+      });
+  } else {
+    alert('Paste not supported on this device.');
+  }
+}
+
+
+
 function showImportModal() {
   const textarea = document.getElementById("players-textarea");
   // Clear any entered text
