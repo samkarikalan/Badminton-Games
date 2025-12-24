@@ -2,7 +2,7 @@
 // ==============================
 // Generate next round (no global updates)
 // ==============================
-function AischedulerNextRound(schedulerState) {
+function betaAischedulerNextRound(schedulerState) {
   const {
     activeplayers,
     numCourts,
@@ -121,7 +121,7 @@ function AischedulerNextRound(schedulerState) {
 
 
 
-function bestAischedulerNextRound(schedulerState) {
+function AischedulerNextRound(schedulerState) {
   const {
     activeplayers,
     numCourts,
