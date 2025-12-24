@@ -1,5 +1,6 @@
 
 let allRounds = [];
+let lastRound = [];
 let currentRoundIndex = 0;
 let isOnPage2 = false;
 let resetRest = false;
@@ -381,6 +382,9 @@ for (const r of resting) {
   // 2️⃣ Update PlayedCount
   for (const game of games) {
     const allPlayers = [...game.pair1, ...game.pair2];
+	pair2];
+    // add players to lastRound
+    lastRound.push(...allPlayers);
     for (const p of allPlayers) {
       PlayedCount.set(p, (PlayedCount.get(p) || 0) + 1);
     }
