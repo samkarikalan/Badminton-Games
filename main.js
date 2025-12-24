@@ -1,6 +1,3 @@
-const exportBtn = document.getElementById("exportPdfBtn");
-exportBtn?.classList.add("busy");
-
 let lastPage = null;
 
 function showPage(pageID, el) {
@@ -314,7 +311,7 @@ function initPage() {
   document.getElementById("page2").style.display = 'none';
 }
 
-exportBtn?.classList.remove("busy");
+
 
 
  

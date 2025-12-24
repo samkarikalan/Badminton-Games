@@ -1160,35 +1160,6 @@ button {
   padding: 3px; 
 }
 
-.export-btn.busy {
-  pointer-events: none;
-  opacity: 0.6;
-  position: relative;
-}
-
-.export-btn.busy::after {
-  content: " Exporting...";
-  font-size: 14px;
-  margin-left: 6px;
-}
-
-.export-btn.busy::before {
-  content: "";
-  width: 16px;
-  height: 16px;
-  border: 3px solid rgba(255,255,255,0.4);
-  border-top-color: #fff;
-  border-radius: 50%;
-  display: inline-block;
-  margin-right: 6px;
-  animation: spin 0.8s linear infinite;
-  vertical-align: middle;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
 
 
 .fixed-card {
