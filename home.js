@@ -109,47 +109,89 @@ async function exportAllRoundsToPDF() {
     return;
   }
 
-  const resultsDiv = document.getElementById('game-results');
-  const originalIndex = currentRoundIndex ?? 0;
+  const originalRoundIndex = currentRoundIndex ?? 0;
 
-  const opt = {
-    margin: 10,
-    filename: 'Rounds_Schedule.pdf',
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2 },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-  };
+  // 🔹 Temporary container for PDF
+  const exportContainer = document.createElement('div');
+  exportContainer.style.width = '210mm';
+  exportContainer.style.background = '#fff';
+  document.body.appendChild(exportContainer);
 
-  const worker = html2pdf().set(opt);
+  /* =========================
+     1️⃣ PLAYERS PAGE
+  ========================= */
+  const page1 = document.getElementById('page1');
+  if (page1) {
+    const clone = page1.cloneNode(true);
+    clone.style.display = 'block';
+    clone.style.pageBreakAfter = 'always';
+
+    clone.prepend(makeTitle('Players'));
+    exportContainer.appendChild(clone);
+  }
+
+  /* =========================
+     2️⃣ SUMMARY PAGE
+  ========================= */
+  const page3 = document.getElementById('page3');
+  if (page3) {
+    const clone = page3.cloneNode(true);
+    clone.style.display = 'block';
+    clone.style.pageBreakAfter = 'always';
+
+    clone.prepend(makeTitle('Summary'));
+    exportContainer.appendChild(clone);
+  }
+
+  /* =========================
+     3️⃣ ROUNDS (FULL PAGE2)
+  ========================= */
+  const page2 = document.getElementById('page2');
 
   for (let i = 0; i < allRounds.length; i++) {
     showRound(i);
+    await waitForPaint();
 
-    // allow DOM to paint
-    await new Promise(r => setTimeout(r, 150));
+    const roundClone = page2.cloneNode(true);
 
-    const page = document.createElement('div');
+    // 🔥 Force render hidden page
+    roundClone.style.display = 'block';
+    roundClone.style.pageBreakAfter = 'always';
 
-    const title = document.createElement('h2');
-    title.style.textAlign = 'center';
-    title.style.marginBottom = '10px';
-    title.textContent = allRounds[i].round;
+    roundClone.prepend(makeTitle(allRounds[i].round));
 
-    page.appendChild(title);
-    page.appendChild(resultsDiv.cloneNode(true));
-
-    await worker.from(page).toPdf().get('pdf').then(pdf => {
-      if (i !== allRounds.length - 1) pdf.addPage();
-    });
+    exportContainer.appendChild(roundClone);
   }
 
-  worker.save();
+  /* =========================
+     EXPORT
+  ========================= */
+  await html2pdf().set({
+    margin: 10,
+    filename: 'Badminton_Schedule.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  }).from(exportContainer).save();
 
-  // Restore UI
-  showRound(originalIndex);
+  // 🧹 Restore UI
+  document.body.removeChild(exportContainer);
+  showRound(originalRoundIndex);
 }
 
+/* ===== helpers ===== */
 
+function makeTitle(text) {
+  const h = document.createElement('h2');
+  h.innerText = text;
+  h.style.textAlign = 'center';
+  h.style.marginBottom = '10px';
+  return h;
+}
+
+function waitForPaint() {
+  return new Promise(resolve => setTimeout(resolve, 150));
+}
 function saveSchedule() {
   // Placeholder – implement later
   console.log('Save schedule clicked');
