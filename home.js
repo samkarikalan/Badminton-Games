@@ -111,60 +111,39 @@ async function exportAllRoundsToPDF() {
 
   const originalRoundIndex = currentRoundIndex ?? 0;
 
-  // 🔹 Create temporary export container
+  // 🔹 Temporary container used only for PDF
   const exportContainer = document.createElement('div');
   exportContainer.style.width = '210mm';
   exportContainer.style.background = '#fff';
   document.body.appendChild(exportContainer);
 
   /* =========================
-     1️⃣ PLAYERS (PAGE 1)
+     1️⃣ PLAYERS PAGE
   ========================= */
-  const playersPage = document.getElementById('page1');
-  if (playersPage) {
-    const clone = playersPage.cloneNode(true);
-    clone.style.display = 'block';
-    clone.style.pageBreakAfter = 'always';
-
-    clone.prepend(makeTitle('Players'));
-    exportContainer.appendChild(clone);
-  }
+  addPageClone('page1', 'Players');
 
   /* =========================
-     2️⃣ SUMMARY (PAGE 2)
+     2️⃣ SUMMARY PAGE
   ========================= */
-  const summaryPage = document.getElementById('page3');
-  if (summaryPage) {
-    const clone = summaryPage.cloneNode(true);
-    clone.style.display = 'block';
-    clone.style.pageBreakAfter = 'always';
-
-    clone.prepend(makeTitle('Summary'));
-    exportContainer.appendChild(clone);
-  }
+  addPageClone('page3', 'Summary');
 
   /* =========================
-     3️⃣ ROUNDS (PAGE 3+)
+     3️⃣ ROUNDS — FULL PAGE2
   ========================= */
+  const page2 = document.getElementById('page2');
+
   for (let i = 0; i < allRounds.length; i++) {
     showRound(i);
     await waitForPaint();
 
-    const roundPage = document.createElement('div');
-    roundPage.style.pageBreakAfter = 'always';
+    const roundClone = page2.cloneNode(true);
+    roundClone.style.display = 'block';
+    roundClone.style.pageBreakAfter = 'always';
 
-    const gamesClone = document
-      .getElementById('game-results')
-      .cloneNode(true);
+    autoFitToOnePage(roundClone);
+    roundClone.prepend(makeTitle(allRounds[i].round));
 
-    gamesClone.style.display = 'block';
-
-    roundPage.append(
-      makeTitle(allRounds[i].round),
-      gamesClone
-    );
-
-    exportContainer.appendChild(roundPage);
+    exportContainer.appendChild(roundClone);
   }
 
   /* =========================
@@ -178,12 +157,30 @@ async function exportAllRoundsToPDF() {
     jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
   }).from(exportContainer).save();
 
-  // 🧹 Restore UI
+  // 🧹 Cleanup & restore UI
   document.body.removeChild(exportContainer);
   showRound(originalRoundIndex);
+
+  /* ===== local helpers ===== */
+
+  function addPageClone(pageId, titleText) {
+    const page = document.getElementById(pageId);
+    if (!page) return;
+
+    const clone = page.cloneNode(true);
+    clone.style.display = 'block';
+    clone.style.pageBreakAfter = 'always';
+
+    autoFitToOnePage(clone);
+    clone.prepend(makeTitle(titleText));
+
+    exportContainer.appendChild(clone);
+  }
 }
 
-/* ===== helpers ===== */
+/* =========================
+   HELPERS
+========================= */
 
 function makeTitle(text) {
   const h = document.createElement('h2');
@@ -194,7 +191,26 @@ function makeTitle(text) {
 }
 
 function waitForPaint() {
-  return new Promise(resolve => setTimeout(resolve, 150));
+  return new Promise(r => setTimeout(r, 150));
+}
+
+// 🔥 Auto-fit any page clone to ONE A4 page
+function autoFitToOnePage(el) {
+  const A4_HEIGHT_PX = 1122; // approx @ html2canvas scale 2
+  let scale = 1;
+
+  // Remove forced page breaks inside
+  el.querySelectorAll('[style*="page-break"]').forEach(n => {
+    n.style.pageBreakAfter = 'auto';
+  });
+
+  while (el.scrollHeight * scale > A4_HEIGHT_PX && scale > 0.65) {
+    scale -= 0.05;
+  }
+
+  el.style.transform = `scale(${scale})`;
+  el.style.transformOrigin = 'top left';
+  el.style.width = `${100 / scale}%`;
 }
 
 
