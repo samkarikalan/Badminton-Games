@@ -104,116 +104,143 @@ function resetRounds() {
 }
 
 async function exportAllRoundsToPDF() {
-  if (!allRounds || allRounds.length === 0) {
-    alert('No rounds to export');
-    return;
-  }
 
-  const originalRoundIndex = currentRoundIndex ?? 0;
+  // ============================
+  // BUSY STATE (START)
+  // ============================
+  const exportBtn = document.getElementById("exportPdfBtn");
+  exportBtn?.classList.add("busy");
 
-  // 🔹 Temporary container used only for PDF
-  const exportContainer = document.createElement('div');
-  exportContainer.style.width = '210mm';
-  exportContainer.style.background = '#fff';
-  document.body.appendChild(exportContainer);
+  try {
+    if (!allRounds || allRounds.length === 0) {
+      alert("No rounds to export");
+      return;
+    }
 
-  /* =========================
-     1️⃣ PLAYERS PAGE
-  ========================= */
-  addPageClone('page1', 'Players');
+    const originalRound = currentRoundIndex ?? 0;
+    const originalPage =
+      document.querySelector(".page:not([style*='display: none'])")?.id;
 
-  /* =========================
-     2️⃣ SUMMARY PAGE
-  ========================= */
-  addPageClone('page3', 'Summary');
+    // ----------------------------
+    // PDF OPTIONS (Mobile Layout)
+    // ----------------------------
+    const opt = {
+      margin: 6,
+      filename: "Badminton_Schedule.pdf",
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: {
+        scale: 2,
+        windowWidth: 375 // 📱 mobile width
+      },
+      jsPDF: {
+        unit: "mm",
+        format: "a4",
+        orientation: "portrait"
+      }
+    };
 
-  /* =========================
-     3️⃣ ROUNDS — FULL PAGE2
-  ========================= */
-  const page2 = document.getElementById('page2');
+    const worker = html2pdf().set(opt);
 
-  for (let i = 0; i < allRounds.length; i++) {
-    showRound(i);
-    await waitForPaint();
+    // ----------------------------
+    // Helper: wait for UI paint
+    // ----------------------------
+    const waitPaint = () =>
+      new Promise(r => requestAnimationFrame(() => r()));
 
-    const roundClone = page2.cloneNode(true);
-    roundClone.style.display = 'block';
-    roundClone.style.pageBreakAfter = 'always';
+    const wait = ms =>
+      new Promise(r => setTimeout(r, ms));
 
-    autoFitToOnePage(roundClone);
-    roundClone.prepend(makeTitle(allRounds[i].round));
+    // ----------------------------
+    // Helper: clone page at mobile width
+    // ----------------------------
+    function cloneMobilePage(pageId, titleText) {
+      const page = document.getElementById(pageId);
 
-    exportContainer.appendChild(roundClone);
-  }
+      const wrapper = document.createElement("div");
+      wrapper.style.width = "375px";
+      wrapper.style.padding = "10px";
+      wrapper.style.boxSizing = "border-box";
 
-  /* =========================
-     EXPORT PDF
-  ========================= */
-  await html2pdf().set({
-    margin: 10,
-    filename: 'Badminton_Schedule.pdf',
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2 },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-  }).from(exportContainer).save();
+      if (titleText) {
+        const h = document.createElement("h2");
+        h.textContent = titleText;
+        h.style.textAlign = "center";
+        h.style.marginBottom = "10px";
+        wrapper.appendChild(h);
+      }
 
-  // 🧹 Cleanup & restore UI
-  document.body.removeChild(exportContainer);
-  showRound(originalRoundIndex);
+      wrapper.appendChild(page.cloneNode(true));
+      return wrapper;
+    }
 
-  /* ===== local helpers ===== */
+    // ============================
+    // PAGE 1 — PLAYERS
+    // ============================
+    showPage("page1");
+    await waitPaint();
 
-  function addPageClone(pageId, titleText) {
-    const page = document.getElementById(pageId);
-    if (!page) return;
+    await worker
+      .from(cloneMobilePage("page1", "Players"))
+      .toPdf()
+      .get("pdf")
+      .then(pdf => pdf.addPage());
 
-    const clone = page.cloneNode(true);
-    clone.style.display = 'block';
-    clone.style.pageBreakAfter = 'always';
+    // ============================
+    // PAGE 3 — SUMMARY (REFRESH)
+    // ============================
+    showPage("page3");
 
-    autoFitToOnePage(clone);
-    clone.prepend(makeTitle(titleText));
+    if (typeof report === "function") {
+      report(); // 🔁 rebuild summary
+      await waitPaint();
+    }
 
-    exportContainer.appendChild(clone);
+    await worker
+      .from(cloneMobilePage("page3", "Summary"))
+      .toPdf()
+      .get("pdf")
+      .then(pdf => pdf.addPage());
+
+    // ============================
+    // PAGE 2 — ROUNDS (ALL)
+    // ============================
+    showPage("page2");
+
+    for (let i = 0; i < allRounds.length; i++) {
+      showRound(i);
+      await wait(120); // allow DOM render
+
+      const roundPage = cloneMobilePage("page2", allRounds[i].round);
+
+      await worker
+        .from(roundPage)
+        .toPdf()
+        .get("pdf")
+        .then(pdf => {
+          if (i !== allRounds.length - 1) {
+            pdf.addPage();
+          }
+        });
+    }
+
+    // ============================
+    // SAVE PDF
+    // ============================
+    worker.save();
+
+    // ============================
+    // RESTORE UI
+    // ============================
+    if (originalPage) showPage(originalPage);
+    showRound(originalRound);
+
+  } finally {
+    // ============================
+    // BUSY STATE (END)
+    // ============================
+    exportBtn?.classList.remove("busy");
   }
 }
-
-/* =========================
-   HELPERS
-========================= */
-
-function makeTitle(text) {
-  const h = document.createElement('h2');
-  h.innerText = text;
-  h.style.textAlign = 'center';
-  h.style.marginBottom = '10px';
-  return h;
-}
-
-function waitForPaint() {
-  return new Promise(r => setTimeout(r, 150));
-}
-
-// 🔥 Auto-fit any page clone to ONE A4 page
-function autoFitToOnePage(el) {
-  const A4_HEIGHT_PX = 1122; // approx @ html2canvas scale 2
-  let scale = 1;
-
-  // Remove forced page breaks inside
-  el.querySelectorAll('[style*="page-break"]').forEach(n => {
-    n.style.pageBreakAfter = 'auto';
-  });
-
-  while (el.scrollHeight * scale > A4_HEIGHT_PX && scale > 0.65) {
-    scale -= 0.05;
-  }
-
-  el.style.transform = `scale(${scale})`;
-  el.style.transformOrigin = 'top left';
-  el.style.width = `${100 / scale}%`;
-}
-
-
 async function oldexportAllRoundsToPDF() {
   if (!allRounds || allRounds.length === 0) {
     alert('No rounds to export');
