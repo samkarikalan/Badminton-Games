@@ -109,6 +109,101 @@ async function exportAllRoundsToPDF() {
     return;
   }
 
+  const originalRoundIndex = currentRoundIndex ?? 0;
+
+  // 🔹 Create temporary export container
+  const exportContainer = document.createElement('div');
+  exportContainer.style.width = '210mm';
+  exportContainer.style.background = '#fff';
+  document.body.appendChild(exportContainer);
+
+  /* =========================
+     1️⃣ PLAYERS (PAGE 1)
+  ========================= */
+  const playersPage = document.getElementById('page1');
+  if (playersPage) {
+    const clone = playersPage.cloneNode(true);
+    clone.style.display = 'block';
+    clone.style.pageBreakAfter = 'always';
+
+    clone.prepend(makeTitle('Players'));
+    exportContainer.appendChild(clone);
+  }
+
+  /* =========================
+     2️⃣ SUMMARY (PAGE 2)
+  ========================= */
+  const summaryPage = document.getElementById('page3');
+  if (summaryPage) {
+    const clone = summaryPage.cloneNode(true);
+    clone.style.display = 'block';
+    clone.style.pageBreakAfter = 'always';
+
+    clone.prepend(makeTitle('Summary'));
+    exportContainer.appendChild(clone);
+  }
+
+  /* =========================
+     3️⃣ ROUNDS (PAGE 3+)
+  ========================= */
+  for (let i = 0; i < allRounds.length; i++) {
+    showRound(i);
+    await waitForPaint();
+
+    const roundPage = document.createElement('div');
+    roundPage.style.pageBreakAfter = 'always';
+
+    const gamesClone = document
+      .getElementById('game-results')
+      .cloneNode(true);
+
+    gamesClone.style.display = 'block';
+
+    roundPage.append(
+      makeTitle(allRounds[i].round),
+      gamesClone
+    );
+
+    exportContainer.appendChild(roundPage);
+  }
+
+  /* =========================
+     EXPORT PDF
+  ========================= */
+  await html2pdf().set({
+    margin: 10,
+    filename: 'Badminton_Schedule.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  }).from(exportContainer).save();
+
+  // 🧹 Restore UI
+  document.body.removeChild(exportContainer);
+  showRound(originalRoundIndex);
+}
+
+/* ===== helpers ===== */
+
+function makeTitle(text) {
+  const h = document.createElement('h2');
+  h.innerText = text;
+  h.style.textAlign = 'center';
+  h.style.marginBottom = '10px';
+  return h;
+}
+
+function waitForPaint() {
+  return new Promise(resolve => setTimeout(resolve, 150));
+}
+
+
+async function oldexportAllRoundsToPDF() {
+  if (!allRounds || allRounds.length === 0) {
+    alert('No rounds to export');
+    return;
+  }
+
   const resultsDiv = document.getElementById('game-results');
   const originalIndex = currentRoundIndex ?? 0;
 
