@@ -380,14 +380,17 @@ for (const r of resting) {
 }    
 
   // 2️⃣ Update PlayedCount
-  for (const game of games) {
-    const allPlayers = [...game.pair1, ...game.pair2];
-    // add players to lastRound
-    lastRound.push(...allPlayers);
-    for (const p of allPlayers) {
-      PlayedCount.set(p, (PlayedCount.get(p) || 0) + 1);
-    }
+  lastRound.length = 0; // 🔥 reset global array (keeps reference)
+
+for (const game of games) {
+  const allPlayers = [...game.pair1, ...game.pair2];
+
+  lastRound.push(...allPlayers);
+
+  for (const p of allPlayers) {
+    PlayedCount.set(p, (PlayedCount.get(p) || 0) + 1);
   }
+}
 
   // 3️⃣ Update opponentMap & PlayerScoreMap
   for (const game of games) {
