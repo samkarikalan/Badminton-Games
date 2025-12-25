@@ -214,7 +214,7 @@ if (fixedPairs.length > 0 && numResting >= 2) {
 );
   const requiredPairsCount = Math.floor(numPlayersPerRound / 2);
   let neededFreePairs = requiredPairsCount - fixedPairsThisRound.length;
-  freePlayersThisRound = reorder1324(freePlayersThisRound);
+  //freePlayersThisRound = reorder1324(freePlayersThisRound);
   let selectedPairs = findDisjointPairs(freePlayersThisRound, schedulerState.pairPlayedSet, neededFreePairs, opponentMap);
 
   let finalFreePairs = selectedPairs || [];
