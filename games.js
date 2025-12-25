@@ -207,6 +207,11 @@ if (fixedPairs.length > 0 && numResting >= 2) {
 
   const fixedPairPlayersThisRound = new Set(fixedPairsThisRound.flat());
   let freePlayersThisRound = playing.filter(p => !fixedPairPlayersThisRound.has(p));
+  freePlayersThisRound = reorderFreePlayersByLastRound(
+  freePlayersThisRound,
+  lastRound,
+  numCourts
+);
   const requiredPairsCount = Math.floor(numPlayersPerRound / 2);
   let neededFreePairs = requiredPairsCount - fixedPairsThisRound.length;
   freePlayersThisRound = reorder1324(freePlayersThisRound);
@@ -270,6 +275,57 @@ return {
   
 }
 
+
+function reorderFreePlayersByLastRound(
+  freePlayersThisRound,
+  lastRound,
+  numCourts
+) {
+  if (numCourts <= 0 || freePlayersThisRound.length === 0) {
+    return [...freePlayersThisRound];
+  }
+
+  const total = freePlayersThisRound.length;
+
+  // per-court capacity
+  const base = Math.floor(total / numCourts);
+  const remainder = total % numCourts;
+
+  // court capacities
+  const capacities = Array.from(
+    { length: numCourts },
+    (_, i) => base + (i < remainder ? 1 : 0)
+  );
+
+  // split by last round
+  const lastRoundSet = new Set(lastRound);
+  const nonPlayed = [];
+  const played = [];
+
+  for (const p of freePlayersThisRound) {
+    (lastRoundSet.has(p) ? played : nonPlayed).push(p);
+  }
+
+  // simulate court fill
+  const courts = Array.from({ length: numCourts }, () => []);
+  let c = 0;
+
+  const distribute = (list) => {
+    for (const p of list) {
+      while (courts[c].length >= capacities[c]) {
+        c = (c + 1) % numCourts;
+      }
+      courts[c].push(p);
+      c = (c + 1) % numCourts;
+    }
+  };
+
+  distribute(nonPlayed);
+  distribute(played);
+
+  // flatten to single ordered array
+  return courts.flat();
+}
 // ==============================
 
 
