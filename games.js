@@ -585,10 +585,13 @@ function renderRestingPlayers(data, index) {
   restDiv.className = 'round-header';
   restDiv.style.paddingLeft = "12px";
 
+  //const title = document.createElement('div');
+  //title.setAttribute("data-i18n", "sittingOut");
+  //restDiv.appendChild(title);
   const title = document.createElement('div');
-  title.setAttribute("data-i18n", "sittingOut");
-  restDiv.appendChild(title);
-
+title.dataset.i18n = 'sittingOut';
+title.textContent = t('sittingOut');
+restDiv.appendChild(title);
   const restBox = document.createElement('div');
   restBox.className = 'rest-box';
 
