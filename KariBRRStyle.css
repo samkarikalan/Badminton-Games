@@ -889,12 +889,24 @@ button {
 }
 
 .hamburger {
-  margin-left: auto;   /* keep right-aligned */
-  font-size: 20px;
-  color: white;
-  background: none;
+  margin-left: auto;        /* push to right */
+  font-size: 22px;
+
+  background: none;         /* ❌ no background */
+  border: none;             /* ❌ no border */
+  box-shadow: none;         /* ❌ no shadow */
+  padding: 8px;             /* small tap area, not visible */
+  color: #ffffff;           /* pure white icon */
+
+  cursor: pointer;
 }
 
+/* remove mobile tap highlight */
+.hamburger:focus,
+.hamburger:active {
+  outline: none;
+  background: none;
+}
 
 
 /* ===== SETTINGS SECTION (Unchanged) ===== */
