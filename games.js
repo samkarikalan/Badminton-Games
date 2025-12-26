@@ -580,7 +580,55 @@ function showRound(index) {
 
 
 // Resting players display
+function t(key) {
+  return translations[currentLang]?.[key] || key;
+}
+
+
 function renderRestingPlayers(data, index) {
+  const restDiv = document.createElement('div');
+  restDiv.className = 'round-header';
+  restDiv.style.paddingLeft = "12px";
+
+  const title = document.createElement('div');
+  title.dataset.i18n = 'sittingOut';
+  title.textContent = t('sittingOut');
+  restDiv.appendChild(title);
+
+  const restBox = document.createElement('div');
+  restBox.className = 'rest-box';
+
+  if (!data.resting || data.resting.length === 0) {
+    const span = document.createElement('span');
+    span.dataset.i18n = 'none';
+    span.textContent = t('none');
+    restBox.appendChild(span);
+  } else {
+    data.resting.forEach(restName => {
+      const baseName = restName.split('#')[0];
+
+      const playerObj = schedulerState.allPlayers.find(
+        p => p.name === baseName
+      );
+
+      if (playerObj) {
+        restBox.appendChild(
+          makeRestButton(
+            { ...playerObj, displayName: restName },
+            data,
+            index
+          )
+        );
+      }
+    });
+  }
+
+  restDiv.appendChild(restBox);
+  return restDiv;
+}
+
+
+function 2renderRestingPlayers(data, index) {
   const restDiv = document.createElement('div');
   restDiv.className = 'round-header';
   restDiv.style.paddingLeft = "12px";
