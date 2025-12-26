@@ -585,7 +585,7 @@ function t(key) {
 }
 
 
-function renderRestingPlayers(data, index) {
+function chkrenderRestingPlayers(data, index) {
   const restDiv = document.createElement('div');
   restDiv.className = 'round-header';
   restDiv.style.paddingLeft = "12px";
@@ -628,18 +628,18 @@ function renderRestingPlayers(data, index) {
 }
 
 
-function 2renderRestingPlayers(data, index) {
+function renderRestingPlayers(data, index) {
   const restDiv = document.createElement('div');
   restDiv.className = 'round-header';
   restDiv.style.paddingLeft = "12px";
 
-  //const title = document.createElement('div');
-  //title.setAttribute("data-i18n", "sittingOut");
-  //restDiv.appendChild(title);
   const title = document.createElement('div');
-title.dataset.i18n = 'sittingOut';
-title.textContent = t('sittingOut');
-restDiv.appendChild(title);
+  title.setAttribute("data-i18n", "sittingOut");
+  restDiv.appendChild(title);
+  //const title = document.createElement('div');
+//title.dataset.i18n = 'sittingOut';
+//title.textContent = t('sittingOut');
+//restDiv.appendChild(title);
   const restBox = document.createElement('div');
   restBox.className = 'rest-box';
 
