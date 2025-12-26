@@ -888,7 +888,12 @@ button {
   box-shadow: 0 3px 7px rgba(93, 37, 235, 0.35);
 }
 
-
+.hamburger {
+  margin-left: auto;   /* keep right-aligned */
+  font-size: 20px;
+  color: white;
+  background: none;
+}
 
 
 
