@@ -167,7 +167,7 @@ async function exportAllRoundsToPDF() {
      EXPORT
   ========================= */
   await html2pdf().set({
-    margin: 10,
+    margin: 1,
     filename: 'Badminton_Schedule.pdf',
     image: { type: 'jpeg', quality: 0.98 },
     html2canvas: { scale: 2 },

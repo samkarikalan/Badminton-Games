@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Badminton Pair-UP</title>
-<link rel="stylesheet" href="KariBRRStyle.css">
+<link rel="stylesheet" href="BRRStyle1.css">
+<link rel="stylesheet" href="BRRStyle2.css">
   <script src="main.js" defer></script>
 <script src="home.js" defer></script>
   <script src="players.js" defer></script>
@@ -23,7 +24,12 @@
 <!--       TOP TAB NAVIGATION      -->
 <!-- ============================= -->
 <div class="top-tabs">
-
+  <!-- Right hamburger button -->
+  <button class="tab-btn back-btn hamburger"
+          onclick="showPage('homePage', this)"
+          aria-label="Menu">
+    ☰
+  </button>
   <!-- Tabs container -->
   <div class="tabs-container">
     <button class="tab-btn" onclick="showPage('page1', this)" data-i18n="players"></button>
@@ -31,12 +37,7 @@
     <button class="tab-btn" onclick="showPage('page3', this)" data-i18n="summary"></button>
   </div>
 
-  <!-- Right hamburger button -->
-  <button class="tab-btn back-btn hamburger"
-          onclick="showPage('homePage', this)"
-          aria-label="Menu">
-    ☰
-  </button>
+  
 
 </div>
 
@@ -174,17 +175,15 @@
 
   <button class="circle-btn" id="courtPlus">+</button>
 </div>
-
-<!-- Timer Icon -->
-<span class="timer-icon" id="timerToggleBtn" onclick="toggleTimer()">
-  ⏱️ <span id="timerDisplay">08:00</span>
-</span>
-
 <!-- 🔒 Lock / Unlock Icon -->
 <span class="lock-icon" id="lockToggleBtn">
   🔒
 </span>
 
+<!-- Timer Icon -->
+<span class="timer-icon" id="timerToggleBtn" onclick="toggleTimer()">
+  ⏱️ <span id="timerDisplay">08:00</span>
+</span>
 <input type="number" id="timerInput" value="8" min="1" class="hidden">
 </div>
   

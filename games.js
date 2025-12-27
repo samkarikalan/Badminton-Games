@@ -633,13 +633,13 @@ function renderRestingPlayers(data, index) {
   restDiv.className = 'round-header';
   restDiv.style.paddingLeft = "12px";
 
-  const title = document.createElement('div');
-  title.setAttribute("data-i18n", "sittingOut");
-  restDiv.appendChild(title);
   //const title = document.createElement('div');
-//title.dataset.i18n = 'sittingOut';
-//title.textContent = t('sittingOut');
-//restDiv.appendChild(title);
+  //title.setAttribute("data-i18n", "sittingOut");
+  //restDiv.appendChild(title);
+  const title = document.createElement('div');
+title.dataset.i18n = 'sittingOut';
+title.textContent = t('sittingOut');
+restDiv.appendChild(title);
   const restBox = document.createElement('div');
   restBox.className = 'rest-box';
 
@@ -859,8 +859,9 @@ if (IS_MIXED_SESSION && player?.gender) {
     (player.gender === 'Female' ? 'female' : 'male');
 
   genderBtn.textContent =
-    player.gender === 'Female' ? '👩' : '👨';
-
+   //player.gender === 'Female' ? '👩' : '👨';
+   player.gender === 'Female' ? "🙎‍♀️ " : "👨‍💼 " ;
+    
   btn.prepend(genderBtn);
 }
 
@@ -919,149 +920,6 @@ if (IS_MIXED_SESSION && player?.gender) {
 }
 
 
-function makePlayerButton3(name, teamSide, gameIndex, playerIndex, data, index) {
-  const btn = document.createElement('button');
-
-  // Base class
-  btn.className = teamSide === 'L' ? 'Lplayer-btn' : 'Rplayer-btn';
-
-  // 🎨 Gender lookup
-  const player = schedulerState.allPlayers.find(p => p.name === name);
-
-  let genderIcon = "";
-
-if (IS_MIXED_SESSION) {
-  genderIcon =
-    player?.gender === "Male" ? "👨‍💼 " :
-    player?.gender === "Female" ? "🙎‍♀️ " :
-    "";
-}
-
-  // Set text
-  btn.innerText = `${genderIcon} ${name}`;
-
-  // Gender color class
-  if (player?.gender === "Male") btn.classList.add('male');
-  if (player?.gender === "Female") btn.classList.add('female');
-
-  const isLatestRound = index === allRounds.length - 1;
-  if (!isLatestRound) return btn; // not interactive if not latest
-
-  // ✅ Click / tap handler
-  const handleTap = (e) => {
-    e.preventDefault();
-
-    if (window.selectedPlayer) {
-      const src = window.selectedPlayer;
-
-      if (src.from === 'rest') {
-        handleDropRestToTeam(
-          e,
-          teamSide,
-          gameIndex,
-          playerIndex,
-          data,
-          index,
-          src.playerName
-        );
-      } else {
-        handleDropBetweenTeams(
-          e,
-          teamSide,
-          gameIndex,
-          playerIndex,
-          data,
-          index,
-          src
-        );
-      }
-
-      // Clear selection
-      window.selectedPlayer = null;
-      document
-        .querySelectorAll('.selected')
-        .forEach(b => b.classList.remove('selected'));
-    } else {
-      // Select player
-      window.selectedPlayer = {
-        playerName: name,
-        teamSide,
-        gameIndex,
-        playerIndex,
-        from: 'team'
-      };
-      btn.classList.add('selected');
-    }
-  };
-
-  btn.addEventListener('click', handleTap);
-  btn.addEventListener('touchstart', handleTap);
-
-  return btn;
-}
-
-function makePlayerButton2(name, teamSide, gameIndex, playerIndex, data, index) {
-  const btn = document.createElement('button');
-
-  btn.className = teamSide === 'L' ? 'Lplayer-btn' : 'Rplayer-btn';
-  btn.innerText = name;
-
-  // 🎨 ADD GENDER CLASS
-  const gender = getGenderByName(name);
-  if (gender === "Male") btn.classList.add('male');
-  if (gender === "Female") btn.classList.add('female');
-
-  const isLatestRound = index === allRounds.length - 1;
-  if (!isLatestRound) return btn;
-
-  const handleTap = (e) => {
-    e.preventDefault();
-
-    if (window.selectedPlayer) {
-      const src = window.selectedPlayer;
-
-      if (src.from === 'rest') {
-        handleDropRestToTeam(
-          e,
-          teamSide,
-          gameIndex,
-          playerIndex,
-          data,
-          index,
-          src.playerName
-        );
-      } else {
-        handleDropBetweenTeams(
-          e,
-          teamSide,
-          gameIndex,
-          playerIndex,
-          data,
-          index,
-          src
-        );
-      }
-
-      window.selectedPlayer = null;
-      document.querySelectorAll('.selected')
-        .forEach(b => b.classList.remove('selected'));
-    } else {
-      window.selectedPlayer = {
-        playerName: name,
-        teamSide,
-        gameIndex,
-        playerIndex,
-        from: 'team'
-      };
-      btn.classList.add('selected');
-    }
-  };
-
-  btn.addEventListener('click', handleTap);
-  btn.addEventListener('touchstart', handleTap);
-
-  return btn;
-}
 
 
 function makeRestButton(player, data, index) {
@@ -1070,8 +928,8 @@ function makeRestButton(player, data, index) {
   let genderIcon = "";
   if (IS_MIXED_SESSION) {
     genderIcon =
-      player.gender === "Male" ? "👨 " :
-      player.gender === "Female" ? "👩 " :
+      player.gender === "Male" ? "👨‍💼 " :
+      player.gender === "Female" ?"🙎‍♀️ "  :
       "";
   }
 
@@ -1138,66 +996,7 @@ function makeRestButton(player, data, index) {
   return btn;
 }
 
-function makeRestButton2(player, data, index) {
-  const btn = document.createElement('button');
-  btn.className = 'rest-btn';
 
-  // 👨 / 👩 icon (only if mixed session)
-  let genderIcon = "";
-  if (IS_MIXED_SESSION) {
-    genderIcon =
-      player.gender === "Male" ? "👨 " :
-      player.gender === "Female" ? "👩 " :
-      "";
-  }
-  btn.innerText = `${genderIcon}${player.displayName || player.name}`;
-  //btn.innerText = `${genderIcon}${player.name}`;
-
-  // 🎨 Optional: color by player number
-  const match = player.name.match(/\.?#(\d+)/);
-  if (match) {
-    const num = parseInt(match[1]);
-    const hue = (num * 40) % 360;
-    btn.style.backgroundColor = `hsl(${hue}, 65%, 45%)`;
-  } else {
-    btn.style.backgroundColor = '#777';
-  }
-
-  btn.style.color = 'white';
-
-  const isLatestRound = index === allRounds.length - 1;
-  if (!isLatestRound) return btn;
-
-  // ✅ Tap-to-move between Rest ↔ Team
-  const handleTap = (e) => {
-    e.preventDefault();
-
-    if (window.selectedPlayer) {
-      const src = window.selectedPlayer;
-      if (src.from === 'team') {
-        handleDropRestToTeam(
-          e,
-          src.teamSide,
-          src.gameIndex,
-          src.playerIndex,
-          data,
-          index,
-          player.name
-        );
-      }
-      window.selectedPlayer = null;
-      document.querySelectorAll('.selected').forEach(b => b.classList.remove('selected'));
-    } else {
-      window.selectedPlayer = { playerName: player.name, from: 'rest' };
-      btn.classList.add('selected');
-    }
-  };
-
-  btn.addEventListener('click', handleTap);
-  btn.addEventListener('touchstart', handleTap);
-
-  return btn;
-}
 function makeTeamButton(label, teamSide, gameIndex, data, index) {
   const btn = document.createElement('button');
   btn.className = 'team-btn';
@@ -1398,13 +1197,16 @@ let interactionLocked = true;
 // Apply initial state
 document.body.classList.add('locked');
 
-document.getElementById('lockToggleBtn').addEventListener('click', () => {
+const lockBtn = document.getElementById('lockToggleBtn');
+
+lockBtn.addEventListener('click', () => {
   interactionLocked = !interactionLocked;
 
+  // Toggle body class
   document.body.classList.toggle('locked', interactionLocked);
 
-  // Icon feedback
-  document.getElementById('lockToggleBtn').textContent =
-    interactionLocked ? '🔒' : '🔓';
+  // Update icon text
+  lockBtn.textContent = interactionLocked ? '🔒' : '🔓';
 });
+
 

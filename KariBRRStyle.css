@@ -243,13 +243,7 @@ body {
   font-size: 20px;
 }
 
-.gender-icon.male {
-  color: #1e88e5;
-}
 
-.gender-icon.female {
-  color: #e91e63;
-}
 
 /* Name column – wraps to second line */
 .pec-name {
@@ -846,13 +840,12 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 8px;
+ 
 
   margin: 0;                  /* remove top margin */
   background: linear-gradient(135deg,  #009ffd);          /* black background for top area */
-  padding: 10px 12px;         /* you can keep inner padding */
-  border-radius: 0;           /* no rounded corners for full-width top bar */
-
+  padding: 5px 12px;         /* you can keep inner padding */
+  border-radius: 05
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
   border: none;               /* optional, black bar doesn’t need border */
 
@@ -861,12 +854,12 @@ button {
 
 .tabs-container {
   display: flex;
-  gap: 5px;
+  gap: 10px;
 }
 
 /* ===== TAB BUTTONS (Updated) ===== */
 .tab-btn {
-  background: #800080;
+  background:none;
   color: white;
   border: none;
   font-weight: 600;
@@ -883,13 +876,13 @@ button {
 
 /* Active Tab – modern gradient */
 .tab-btn.active {
-  background: linear-gradient(to bottom, #6D28D9, #5B21B6);
+  background: #800080;
   color: #fff;
   box-shadow: 0 3px 7px rgba(93, 37, 235, 0.35);
 }
 
 .hamburger {
-  margin-left: auto;        /* push to right */
+  margin-right: auto;        /* push to right */
   font-size: 22px;
 
   background: none;         /* ❌ no background */
@@ -986,7 +979,7 @@ button {
 }
 
 .btn.active {
-  background: linear-gradient(135deg, #4f46e5, #4338ca);
+  background: #800080;
   box-shadow: 0 4px 12px rgba(79,70,229,.45);
 }
 

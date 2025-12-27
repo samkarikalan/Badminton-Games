@@ -218,8 +218,8 @@ function createPlayerCard(player, index) {
 
   // Gender icon
   const genderIcon =
-    player.gender === "Male" ? "👨" :
-    player.gender === "Female" ? "👩" :
+    player.gender === "Male" ? "👨‍💼" :
+    player.gender === "Female" ? "🙎‍♀️" :
     "❔";
 
   card.innerHTML = `

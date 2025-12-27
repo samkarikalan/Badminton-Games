@@ -1,0 +1,579 @@
+:root {
+  --base-font-size: 12px; /* Default Medium */
+}
+html {
+  font-size: var(--base-font-size);
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: #f7f7f9;
+  color: #222;
+}
+body {
+  background: #f2eef9;
+}
+
+.app-logo-premium {
+  font-size: 35px;
+  font-weight: 800;
+  background-image: linear-gradient(135deg,
+  #4b00c6 0%,
+  #8b32ff 50%,
+  #7db4ff 100%
+);
+
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 2px 4px 8px rgba(0,0,0,0.15);
+  letter-spacing: -1px;
+  margin: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center; /* ← center horizontally */
+  text-align: center;      /* ← fixes multi-line text */
+}
+
+/* ===== TOP TABS (Updated Style) ===== */
+/* ===== TOP BAR ===== */
+.top-tabs {
+  position: sticky;
+  top: 0;
+
+  display: flex;
+  align-items: center;
+
+  margin: 0;
+  padding: 5px 12px;
+
+  background: linear-gradient(135deg, #009ffd);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  border: none;
+  border-radius: 0;
+
+  z-index: 999;
+}
+
+/* ===== LEFT HAMBURGER ===== */
+.hamburger {
+  margin-right: auto;          /* ✅ stays left-most */
+  margin-left: 0;
+
+  font-size: 22px;
+  background: transparent;     /* ❌ no visible background */
+  border: none;
+  box-shadow: none;
+
+  padding: 8px;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+/* no active / focus style */
+.hamburger:focus,
+.hamburger:active {
+  outline: none;
+  background: transparent;
+}
+
+/* ===== TABS CONTAINER (CENTERED) ===== */
+.tabs-container {
+  display: flex;
+  gap: 10px;
+}
+
+/* ===== TAB BUTTONS ===== */
+.tab-btn {
+  background: none;
+  color: #ffffff;
+  border: none;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: background 0.25s, transform 0.15s;
+
+  padding: 7px 16px;
+  border-radius: 16px;
+
+  font-size: 15px;
+  text-align: center;
+
+  display: inline-flex;        /* ✅ prevents canvas shrink */
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== ACTIVE TAB ONLY ===== */
+.tab-btn.active {
+  background: #800080;
+  color: #ffffff;
+  box-shadow: 0 3px 7px rgba(93, 37, 235, 0.35);
+}
+
+/* ===============================
+   SETTINGS LAYOUT
+================================ */
+.settings-wrap {
+  display: grid;
+  gap: 10px;          /* compact */
+  padding: 6px;
+}
+
+/* ===============================
+   SECTION TITLE
+================================ */
+.sec {
+  font-weight: 700;
+  font-size: 14px;
+  text-align: center;
+  color: #374151;
+  margin-bottom: 6px;
+  letter-spacing: .2px;
+}
+
+/* ===============================
+   ROW
+================================ */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 13px;
+}
+
+/* ===============================
+   CARD BACKGROUNDS (LIGHT)
+================================ */
+.card-language { background: linear-gradient(180deg, #ffffff, #eef2ff); }
+.card-font     { background: linear-gradient(180deg, #ffffff, #f5f3ff); }
+.card-theme    { background: linear-gradient(180deg, #ffffff, #f1f5f9); }
+.card-reset    { background: linear-gradient(180deg, #fff7ed, #ffffff); }
+.card-timer    { background: linear-gradient(180deg, #f0f9ff, #ffffff); }
+
+/* ===============================
+   BUTTONS
+================================ */
+.btn {
+  flex: 1;
+  min-width: 80px;
+  padding: 9px 6px;          /* compact */
+  border-radius: 10px;
+  background: linear-gradient(135deg, #7c3aed, #6366f1);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.btn:active {
+  transform: scale(.96);
+}
+
+.btn.active {
+  background: #800080;
+  box-shadow: 0 4px 12px rgba(79,70,229,.45);
+}
+
+/* Reset buttons */
+.btn.warn {
+  background: linear-gradient(135deg, #fb923c, #f97316);
+}
+
+.btn.danger {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+/* ===============================
+   TIMER
+================================ */
+.timer-slider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.timer-slider input[type="range"] {
+  flex: 1;
+  height: 5px;
+  border-radius: 6px;
+  appearance: none;
+  background: linear-gradient(to right, #6366f1, #a5b4fc);
+}
+
+.timer-slider span {
+  min-width: 52px;
+  font-weight: 700;
+  font-size: 13px;
+  color: #1e293b;
+}
+
+/* ===============================
+   DIM / NIGHT MODE (SOFT)
+   same theme, just darker
+================================ */
+.app-dark {
+  background: #eef0f6;          /* slightly darker page */
+  color: #1f2937;
+}
+
+.app-dark .settings-card {
+  background: #f4f5fb;          /* soft grey */
+  box-shadow: 0 5px 14px rgba(55,65,81,.18);
+}
+
+.app-dark .sec {
+  color: #374151;
+}
+
+.app-dark .btn {
+  background: linear-gradient(135deg, #5b21b6, #4f46e5);
+}
+
+.app-dark .btn.active {
+  background: linear-gradient(135deg, #4338ca, #3730a3);
+  box-shadow: 0 4px 10px rgba(67,56,202,.45);
+}
+
+/* Keep reset card warm */
+.app-dark .card-reset {
+  background: linear-gradient(180deg, #fff1e6, #f4f5fb);
+}
+
+/* players*/
+/* Modal Background */
+#importModal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+/* Modal Box */
+.modal-content {
+  display: flex;
+  gap: 15px;
+  width: 95%;
+
+  max-width: 550px;
+  background: #fff;
+  padding: 18px;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+}
+
+/* Left Side - Textarea */
+#players-textarea {
+  width: 65%;
+  height: 260px;
+  resize: vertical;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #d4d4d8;
+}
+
+.modal-right {
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* FIXED */
+  gap: 20px;                   /* keeps spacing clean */
+}
+
+/* Radio buttons */
+.gender-radio {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 16px;
+}
+.gender-radio input {
+  transform: scale(1.2);
+}
+
+/* Buttons */
+.modal-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ok-btn,
+.cancel-btn {
+  padding: 10px;
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.ok-btn {
+  background: #2563eb;
+  color: white;
+}
+.ok-btn:hover {
+  background: #1e40af;
+}
+
+.cancel-btn {
+  background: #e5e7eb;
+}
+.cancel-btn:hover {
+  background: #cbd5e1;
+}
+
+.page {
+  font-size: 1.0rem;
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* Player Card Container */
+.player-edit-card {
+  display: grid;
+  grid-template-columns: 20px 20px 35px 1fr 55px;
+  /*   chk    sl    gender  name  delete  */
+
+  align-items: center;
+  gap: 5px;
+
+  font-size: 1.3rem;
+  padding: 6px 15px;
+  border-radius: 1.5rem;
+  border: 1px solid #ddd;
+  transition: all 0.3s;
+  margin: 4px 0;
+}
+
+/* Gender-based background */
+.player-edit-card.male {
+  background-color: #e3f2fd;
+  border-color: #90caf9;
+}
+
+.player-edit-card.female {
+  background-color: #fce4ec;
+  border-color: #f48fb1;
+}
+
+/* Inactive state */
+.player-edit-card.inactive {
+  opacity: 0.45;
+  background-color: #f1f1f1 !important;
+  border-color: #ccc !important;
+  filter: grayscale(0.8);
+}
+
+/* Keep controls clickable even when inactive */
+.player-edit-card.inactive button,
+.player-edit-card.inactive select,
+.player-edit-card.inactive input[type="checkbox"] {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  filter: none !important;
+}
+
+/* Columns */
+.pec-active {
+  text-align: center;
+}
+
+.pec-sl {
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Gender icon column */
+.pec-gender {
+  text-align: center;
+}
+
+/* Gender icon style */
+.gender-icon {
+  font-size: 20px;
+}
+
+
+
+/* Name column – wraps to second line */
+.pec-name {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  line-height: 1.25rem;
+  word-break: break-word;
+  margin-left: -4px; /* reduce gap between gender → name */
+}
+
+/* Delete column */
+.pec-delete {
+  text-align: right;
+}
+
+.pec-delete .delete {
+  all: unset;
+  font-size: 25px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.card, .card-col {
+  background: #fff;
+  padding: 14px;
+  margin: 12px 0;
+  border-radius: 12px;  
+  box-shadow: 0 1px 5px rgba(0,0,0,0.07);
+}
+
+.card  {
+  width: 98%;
+  padding: 0.5rem;
+  margin: 0.5rem;
+  font-size: 1.15rem;
+  border-radius: 1rem;
+  box-sizing: border-box;
+}
+
+.fixed-card {
+  display: grid;
+  grid-template-columns: 1fr 55px;
+  /*   sl    name   delete  */
+
+  align-items: center;
+  gap: 8px;
+
+  font-size: 1.25rem;
+  padding: 8px 15px;
+  border-radius: 1.5rem;
+  border: 1px solid #ccc;
+  margin: 5px 0;
+  background: B5EBDD;
+  transition: 0.25s ease;
+}
+
+/* Serial number (or bullet) */
+.fixed-sl {
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Name */
+.fixed-name {
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.3rem;
+}
+
+/* Delete button container */
+.fixed-delete {
+  text-align: right;
+}
+
+/* Use your existing delete style */
+.fixed-delete .delete {
+  all: unset;
+  font-size: 25px;
+  cursor: pointer;
+  line-height: 1;
+}
+.row-addplayer {
+  display: flex;
+  gap: 10px;
+  flex-wrap: nowrap; /* ❌ stop wrapping */
+  align-items: center; /* vertical alignment */
+}
+
+.card select {
+  font-size: 13px;
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.5rem 0;  
+  border-radius: 1rem;
+  box-sizing: border-box;
+}
+.card input {
+  font-size: 1.15rem;
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.5rem 0;  
+  border-radius: 1rem;
+  box-sizing: border-box;
+}
+
+.card input,
+.card select {
+  border: 0.0625rem solid #ccc;
+}
+.card button {
+  background: #800080;
+  padding:6px;
+  color: white;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.card button:hover {  
+  transform: scale(1.05);
+}
+button {
+  cursor: pointer;
+  font-size: 13px;
+}
+
+/* Summary */
+.report-header,
+.player-card {
+  display: grid;
+  grid-template-columns: 50px 1fr minmax(60px, auto) minmax(60px, auto);
+  align-items: center;
+  gap: 10px;
+}
+
+/* Header styling */
+.report-header {
+  background: #800080;
+  font-weight: bold;
+  color: #fff;
+  padding: 6px;
+  border-radius: 6px;
+  margin-bottom: 1px;
+  position: sticky;
+  z-index: 10;
+}
+
+/* Player card styling */
+.player-card {
+  background: #296472;
+  color: #fff;
+  padding: 2px;
+  margin: 2px 0;
+  border-radius: 1.1rem;
+  border: 1px solid #555;
+  box-shadow: 0 0 4px rgba(0,0,0,0.4);
+}
+
+/* Rank styling */
+.player-card .rank {
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+/* Name column */
+.player-card .name {
+  font-size: 1.1rem;
+  padding-left: 6px;
+}
+
