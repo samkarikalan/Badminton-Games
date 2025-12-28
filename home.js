@@ -100,10 +100,99 @@ function resetRounds() {
   clearPreviousRound();
   goToRounds();
   report(); 
-  document.getElementById("reset_rounds").classList.remove("active");
+  const btn = document.getElementById("reset_rounds_btn");
+  if (btn) {
+    btn.classList.remove("active");
+  }
 }
 
-async function exportAllRoundsToPDF() {
+function isAndroidWebView() {
+  return (
+    /Android/i.test(navigator.userAgent) &&
+    /wv/.test(navigator.userAgent)
+  );
+}
+
+
+ async function export2Images() {
+  if (!allRounds || allRounds.length === 0) {
+    alert('No rounds to export');
+    return;
+  }
+
+  const originalRoundIndex = currentRoundIndex ?? 0;
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF('p', 'px', 'a4'); // px units, portrait
+
+  // 🔹 Offscreen container
+  const exportContainer = document.createElement('div');
+  exportContainer.style.width = '794px';
+  exportContainer.style.background = '#fff';
+  exportContainer.style.position = 'fixed';
+  exportContainer.style.left = '0';
+  exportContainer.style.top = '-10000px';
+  exportContainer.style.display = 'block';
+  exportContainer.style.opacity = '1';
+  document.body.appendChild(exportContainer);
+
+  const pages = [];
+
+  // Players page
+  const page1 = document.getElementById('page1');
+  if (page1) pages.push({ el: page1.cloneNode(true), title: 'Players' });
+
+  // Summary page
+  const page3 = document.getElementById('page3');
+  if (page3) pages.push({ el: page3.cloneNode(true), title: 'Summary' });
+
+  // Rounds pages
+  const page2 = document.getElementById('page2');
+  allRounds.forEach((round, i) => {
+    showRound(i);
+    const clone = page2.cloneNode(true);
+    clone.prepend(makeTitle(round.round));
+    pages.push({ el: clone, title: round.round });
+  });
+
+  for (let i = 0; i < pages.length; i++) {
+    const { el } = pages[i];
+
+    // Make element visible for html2canvas
+    el.style.display = 'block';
+    el.style.visibility = 'visible';
+    el.style.opacity = '1';
+    exportContainer.appendChild(el);
+
+    // 🔹 Android/WebView-safe delay
+    await new Promise(r => setTimeout(r, 200));
+
+    // Capture image
+    const canvas = await html2canvas(el, {
+      scale: 1,             // low scale for mobile memory safety
+      useCORS: true,
+      backgroundColor: '#fff'
+    });
+
+    const imgData = canvas.toDataURL('image/png');
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+    if (i > 0) pdf.addPage();
+    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+
+    exportContainer.removeChild(el); // clean for next
+  }
+
+  document.body.removeChild(exportContainer);
+  showRound(originalRoundIndex); // restore UI
+
+  pdf.save('AllRounds.pdf');
+  alert('All rounds exported as a single PDF!');
+}
+
+
+
+async function bestexportAllRoundsToPDF() {
   if (!allRounds || allRounds.length === 0) {
     alert('No rounds to export');
     return;
