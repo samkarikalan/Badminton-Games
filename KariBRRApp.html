@@ -157,34 +157,28 @@
 <!--           Rounds Page         -->
 <!-- ============================= -->
 <div id="page2" class="page" style="display:none;">  
+  <div id="game-results"></div>  
+  <div class="row-field">  
+    <div class="court-card">
+      <label for="num-courts" class="row-label" data-i18n="courts"></label>
+      <button class="circle-btn" id="courtMinus">−</button>
+      <span id="num-courts">1</span>
+      <button class="circle-btn" id="courtPlus">+</button>
+    </div>    
+    <!-- 🔒 Lock / Unlock Icon -->
+    <span class="lock-icon" id="lockToggleBtn">🔒</span>
+    <!-- Timer Icon -->
+    <div class="timer-card">
+  <button id="timerToggleBtn" class="row-label timer-toggle-btn" onclick="toggleTimer()">⏱️</button>
 
-  <div id="game-results"></div>
-  
-<!--
-<div class="card">
-  <input type="number" id="num-courts" 
-    data-i18n-placeholder="maxcourts"></div>  -->
-<div class="row-field">
-  
-  <div class="court-card">
-    <label for="num-courts" class="row-label" data-i18n="courts"></label>
-
-  <button class="circle-btn" id="courtMinus">−</button>
-
-  <span id="num-courts">1</span>
-
-  <button class="circle-btn" id="courtPlus">+</button>
+  <button class="circle-btn" id="timerMinus">−</button>
+  <span class="timer-display" id="timerDisplay">08:00</span>
+  <button class="circle-btn" id="timerPlus">+</button>
 </div>
-<!-- 🔒 Lock / Unlock Icon -->
-<span class="lock-icon" id="lockToggleBtn">
-  🔒
-</span>
 
-<!-- Timer Icon -->
-<span class="timer-icon" id="timerToggleBtn" onclick="toggleTimer()">
-  ⏱️ <span id="timerDisplay">08:00</span>
-</span>
-<input type="number" id="timerInput" value="8" min="1" class="hidden">
+
+
+
 </div>
   
 <div class="round-navigation">

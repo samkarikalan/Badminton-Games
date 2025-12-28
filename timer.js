@@ -1,76 +1,96 @@
-let timerInterval;
-let remainingSeconds = 0;
+let timerMinutes = 8;
+let remainingSeconds = timerMinutes * 60;
+let timerInterval = null;
 let isRunning = false;
-
-let alarmTimeout = null;        // stops alarm after 30 sec
-let alarmRepeatTimeout = null;  // stops individual repeats
-
-/* ================================
-   MOBILE AUDIO UNLOCK
-================================ */
+let alarmTimeout = null;
+let alarmRepeatTimeout = null;
 let audioUnlocked = false;
 
-function unlockAudio() {
-  if (audioUnlocked) return;
-
-  const sound = document.getElementById("timerSound");
-
-  sound.play()
-    .then(() => {
-      sound.pause();
-      sound.currentTime = 0;
-      audioUnlocked = true;
-    })
-    .catch(() => {});
+// ----------------------------
+// Display update
+// ----------------------------
+function updateTimerDisplay() {
+  const mins = Math.floor(remainingSeconds / 60);
+  const secs = remainingSeconds % 60;
+  document.getElementById("timerDisplay").textContent =
+    `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
 }
 
-/* ================================
-   TIMER TOGGLE
-================================ */
+// ----------------------------
+// + / − buttons
+// ----------------------------
+document.getElementById("timerPlus").onclick = () => {
+  if (!isRunning && timerMinutes < 30) {
+    timerMinutes++;
+    remainingSeconds = timerMinutes * 60;
+    updateTimerDisplay();
+  }
+};
+
+document.getElementById("timerMinus").onclick = () => {
+  if (!isRunning && timerMinutes > 1) {
+    timerMinutes--;
+    remainingSeconds = timerMinutes * 60;
+    updateTimerDisplay();
+  }
+};
+
+// ----------------------------
+// Audio unlock for mobile
+// ----------------------------
+function unlockAudio() {
+  if (audioUnlocked) return;
+  const sound = document.getElementById("timerSound");
+  sound.play().then(() => {
+    sound.pause();
+    sound.currentTime = 0;
+    audioUnlocked = true;
+  }).catch(() => {});
+}
+
+// ----------------------------
+// Toggle timer
+// ----------------------------
 function toggleTimer() {
-  unlockAudio();  // required for mobile
+  unlockAudio();
+
+  const btn = document.getElementById("timerToggleBtn");
 
   if (!isRunning) {
-    startTimerAlwaysReset();
+    isRunning = true;
+    btn.classList.add("running");
+    startTimer();
   } else {
     stopTimer();
   }
 }
 
-function startTimerAlwaysReset() {
-  const mins = parseInt(document.getElementById("timerInput").value) || 8;
-  remainingSeconds = mins * 60;
-  updateDisplay();
-
+// ----------------------------
+// Start / stop timer
+// ----------------------------
+function startTimer() {
   clearInterval(timerInterval);
   timerInterval = setInterval(runTimer, 1000);
-
-  document.getElementById("timerToggleBtn").classList.add("running");
-
-  stopAlarm(); // ensure clean start
-
-  isRunning = true;
+  stopAlarm(); // reset any previous alarm
 }
 
 function stopTimer() {
   clearInterval(timerInterval);
-  document.getElementById("timerToggleBtn").classList.remove("running");
   isRunning = false;
+  document.getElementById("timerToggleBtn").classList.remove("running");
+  stopAlarm();
 
-  stopAlarm();   // stop sound
-
-  // 🔥 Reset countdown back to selected minutes
-  const mins = parseInt(document.getElementById("timerInput").value) || 8;
-  remainingSeconds = mins * 60;
-  updateDisplay();
+  // Reset countdown to selected minutes
+  remainingSeconds = timerMinutes * 60;
+  updateTimerDisplay();
 }
 
-/* ================================
-   TIMER COUNTDOWN
-================================ */
+// ----------------------------
+// Countdown
+// ----------------------------
 function runTimer() {
   remainingSeconds--;
-  updateDisplay();
+  updateTimerDisplay();
 
   if (remainingSeconds <= 0) {
     stopTimer();
@@ -78,26 +98,17 @@ function runTimer() {
   }
 }
 
-function updateDisplay() {
-  const mins = Math.floor(remainingSeconds / 60);
-  const secs = remainingSeconds % 60;
-  document.getElementById("timerDisplay").textContent =
-    `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-}
-
-/* ================================
-   MOBILE-SAFE ALARM
-================================ */
+// ----------------------------
+// Alarm
+// ----------------------------
 function playBeep() {
   const sound = document.getElementById("timerSound");
-  stopAlarm(); // reset all before starting
+  stopAlarm();
 
   let count = 0;
-
   function playOnce() {
     sound.currentTime = 0;
     sound.play().catch(() => {});
-
     count++;
     if (count < 20) {
       alarmRepeatTimeout = setTimeout(playOnce, 1500);
@@ -113,7 +124,6 @@ function playBeep() {
 
 function stopAlarm() {
   const sound = document.getElementById("timerSound");
-
   sound.pause();
   sound.currentTime = 0;
 
@@ -128,16 +138,8 @@ function stopAlarm() {
   }
 }
 
-/* ================================
-   SLIDER LABEL UPDATE
-================================ */
-function updateSliderLabel() {
-  document.getElementById("sliderValue").textContent =
-    document.getElementById("timerInput").value + " min";
-
-  if (!isRunning) {
-    const mins = parseInt(document.getElementById("timerInput").value) || 8;
-    remainingSeconds = mins * 60;
-    updateDisplay();
-  }
-}
+// ----------------------------
+// Initialize
+// ----------------------------
+remainingSeconds = timerMinutes * 60;
+updateTimerDisplay();
