@@ -1,0 +1,102 @@
+
+
+
+
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+}
+
+.title {
+  flex: 1;              /* pushes icons to right */
+  font-weight: 600;
+}
+
+.icon-btn {
+  font-size: 20px;
+  margin-left: 12px;
+  cursor: pointer;
+}
+
+
+<div class="top-bar">
+  <span class="menu-btn" onclick="openMenu()">☰</span>
+
+  <span class="title">CLUB Scheduler</span>
+
+  <!-- Settings -->
+  <span class="icon-btn"
+        role="button"
+        aria-label="Settings"
+        onclick="openSettings()">
+    ⚙️
+  </span>
+
+  <!-- Language -->
+  <span class="icon-btn lang-btn"
+        role="button"
+        aria-label="Change language"
+        onclick="openLangPicker()">
+    🌐
+  </span>
+</div>
+
+
+
+
+
+<div id="langModal" class="lang-modal">
+  <div class="lang-content">
+    <h3>Select Language</h3>
+
+    <button onclick="setLang('en')">English</button>
+    <button onclick="setLang('ja')">🇯🇵 日本語</button>
+    <button onclick="setLang('ko')">🇰🇷 한국어</button>
+    <button onclick="setLang('zh')">🇨🇳 中文</button>
+    <button onclick="setLang('vi')">🇻🇳 Tiếng Việt</button>
+
+    <button onclick="closeLangPicker()">Cancel</button>
+  </div>
+</div>
+
+
+
+const langIcon = {
+  en: "🌐",
+  ja: "🇯🇵",
+  ko: "🇰🇷",
+  zh: "🇨🇳",
+  vi: "🇻🇳"
+};
+
+// ---------- Language ----------
+function openLangPicker() {
+  document.getElementById("langModal").style.display = "block";
+}
+
+function closeLangPicker() {
+  document.getElementById("langModal").style.display = "none";
+}
+
+function setLang(lang) {
+  localStorage.setItem("lang", lang);
+  document.querySelector(".lang-btn").textContent = langIcon[lang];
+  applyLanguage(lang); // your existing i18n logic
+  closeLangPicker();
+}
+
+// ---------- Settings ----------
+function openSettings() {
+  // open your existing settings page / modal
+  showSettingsPage(); 
+}
+
+// ---------- Init ----------
+(function initApp() {
+  const savedLang = localStorage.getItem("lang") || "en";
+  document.querySelector(".lang-btn").textContent = langIcon[savedLang];
+  applyLanguage(savedLang);
+})();
+
