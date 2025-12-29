@@ -26,6 +26,7 @@ function showPage(pageID, el) {
   
 	if (pageID === "page3") {
      report();
+	 renderExportRounds();
    }
 	 // Update last visited page
   lastPage = pageID;
