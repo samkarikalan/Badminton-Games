@@ -66,7 +66,9 @@ function isAndroidWebView() {
   );
 }
 
-function exportBRR2HTML() {
+async function exportBRR2HTML() {
+   showPage('page3');
+  await new Promise(r => setTimeout(r, 400));
   const page1 = document.getElementById('page3');
 
   if (!page1 || page1.offsetHeight === 0) {
