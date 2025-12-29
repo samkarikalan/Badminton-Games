@@ -67,61 +67,38 @@ function isAndroidWebView() {
 }
 
 async function exportBRR2HTML() {
-  // 1️⃣ Switch to export page
   showPage('page3');
   await new Promise(r => setTimeout(r, 300));
 
   const page = document.getElementById('page3');
-  if (!page) {
-    alert("Export page not found");
-    return;
+  if (!page) return alert("Export page not found");
+
+  let css = '';
+  for (const sheet of document.styleSheets) {
+    try {
+      for (const rule of sheet.cssRules) {
+        css += rule.cssText + '\n';
+      }
+    } catch {}
   }
 
-  // 2️⃣ Clone ONLY export page
-  const clone = page.cloneNode(true);
-
-  // 3️⃣ Remove app-only elements
-  clone.querySelectorAll(
-    'button, .swap-icon, .nav, .actions'
-  ).forEach(e => e.remove());
-
-  // 4️⃣ EXPORT-ONLY STYLES (THIS IS KEY)
-  const exportCss = `
-    body {
-      font-family: system-ui, -apple-system, sans-serif;
-      margin: 16px;
-      color: #000;
-    }
-    .court {
-      border: 1px solid #000;
-      padding: 8px;
-      margin-bottom: 12px;
-    }
-    .title {
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-  `;
-
-  // 5️⃣ Build clean HTML
   const html = `
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>BRR Schedule</title>
-<style>${exportCss}</style>
+<title>BRR Export</title>
+<style>${css}</style>
 </head>
 <body>
-${clone.outerHTML}
+${page.outerHTML}
 </body>
 </html>
 `;
 
-  // 6️⃣ Save via Android
   Android.saveHtml(html);
 }
+
 
 async function exportBRR2pdf() {
     showPage('page3');
