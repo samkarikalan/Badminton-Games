@@ -66,6 +66,64 @@ function isAndroidWebView() {
   );
 }
 
+function exportBRR2HTML() {
+  const page1 = document.getElementById('page1');
+
+  if (!page1 || page1.offsetHeight === 0) {
+    alert('Page1 not visible');
+    return;
+  }
+
+  // Clone only Page1
+  const clone = page1.cloneNode(true);
+
+  // Remove interactive elements
+  clone.querySelectorAll('button, .swap-icon').forEach(el => el.remove());
+
+  // Minimal export-only CSS
+  const html = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Page1 Export</title>
+<style>
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  margin: 16px;
+  color: #000;
+}
+
+h1, h2, h3 {
+  margin: 8px 0;
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+.simple-box {
+  border: 1px solid #000;
+  padding: 6px;
+  margin-bottom: 6px;
+}
+</style>
+</head>
+<body>
+${clone.outerHTML}
+</body>
+</html>`;
+
+  // Save file
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'page1.html';
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
 
 async function exportBRR2pdf() {
     showPage('page3');
