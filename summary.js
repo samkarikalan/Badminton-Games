@@ -67,7 +67,7 @@ function isAndroidWebView() {
 }
 
 function exportBRR2HTML() {
-  const page1 = document.getElementById('page1');
+  const page1 = document.getElementById('page3');
 
   if (!page1 || page1.offsetHeight === 0) {
     alert('Page1 not visible');
