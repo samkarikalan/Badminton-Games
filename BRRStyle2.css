@@ -589,3 +589,48 @@ body.locked .swap-icon {
   opacity: 1;
   transform: rotate(90deg) scale(1.05);
 }
+
+
+.export-round {
+  margin-bottom: 36px;
+}
+
+.export-round-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #000;
+  padding-bottom: 4px;
+}
+
+.export-match {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.export-team {
+  width: 40%;
+  border: 1px solid #000;
+  padding: 8px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.export-vs {
+  width: 10%;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Sitting out */
+.export-rest-title {
+  margin-top: 12px;
+  font-weight: 600;
+}
+
+.export-rest-box {
+  margin-top: 4px;
+  font-size: 13px;
+}
