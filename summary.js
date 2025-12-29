@@ -67,66 +67,60 @@ function isAndroidWebView() {
 }
 
 async function exportBRR2HTML() {
-  console.log("Android object:", window.Android);
-  alert(window.Android ? "Android bridge OK" : "Android bridge MISSING");
-   showPage('page3');
-  await new Promise(r => setTimeout(r, 400));
-  const page1 = document.getElementById('page3');
+  // 1️⃣ Switch to export page
+  showPage('page3');
+  await new Promise(r => setTimeout(r, 300));
 
-  if (!page1 || page1.offsetHeight === 0) {
-    alert('Page1 not visible');
+  const page = document.getElementById('page3');
+  if (!page) {
+    alert("Export page not found");
     return;
   }
 
-  // Clone only Page1
-  const clone = page1.cloneNode(true);
+  // 2️⃣ Clone ONLY export page
+  const clone = page.cloneNode(true);
 
-  // Remove interactive elements
-  clone.querySelectorAll('button, .swap-icon').forEach(el => el.remove());
+  // 3️⃣ Remove app-only elements
+  clone.querySelectorAll(
+    'button, .swap-icon, .nav, .actions'
+  ).forEach(e => e.remove());
 
-  // Minimal export-only CSS
-  const html = `<!DOCTYPE html>
+  // 4️⃣ EXPORT-ONLY STYLES (THIS IS KEY)
+  const exportCss = `
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      margin: 16px;
+      color: #000;
+    }
+    .court {
+      border: 1px solid #000;
+      padding: 8px;
+      margin-bottom: 12px;
+    }
+    .title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+  `;
+
+  // 5️⃣ Build clean HTML
+  const html = `
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Page1 Export</title>
-<style>
-body {
-  font-family: system-ui, -apple-system, sans-serif;
-  margin: 16px;
-  color: #000;
-}
-
-h1, h2, h3 {
-  margin: 8px 0;
-}
-
-.section {
-  margin-bottom: 20px;
-}
-
-.simple-box {
-  border: 1px solid #000;
-  padding: 6px;
-  margin-bottom: 6px;
-}
-</style>
+<title>BRR Schedule</title>
+<style>${exportCss}</style>
 </head>
 <body>
 ${clone.outerHTML}
 </body>
-</html>`;
+</html>
+`;
 
-  // Save file
-  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'page1.html';
-  a.click();
-
-  URL.revokeObjectURL(url);
+  // 6️⃣ Save via Android
+  Android.saveHtml(html);
 }
 
 async function exportBRR2pdf() {
