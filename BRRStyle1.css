@@ -116,6 +116,34 @@ body {
   box-shadow: 0 3px 7px rgba(93, 37, 235, 0.35);
 }
 
+.hamburger {
+  background: transparent !important;
+  border: none;
+  outline: none;
+  box-shadow: none;
+
+  /* 🔥 kill Android tap feedback */
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  tap-highlight-color: transparent;
+
+  /* 🔥 kill pressed ripple */
+  appearance: none;
+  -webkit-appearance: none;
+
+  /* 🔥 prevent default touch behavior */
+  touch-action: manipulation;
+}
+
+/* Cover all states */
+.hamburger:active,
+.hamburger:focus,
+.hamburger:hover,
+.hamburger:focus-visible {
+  background: transparent !important;
+  outline: none;
+  box-shadow: none;
+}
+
 /* ===============================
    SETTINGS LAYOUT
 ================================ */
@@ -191,60 +219,26 @@ body {
   background: linear-gradient(135deg, #ef4444, #dc2626);
 }
 
-/* ===============================
-   TIMER
-================================ */
-.timer-slider {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.timer-slider input[type="range"] {
-  flex: 1;
-  height: 5px;
-  border-radius: 6px;
-  appearance: none;
-  background: linear-gradient(to right, #6366f1, #a5b4fc);
-}
-
-.timer-slider span {
-  min-width: 52px;
-  font-weight: 700;
-  font-size: 13px;
-  color: #1e293b;
-}
 
 /* ===============================
    DIM / NIGHT MODE (SOFT)
    same theme, just darker
 ================================ */
 .app-dark {
-  background: #eef0f6;          /* slightly darker page */
+  background: #b8e0f8;          /* slightly darker page */
   color: #1f2937;
 }
 
-.app-dark .settings-card {
-  background: #f4f5fb;          /* soft grey */
+ .app-dark .settings-card {
+  background: #b8e0f85e;          /* soft grey */
   box-shadow: 0 5px 14px rgba(55,65,81,.18);
 }
-
+.app-dark .card {
+  background: #b8e0f85e;          /* soft grey */
+  box-shadow: 0 5px 14px rgba(55,65,81,.18);
+}
 .app-dark .sec {
   color: #374151;
-}
-
-.app-dark .btn {
-  background: linear-gradient(135deg, #5b21b6, #4f46e5);
-}
-
-.app-dark .btn.active {
-  background: linear-gradient(135deg, #4338ca, #3730a3);
-  box-shadow: 0 4px 10px rgba(67,56,202,.45);
-}
-
-/* Keep reset card warm */
-.app-dark .card-reset {
-  background: linear-gradient(180deg, #fff1e6, #f4f5fb);
 }
 
 /* players*/

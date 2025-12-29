@@ -1,6 +1,6 @@
 const translations = {
   en: {
-    appTitle: "CLUB Scheduler™",
+    appTitle: "CLUB Scheduler",
     home: "Home",
     players: "Players",
     rounds: "Rounds",
@@ -45,7 +45,7 @@ const translations = {
    
   },
   jp: {
-    appTitle: "CLUB Scheduler™",
+    appTitle: "CLUB Scheduler",
     home: "ホーム",
     players: "選手一覧",
     rounds: "試合ラウンド",
