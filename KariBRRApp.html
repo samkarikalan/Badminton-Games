@@ -6,8 +6,10 @@
 <title>Badminton Pair-UP</title>
 <link rel="stylesheet" href="BRRStyle1.css">
 <link rel="stylesheet" href="BRRStyle2.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="main.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script src="main.js" defer></script>
 <script src="home.js" defer></script>
   <script src="players.js" defer></script>
   <script src="rounds.js" defer></script>
@@ -91,7 +93,7 @@
 <div class="settings-card card-export">
   <div class="sec" data-i18n="export"></div>
   <div class="row">
-    <div class="btn" onclick="export2Images()">📄 Export PDF</div>
+    <div class="btn" onclick="exportBRR2pdf()">📄 Export PDF</div>
     <div class="btn" onclick="saveSchedule()">💾 Save</div>
   </div>
 </div>
