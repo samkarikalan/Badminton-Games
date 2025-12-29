@@ -67,6 +67,8 @@ function isAndroidWebView() {
 }
 
 async function exportBRR2HTML() {
+  console.log("Android object:", window.Android);
+  alert(window.Android ? "Android bridge OK" : "Android bridge MISSING");
    showPage('page3');
   await new Promise(r => setTimeout(r, 400));
   const page1 = document.getElementById('page3');
