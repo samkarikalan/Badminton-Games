@@ -40,7 +40,8 @@ const translations = {
     courts: "Courts",
     theme: "Theme",
     light: "Light",
-    dark: "Dark"
+    dark: "Dark",
+    export: "Export"
    
   },
   jp: {
@@ -84,8 +85,8 @@ const translations = {
     courts: "コート",
     theme: "テーマ",
     light: "ライト",
-    dark: "ダーク"
-    
+    dark: "ダーク",
+    export: "エクスポート"
 
   }
 };

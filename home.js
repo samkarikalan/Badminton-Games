@@ -1,11 +1,7 @@
 
 let currentLang = "en";
 
-/* ===== Timer ===== */
-function updateSliderLabel() {
-  const val = document.getElementById('timerInput').value;
-  document.getElementById('sliderValue').textContent = val + ' min';
-}
+
 
 /* ===== Theme ===== */
 function initTheme() {
@@ -33,7 +29,7 @@ function setTheme(mode) {
 
 /* ===== Init ===== */
 initTheme();
-updateSliderLabel();
+
 
 
 document.addEventListener("DOMContentLoaded", () => {
