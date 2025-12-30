@@ -706,4 +706,13 @@ PAGE NAVIGATION
  
 ========================= */
 
+function showToast(msg) {
+  const toast = document.getElementById("toast");
+  toast.textContent = msg;
+  toast.classList.remove("hidden");
+  setTimeout(() => toast.classList.add("hidden"), 2500);
+}
 
+function alert(msg) {
+  showToast(msg);   // your toast function
+}
