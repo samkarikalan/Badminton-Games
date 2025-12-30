@@ -174,7 +174,8 @@ if (match) {
   const prefix = match[1] || "";          // "10. " | "10 " | ""
   const namePart = match[2].trim();       // "Kari Kaplan"
   const firstName = namePart.split(/\s+/)[0];
-  line = prefix + firstName;
+  //line = prefix + firstName;
+	line = prefix + namePart;
 }
 
     // Avoid duplicates (case-insensitive)
