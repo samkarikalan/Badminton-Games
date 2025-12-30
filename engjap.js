@@ -36,7 +36,7 @@ const translations = {
     medium: "Medium",
     large: "Large",
     maxcourts: "Enter Number of Courts",
-    sittingOut: "Sitting Out:",
+    sittingOut: "Resting",
     courts: "Courts",
     theme: "Theme",
     light: "Light",
