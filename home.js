@@ -2,7 +2,6 @@
 let currentLang = "en";
 
 
-
 /* ===== Theme ===== */
 function initTheme() {
   const saved = localStorage.getItem('app-theme');
