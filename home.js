@@ -34,13 +34,20 @@ initTheme();
 document.addEventListener("DOMContentLoaded", () => {
   const savedLang = localStorage.getItem("appLanguage");
 
-  if (savedLang === "jp" || savedLang === "en") {
+  const supportedLangs = ["en", "jp", "kr", "vi"];
+
+  if (supportedLangs.includes(savedLang)) {
     setLanguage(savedLang);
   } else {
-    const browserLang = navigator.language.startsWith("jp") ? "jp" : "en";
-    setLanguage(browserLang);
+    const browserLang = navigator.language.toLowerCase();
+
+    if (browserLang.startsWith("ja")) setLanguage("jp");
+    else if (browserLang.startsWith("ko")) setLanguage("kr");
+    else if (browserLang.startsWith("vi")) setLanguage("vi");
+    else setLanguage("en");
   }
 });
+
 
 
 function setLanguage(lang) {
@@ -50,6 +57,8 @@ function setLanguage(lang) {
   // Update UI language buttons
   document.getElementById('lang_en').classList.toggle('active', lang === 'en');
   document.getElementById('lang_jp').classList.toggle('active', lang === 'jp');
+  document.getElementById('lang_kr').classList.toggle('active', lang === 'kr');
+  document.getElementById('lang_vi').classList.toggle('active', lang === 'vi');
 
   // Update normal text
   document.querySelectorAll("[data-i18n]").forEach(el => {
