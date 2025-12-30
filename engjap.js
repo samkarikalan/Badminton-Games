@@ -7,7 +7,7 @@ const translations = {
     summary: "Summary",
     fontSize: "Font Size",
     reset: "Reset",
-    resetAll: "Reset",
+    resetAll: "Reset App",
     resetExcept: "Reset Games",
     enterCourts: "Enter Number of Courts",
     importPlayers: "Import Multiple Players",
