@@ -3,6 +3,23 @@ let currentLang = "en";
 
 
 /* ===== Theme ===== */
+
+function initLanguage() {
+  const savedLang = localStorage.getItem("appLanguage");
+  const supportedLangs = ["en", "jp", "kr", "vi"];
+
+  if (supportedLangs.includes(savedLang)) {
+    setLanguage(savedLang);
+  } else {
+    const browserLang = navigator.language.toLowerCase();
+    if (browserLang.startsWith("ja")) setLanguage("jp");
+    else if (browserLang.startsWith("ko")) setLanguage("kr");
+    else if (browserLang.startsWith("vi")) setLanguage("vi");
+    else setLanguage("en");
+  }
+}
+
+
 function initTheme() {
   const saved = localStorage.getItem('app-theme');
   if (saved) {
@@ -38,25 +55,9 @@ initTheme();
 
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Theme
-  initTheme();
-
-  // Font size
-  initFontSize();
-
-  // Language
-  const savedLang = localStorage.getItem("appLanguage");
-  const supportedLangs = ["en", "jp", "kr", "vi"];
-
-  if (supportedLangs.includes(savedLang)) {
-    setLanguage(savedLang);
-  } else {
-    const browserLang = navigator.language.toLowerCase();
-    if (browserLang.startsWith("ja")) setLanguage("jp");
-    else if (browserLang.startsWith("ko")) setLanguage("kr");
-    else if (browserLang.startsWith("vi")) setLanguage("vi");
-    else setLanguage("en");
-  }
+  initTheme();     // restore theme
+  initFontSize();  // restore font size
+  initLanguage();  // restore language
 });
 
 
@@ -86,19 +87,19 @@ function setLanguage(lang) {
 function setFontSize(size) {
   const root = document.documentElement;
 
-  // Update font size variable
   if (size === "small") root.style.setProperty("--base-font-size", "12px");
   if (size === "medium") root.style.setProperty("--base-font-size", "15px");
   if (size === "large") root.style.setProperty("--base-font-size", "18px");
 
-  // Only remove active from font-size buttons, not all .btn elements
+  localStorage.setItem("appFontSize", size); // 👈 SAVE (ADD THIS)
+
   document.querySelectorAll("#font_small, #font_medium, #font_large").forEach(el => {
     el.classList.remove("active");
   });
 
-  // Add active to selected font size
-  document.getElementById(`font_${size}`).classList.add("active");
+  document.getElementById(`font_${size}`)?.classList.add("active");
 }
+
 
 function ResetAll() {
   location.reload(); // This refreshes the entire app clean
