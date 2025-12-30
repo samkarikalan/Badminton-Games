@@ -204,7 +204,7 @@ body {
 ================================ */
 .btn {
   flex: 1;
-  min-width: 80px;
+  min-width: 50px;
   padding: 9px 6px;          /* compact */
   border-radius: 10px;
   background: linear-gradient(135deg, #7c3aed, #6366f1);
