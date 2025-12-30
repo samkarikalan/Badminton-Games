@@ -118,7 +118,7 @@ function toggleActive(index, checkbox) {
 /* =========================
    ADD PLAYERS FROM TEXT
 ========================= */
-function addPlayersFromText() {
+function addPlayersFromText2() {
   const text = document.getElementById('players-textarea').value.trim();
   if (!text) return;
   const defaultGender = document.querySelector('input[name="genderSelect"]:checked')?.value || "Male";
@@ -181,6 +181,100 @@ if (match) {
     // Avoid duplicates (case-insensitive)
     if (!schedulerState.allPlayers.some(p => p.name.toLowerCase() === line.toLowerCase())) {
       extractedNames.push({ name: line, gender: defaultGender, active: true });
+    }
+  }
+
+  schedulerState.allPlayers.push(...extractedNames);
+
+  schedulerState.activeplayers = schedulerState.allPlayers
+    .filter(p => p.active)
+    .map(p => p.name)
+    .reverse();
+
+  updatePlayerList();
+  updateFixedPairSelectors();
+  hideImportModal();
+}
+
+function addPlayersFromText() {
+  const text = document.getElementById('players-textarea').value.trim();
+  if (!text) return;
+
+  const defaultGender =
+    document.querySelector('input[name="genderSelect"]:checked')?.value || "Male";
+
+  const lines = text.split(/\r?\n/);
+
+  const stopMarkers = [
+    /court full/i, /wl/i, /waitlist/i, /late cancel/i,
+    /cancelled/i, /reserve/i, /bench/i, /extras/i, /backup/i
+  ];
+
+  let startIndex = 0;
+  let stopIndex = lines.length;
+
+  // Find first "Confirm" line
+  const confirmLineIndex = lines.findIndex(line => /confirm/i.test(line));
+
+  if (confirmLineIndex >= 0) {
+    startIndex = confirmLineIndex + 1;
+    for (let i = startIndex; i < lines.length; i++) {
+      if (stopMarkers.some(re => re.test(lines[i]))) {
+        stopIndex = i;
+        break;
+      }
+    }
+  }
+
+  const extractedNames = [];
+
+  for (let i = startIndex; i < stopIndex; i++) {
+    let line = lines[i].trim();
+    if (!line) continue;
+    if (line.toLowerCase().includes("https")) continue;
+
+    let gender = defaultGender;
+
+    // ✅ Handle name,gender format
+    if (line.includes(",")) {
+      const parts = line.split(",").map(p => p.trim());
+      line = parts[0];
+
+      if (parts[1]) {
+        const g = parts[1].toLowerCase();
+        if (g === "male" || g === "female") {
+          gender = g.charAt(0).toUpperCase() + g.slice(1);
+        }
+      }
+    }
+
+    // Extract parentheses content if present
+    const parenMatch = line.match(/\(([^)]+)\)/);
+    if (parenMatch) {
+      const inside = parenMatch[1].toLowerCase();
+      if (inside === "male" || inside === "female") {
+        gender = inside.charAt(0).toUpperCase() + inside.slice(1);
+      }
+      line = line.replace(/\([^)]+\)/, "").trim();
+    }
+
+    // Normalize numbering (keep prefix)
+    const match = line.match(/^(\d+\.?\s*)?(.*)$/);
+    if (match) {
+      const prefix = match[1] || "";
+      const namePart = match[2].trim();
+      line = prefix + namePart;
+    }
+
+    // Avoid duplicates (case-insensitive)
+    if (!schedulerState.allPlayers.some(
+      p => p.name.toLowerCase() === line.toLowerCase()
+    )) {
+      extractedNames.push({
+        name: line,
+        gender,
+        active: true
+      });
     }
   }
 
