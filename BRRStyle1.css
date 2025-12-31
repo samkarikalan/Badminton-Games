@@ -618,4 +618,29 @@ body {
   box-sizing: border-box;
 }
 
+/* hide everything by default */
+.player-help section {
+  display: none;
+}
+
+/* English */
+.player-help.lang-en section[data-lang="en"] {
+  display: block;
+}
+
+/* Japanese (app = jp, content = ja) */
+.player-help.lang-jp section[data-lang="ja"] {
+  display: block;
+}
+
+/* Korean (app = kr, content = ko) */
+.player-help.lang-kr section[data-lang="ko"] {
+  display: block;
+}
+
+/* Vietnamese */
+.player-help.lang-vi section[data-lang="vi"] {
+  display: block;
+}
+
 
