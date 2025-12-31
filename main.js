@@ -1,5 +1,54 @@
 let lastPage = null;
 
+function isPageVisible(pageId) {
+  const el = document.getElementById(pageId);
+  return el && el.style.display !== 'none';
+}
+
+
+function updateRoundsPageAccess() {
+  const block = schedulerState.activeplayers.length < 4;
+  const tabs = document.querySelectorAll('.tab-btn');
+  const roundsTab = tabs[1]; // page2
+
+  if (!roundsTab) return;
+
+  roundsTab.style.pointerEvents = block ? 'none' : 'auto';
+  roundsTab.style.opacity = block ? '0.4' : '1';
+  roundsTab.setAttribute('aria-disabled', block);
+
+  if (block && isPageVisible('page2')) {
+    showPage('page1', tabs[0]);
+  }
+	
+}
+
+
+function updateSummaryPageAccess() {
+  const hasRounds = Array.isArray(allRounds) && allRounds.length > 0;
+  const tabs = document.querySelectorAll('.tab-btn');
+  const summaryTab = tabs[2]; // page3
+
+  const block = !hasRounds;
+
+  if (!summaryTab) return;
+
+  summaryTab.style.pointerEvents = block ? 'none' : 'auto';
+  summaryTab.style.opacity = block ? '0.4' : '1';
+  summaryTab.setAttribute('aria-disabled', block);
+
+  if (block && isPageVisible('page3')) {
+    showPage('page1', tabs[0]);
+  }
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  updateRoundsPageAccess();
+  updateSummaryPageAccess();
+});
+
+
 function showPage(pageID, el) {
   // Hide all pages
   document.querySelectorAll('.page').forEach(p => p.style.display = 'none');

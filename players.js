@@ -49,6 +49,7 @@ function addPlayer() {
     alert(`Player "${name}" already exists!`);
   }
   document.getElementById('player-name').value = '';
+  	
 }
 
 
@@ -76,7 +77,7 @@ function editPlayer(i, field, val) {
     .reverse();
 
   updatePlayerList();
-  updateFixedPairSelectors();
+  updateFixedPairSelectors();  	
 }
 /* =========================
    DELETE PLAYER
@@ -90,6 +91,7 @@ function deletePlayer(i) {
 
   updatePlayerList();
   updateFixedPairSelectors();
+  
 }
 
 function toggleActive(index, checkbox) {
@@ -113,6 +115,8 @@ function toggleActive(index, checkbox) {
 
   // Refresh UI
   updateFixedPairSelectors();
+  
+	
 }
 
 /* =========================
@@ -400,6 +404,8 @@ function updatePlayerList() {
     const card = createPlayerCard(player, index);
     container.appendChild(card);
   });
+  updateCourtButtons()
+  updateRoundsPageAccess(); 	
 }
 
 function oldupdatePlayerList() {

@@ -23,6 +23,36 @@ let schedulerState = {
 	markingWinnerMode: false,
 };
 
+schedulerState.activeplayers = new Proxy([], {
+  get(target, prop) {
+    const value = target[prop];
+
+    if (typeof value === 'function') {
+      return function (...args) {
+        const result = value.apply(target, args);
+        updateRoundsPageAccess();
+        return result;
+      };
+    }
+
+    return value;
+  }
+});
+
+
+
+allRounds = new Proxy(allRounds, {
+  set(target, prop, value) {
+    target[prop] = value;
+    updateSummaryPageAccess();
+    return true;
+  },
+  deleteProperty(target, prop) {
+    delete target[prop];
+    updateSummaryPageAccess();
+    return true;
+  }
+});
 
 
 let courts = 1;
@@ -158,6 +188,7 @@ function nextRound() {
     currentRoundIndex = allRounds.length - 1;
     showRound(currentRoundIndex);
   }
+  updateSummaryPageAccess()
 }
 function prevRound() {
   if (currentRoundIndex > 0) {

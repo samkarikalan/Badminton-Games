@@ -604,3 +604,18 @@ body {
   z-index: 9999;
 }
 .hidden { display: none; }
+
+#page4 img {
+  width: 100%;        /* fit to page width */
+  max-width: 900px;   /* prevents over-stretch on large screens */
+  height: auto;       /* keeps aspect ratio */
+  display: block;
+  margin: 0 auto;     /* center horizontally */
+}
+
+#page4 {
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+

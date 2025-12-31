@@ -39,6 +39,7 @@
     <button class="tab-btn" onclick="showPage('page1', this)" data-i18n="players"></button>
     <button class="tab-btn" onclick="showPage('page2', this)" data-i18n="rounds"></button>
     <button class="tab-btn" onclick="showPage('page3', this)" data-i18n="summary"></button>
+    <button class="tab-btn" onclick="showPage('page4', this)" data-i18n="help"></button>
   </div> 
 
 </div>
@@ -95,6 +96,15 @@
       <div class="row">
         <div class="btn" onclick="exportBRR2HTML()" 
           data-i18n="exporthtml">  📄 
+        </div>
+      </div>
+    </div>  
+
+    <div class="settings-card card-help">
+      <div class="sec" data-i18n="help"></div>
+      <div class="row">
+        <div class="btn" onclick="initHelpPopup()" 
+          data-i18n="help">  📄 
         </div>
       </div>
     </div>  
@@ -184,6 +194,7 @@
 <audio id="timerSound">
   <source src="timer.mp3" type="audio/mpeg">
 </audio>
+ 
 
 <!-- ============================= -->
 <!--           PAGE 3              -->
@@ -194,8 +205,13 @@
   <div id="export"></div>
 </div>
 
+<div id="page4" class="page" style="display:none;">
+  <img src="players-help.png" alt="Players Page Help">
+</div>
 
 <div id="toast" class="toast hidden"></div>  
+
+  
 <!-- ============================= -->
 <!--           Import Modal        -->
 <!-- ============================= -->
