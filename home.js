@@ -5,20 +5,29 @@ let currentLang = "en";
 /* ===== Theme ===== */
 
 function initLanguage() {
-  const savedLang = localStorage.getItem("appLanguage");
-  const supportedLangs = ["en", "jp", "kr", "vi"];
+const savedLang = localStorage.getItem("appLanguage");
+const supportedLangs = ["en", "jp", "kr", "vi"];
 
-  if (supportedLangs.includes(savedLang)) {
-    setLanguage(savedLang);
-  } else {
-    const browserLang = navigator.language.toLowerCase();
-    if (browserLang.startsWith("ja")) setLanguage("jp");
-    else if (browserLang.startsWith("ko")) setLanguage("kr");
-    else if (browserLang.startsWith("vi")) setLanguage("vi");
-    else setLanguage("en");
-  }
+if (supportedLangs.includes(savedLang)) {
+setLanguage(savedLang);
+updateHelpLanguage(savedLang);
+} else {
+const browserLang = navigator.language.toLowerCase();
+if (browserLang.startsWith("ja")) {
+setLanguage("jp");
+updateHelpLanguage("jp");
+} else if (browserLang.startsWith("ko")) {
+setLanguage("kr");
+updateHelpLanguage("kr");
+} else if (browserLang.startsWith("vi")) {
+setLanguage("vi");
+updateHelpLanguage("vi");
+} else {
+setLanguage("en");
+updateHelpLanguage("en");
 }
-
+}
+}
 
 function initTheme() {
   const saved = localStorage.getItem('app-theme');
@@ -80,6 +89,8 @@ function setLanguage(lang) {
     const key = el.dataset.i18nPlaceholder;
     el.placeholder = translations[lang][key] || "";
   });
+  
+  updateHelpLanguage(lang);
 }
 
 
