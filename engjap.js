@@ -42,7 +42,8 @@ const translations = {
     light: "Light",
     dark: "Dark",
     export: "Export",
-    exporthtml: "📄 Export Summary"
+    exporthtml: "📄 Export Summary",
+    help: "Help"
    
   },
   
@@ -89,7 +90,8 @@ const translations = {
     light: "ライト",
     dark: "ダーク",
     export: "エクスポート",
-    exporthtml: "📄 概要出力"
+    exporthtml: "📄 概要出力",
+    help: "ヘルプ"
 
   },
   
@@ -136,7 +138,8 @@ const translations = {
   light: "라이트",
   dark: "다크",
   export: "내보내기",
-  exporthtml: "📄 요약 내보내기"
+  exporthtml: "📄 요약 내보내기",
+  help: "도움말"
 },
   
 vi: {
@@ -182,7 +185,8 @@ vi: {
   light: "Sáng",
   dark: "Tối",
   export: "Xuất",
-  exporthtml: "📄 Xuất bản tóm tắt"
+  exporthtml: "📄 Xuất bản tóm tắt",
+  help: "Trợ giúp"
 }
   
   
