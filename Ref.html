@@ -1,3 +1,17 @@
+<span class="gender-icon ${player.gender.toLowerCase()}"
+      onclick="toggleGender(${index}, this)">
+  ${genderIcon}
+</span>
+
+.player-edit-card.male { background: #e3f2fd; }
+.player-edit-card.female { background: #fde2e4; }
+
+.gender-icon { cursor: pointer; }
+
+
+
+
+
 function isPageVisible(pageId) {
   const el = document.getElementById(pageId);
   return el && el.style.display !== 'none';
