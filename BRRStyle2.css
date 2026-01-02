@@ -529,10 +529,10 @@ body.locked .swap-icon {
 }
 /* Round title inside card */
 
-#roundTitle {
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
+#roundTitle2 {
+  width: 2.5rem !important;
+  height: 2.5rem !important;
+  border-radius: 50% !important;
   background-color: #FFD700;
   color: black;
   font-size: 1.5rem;
@@ -541,25 +541,48 @@ body.locked .swap-icon {
   align-items: center;
   line-height: 1;
   padding: 0;
+  font-weight: bold;  
+  border: none;
+  cursor: pointer;
+  align-self: center;
+  flex-shrink: 0;
+}
+
+
+
+#roundTitle {
+  margin: 8px auto 0 ;
+  font-size: 1.25rem;
   font-weight: bold;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  width: 10rem;
+  height: 2.0rem;
+  border-radius: 0.5rem;
+  background-color: #FFD700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 /* Navigation Buttons */
 .round-navigation button {
-   color: #fff;
-  padding: 5px 20px;
+  color: #fff;
   background: #800080;
-  border: none;
-  border-radius: 1.4rem;
-  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 20px;
+  color: white;
   font-weight: 600;
   cursor: pointer;
+  border-radius: 0.5rem;
+  user-select: none;
   transition: transform 0.15s ease, background 0.15s ease;
 }
 
+
 .round-navigation button:hover {
-  background: #f48fb1;
+   background: #800080;
   transform: scale(1.05);
 }
 

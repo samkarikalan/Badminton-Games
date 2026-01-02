@@ -93,7 +93,12 @@ function setLanguage(lang) {
   updateHelpLanguage(lang);
 }
 
+function updateRoundTitle(round) {
+  const roundTitle = document.getElementById("roundTitle");
+  if (!roundTitle) return;
 
+  roundTitle.innerText = `${translations[currentLang].nround} ${round}`;
+}
 
 function setFontSize(size) {
   const root = document.documentElement;

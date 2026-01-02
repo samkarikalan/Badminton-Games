@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>CLUB Scheduler</title>
+
+  <link rel="stylesheet" href="BRRStyle1.css">
+  <link rel="stylesheet" href="BRRStyle2.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <script src="main.js" defer></script>
+  <script src="home.js" defer></script>
+  <script src="players.js" defer></script>
+  <script src="rounds.js" defer></script>
+  <script src="games.js" defer></script>
+  <script src="engjap.js" defer></script>
+  <script src="timer.js" defer></script>
+  <script src="summary.js" defer></script>
+  <script src="help.js" defer></script>
+</head>
+
+<body>
+  <div class="top-bar">
+     <span class="menu-btn" onclick="showPage('homePage', this)">☰</span>
+     <span class="app-logo-premium">CLUB Scheduler</span>
+   </div>
+
+
+<!-- ============================= -->
+<!--       TOP TAB NAVIGATION      -->
+<!-- ============================= -->
+<div class="top-tabs">
+  <!-- Tabs container -->
+  <div class="tabs-container">
+    <button class="tab-btn" onclick="showPage('page1', this)" data-i18n="players"></button>
+    <button class="tab-btn" onclick="showPage('page2', this)" data-i18n="rounds"></button>
+    <button class="tab-btn" onclick="showPage('page3', this)" data-i18n="summary"></button>
+    <button class="tab-btn" onclick="showPage('page4', this)" data-i18n="help"></button>
+  </div> 
+
+</div>
+
+<!-- ============================= -->
+<!--           HOME PAGE           -->
+<!-- ============================= -->
+<div id="homePage" class="page">
+
+  <div class="settings-wrap">
+
+    <!-- Language -->
+    <div class="settings-card card-language">
+      <div class="sec" data-i18n="language"></div>
+      <div class="row">
+        <div class="btn active" id="lang_en" onclick="setLanguage('en')">English</div>
+        <div class="btn" id="lang_jp" onclick="setLanguage('jp')">日本語</div>
+        <div class="btn" id="lang_kr" onclick="setLanguage('kr')">한국어</div>
+        <div class="btn" id="lang_vi" onclick="setLanguage('vi')">Tiếng Việt</div>
+      </div>
+    </div>
+
+    <!-- Font Size -->
+    <div class="settings-card card-font">
+      <div class="sec" data-i18n="fontSize"></div>
+      <div class="row">
+        <div class="btn active" id="font_small" onclick="setFontSize('small')" data-i18n="small"></div>
+        <div class="btn" id="font_medium" onclick="setFontSize('medium')" data-i18n="medium"></div>
+        <div class="btn" id="font_large" onclick="setFontSize('large')" data-i18n="large"></div>
+      </div>
+    </div>
+
+    <!-- Theme -->
+    <div class="settings-card card-theme">
+      <div class="sec" data-i18n="theme"></div>
+      <div class="row">
+        <div class="btn active" id="theme_light" onclick="setTheme('light')" data-i18n="light"></div>
+        <div class="btn" id="theme_dark" onclick="setTheme('dark')" data-i18n="dark"></div>
+      </div>
+    </div>
+
+    <!-- Reset -->
+    <div class="settings-card card-reset">
+      <div class="sec" data-i18n="reset"></div>
+      <div class="row">
+        <div class="btn danger" onclick="ResetAll()" data-i18n="resetAll"></div>
+        <div class="btn warn" onclick="resetRounds()" data-i18n="resetExcept"></div>
+      </div>
+    </div>
+
+        <!-- Export / Save -->
+    <div class="settings-card card-export">
+      <div class="sec" data-i18n="export"></div>
+      <div class="row">
+        <div class="btn" onclick="exportBRR2HTML()" 
+          data-i18n="exporthtml">  📄 
+        </div>
+      </div>
+    </div>  
+
+    
+  </div>
+</div>
+
+<!--           PAGE 1              -->
+<!--         Players Page          -->
+<!-- ============================= -->
+<div id="page1" class="page" style="display:none;"> 
+
+  <div class="card">    
+    <button onclick="showImportModal()" data-i18n="importPlayers"></button>
+  </div> 
+
+  <div class="card">
+    <input type="text"
+      id="player-name"
+      data-i18n-placeholder="enterPlayerName">
+
+    <div class="row-addplayer">  
+      <select id="player-gender">
+        <option value="Male" data-i18n="male"></option>
+        <option value="Female" data-i18n="female"></option>
+      </select>
+      <button class="add-button" onclick="addPlayer()" data-i18n="addPlayer"></button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div id="playerList" class="player-list"></div>
+  </div>
+
+  <div class="card">
+    <h3 data-i18n="fixedPairs"></h3>
+    <select id="fixed-pair-1"></select>
+    <select id="fixed-pair-2"></select>
+    <button onclick="modifyFixedPair()" data-i18n="add"></button>
+
+    <div id="fixed-pair-list" class="fixed-pairs-list"></div>
+  </div>
+
+</div> <!-- page1 -->
+
+<!-- ============================= -->
+<!--           PAGE 2              -->
+<!--           Rounds Page         -->
+<!-- ============================= -->
+<div id="page2" class="page" style="display:none;">  
+  <div id="game-results"></div>  
+  <div class="row-field">  
+    <div class="court-card">
+      <label for="num-courts" class="row-label" data-i18n="courts"></label>
+      <button class="circle-btn" id="courtMinus">−</button>
+      <span id="num-courts">1</span>
+      <button class="circle-btn" id="courtPlus">+</button>
+    </div>    
+    <!-- 🔒 Lock / Unlock Icon -->
+    <span class="lock-icon" id="lockToggleBtn">🔒</span>
+    <!-- Timer Icon -->
+    <div class="timer-card">
+  <button id="timerToggleBtn" class="row-label timer-toggle-btn" onclick="toggleTimer()">⏱️</button>
+
+  <button class="circle-btn" id="timerMinus">−</button>
+  <span class="timer-display" id="timerDisplay">08:00</span>
+  <button class="circle-btn" id="timerPlus">+</button>
+</div>
+
+
+
+
+</div>
+  
+<div class="round-navigation">
+  <button id="prevBtn" onclick="prevRound()" disabled data-i18n="pround"></button>  
+  <div id="roundTitle" onclick="RefreshRound()">R</div>
+  <button id="nextBtn" onclick="nextRound()" disabled data-i18n="nround"></button>  
+  
+  
+</div>
+
+</div>
+
+
+
+<!-- Timer Sound -->
+<audio id="timerSound">
+  <source src="timer.mp3" type="audio/mpeg">
+</audio>
+ 
+
+<!-- ============================= -->
+<!--           PAGE 3              -->
+<!--        Summary / Report       -->
+<!-- ============================= -->
+<div id="page3" class="page" style="display:none;">
+  <div id="reportContainer"></div>
+  <div id="export"></div>
+</div>
+
+<div id="page4" class="page" style="display:none;">
+  <div class="help-tabs">
+    <button class="help-btn active" onclick="loadHelp('players')">Players</button>
+    <button class="help-btn" onclick="loadHelp('rounds')">Rounds</button>
+    <button class="help-btn" onclick="loadHelp('summary')">Summary</button>
+  </div>
+  <div id="helpContainer"></div>  
+
+   <div id="playersHelp" class="player-help lang-en">
+
+  <!-- 🔵 Male -->
+  <section data-lang="en">
+    <h3>🔵👨 Blue Player Row (Male)</h3>
+    <ul>
+      <li>A blue background with a man icon represents a male player</li>
+      <li>Each blue row corresponds to one male player</li>
+      <li>Example player name: Alan</li>
+      <li>If the checkbox is checked, the player is marked as active</li>
+      <li>Only active male players are included when generating schedules</li>
+      <li>Unchecked male players will not be assigned to any court</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- 🌸 Female -->
+  <section data-lang="en">
+    <h3>🌸👩 Pink Player Row (Female)</h3>
+    <ul>
+      <li>A pink background with a woman icon represents a female player</li>
+      <li>Each pink row corresponds to one female player</li>
+      <li>Example player name: Rose</li>
+      <li>If the checkbox is checked, the player is marked as active</li>
+      <li>Only active female players are included when generating schedules</li>
+      <li>Unchecked female players will not be assigned to any court</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- ✅ Checkbox -->
+  <section data-lang="en">
+    <h3>✅ Checkbox Meaning</h3>
+    <ul>
+      <li><strong>Checked</strong> → Player is active and eligible for scheduling</li>
+      <li><strong>Unchecked</strong> → Player is inactive and excluded from scheduling</li>
+      <li>Only active players are counted when calculating courts and teams</li>
+      <li>Changing a checkbox immediately affects the next schedule generation</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- 🗑️ Trash -->
+  <section data-lang="en">
+    <h3>🗑️ Trash Icon</h3>
+    <ul>
+      <li>Click the trash icon to permanently remove a player</li>
+      <li>Removed players will no longer appear in the players list</li>
+      <li>This action cannot be undone</li>
+      <li>Removing a player may reduce the number of available courts</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- 📊 Rules -->
+  <section data-lang="en">
+    <h3>📊 Important Rules</h3>
+    <ul>
+      <li>4 active players are required to form 1 court</li>
+      <li>8 active players allow 2 courts</li>
+      <li>12 active players allow 3 courts, and so on</li>
+      <li>Gender does not affect how many courts can be created</li>
+      <li>Inactive players are ignored in court calculations</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- ⭐ Tips -->
+  <section data-lang="en">
+    <h3>⭐ Quick Tips</h3>
+    <ul>
+      <li>Cannot add more courts? Make sure enough players are active</li>
+      <li>A player not scheduled? Check if their checkbox is enabled</li>
+      <li>Blue and pink colors are for visual identification only</li>
+      <li>You can activate or deactivate players at any time before scheduling</li>
+    </ul>
+  </section>
+
+    <div id="helpContainer"></div>  
+
+   <div id="playersHelp" class="player-help lang-en">
+
+  <!-- 🔵 Male -->
+  <section data-lang="en">
+    <h3>🔵👨 Blue Player Row (Male)</h3>
+    <ul>
+      <li>A blue background with a man icon represents a male player</li>
+      <li>Each blue row corresponds to one male player</li>
+      <li>Example player name: Alan</li>
+      <li>If the checkbox is checked, the player is marked as active</li>
+      <li>Only active male players are included when generating schedules</li>
+      <li>Unchecked male players will not be assigned to any court</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- 🌸 Female -->
+  <section data-lang="en">
+    <h3>🌸👩 Pink Player Row (Female)</h3>
+    <ul>
+      <li>A pink background with a woman icon represents a female player</li>
+      <li>Each pink row corresponds to one female player</li>
+      <li>Example player name: Rose</li>
+      <li>If the checkbox is checked, the player is marked as active</li>
+      <li>Only active female players are included when generating schedules</li>
+      <li>Unchecked female players will not be assigned to any court</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- ✅ Checkbox -->
+  <section data-lang="en">
+    <h3>✅ Checkbox Meaning</h3>
+    <ul>
+      <li><strong>Checked</strong> → Player is active and eligible for scheduling</li>
+      <li><strong>Unchecked</strong> → Player is inactive and excluded from scheduling</li>
+      <li>Only active players are counted when calculating courts and teams</li>
+      <li>Changing a checkbox immediately affects the next schedule generation</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- 🗑️ Trash -->
+  <section data-lang="en">
+    <h3>🗑️ Trash Icon</h3>
+    <ul>
+      <li>Click the trash icon to permanently remove a player</li>
+      <li>Removed players will no longer appear in the players list</li>
+      <li>This action cannot be undone</li>
+      <li>Removing a player may reduce the number of available courts</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- 📊 Rules -->
+  <section data-lang="en">
+    <h3>📊 Important Rules</h3>
+    <ul>
+      <li>4 active players are required to form 1 court</li>
+      <li>8 active players allow 2 courts</li>
+      <li>12 active players allow 3 courts, and so on</li>
+      <li>Gender does not affect how many courts can be created</li>
+      <li>Inactive players are ignored in court calculations</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- ⭐ Tips -->
+  <section data-lang="en">
+    <h3>⭐ Quick Tips</h3>
+    <ul>
+      <li>Cannot add more courts? Make sure enough players are active</li>
+      <li>A player not scheduled? Check if their checkbox is enabled</li>
+      <li>Blue and pink colors are for visual identification only</li>
+      <li>You can activate or deactivate players at any time before scheduling</li>
+    </ul>
+  </section>
+
+</div>
+
+  
+  <div id="roundsHelp" class="player-help lang-en" style="display:none;">
+
+  <!-- 🔒 Lock -->
+  <section data-lang="en">
+    <h3>🔒 Lock</h3>
+    <ul>
+      <li>Locks the current round to prevent any manual changes</li>
+      <li>Disables player swaps, team edits, and court modifications</li>
+      <li>Use this after finalizing all teams for the round</li>
+      <li>Helps avoid accidental changes during play</li>
+    </ul>
+  </section>
+
+  <!-- 🔓 Unlock -->
+  <section data-lang="en">
+    <h3>🔓 Unlock</h3>
+    <ul>
+      <li>Unlocks the current round so changes can be made</li>
+      <li>Required before swapping players or editing teams</li>
+      <li>Allows correcting mistakes or handling last-minute changes</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- 🎾 Courts & Teams -->
+  <section data-lang="en">
+    <h3>🎾 Courts & Teams</h3>
+    <ul>
+      <li>Each row on the screen represents one court</li>
+      <li>Every court contains two teams</li>
+      <li>Each team has exactly two players</li>
+      <li>A total of four active players are required per court</li>
+      <li>If there are not enough players, some courts may remain empty</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- 🔁 Swap Teams -->
+  <section data-lang="en">
+    <h3>🔁 Swap Teams</h3>
+    <ul>
+    <li>
+      <strong>Step 1:</strong> Unlock the round before making any changes
+    </li>
+    <li>
+      <strong>Step 2:</strong> Select an entire team (both players together)
+    </li>
+    <li>
+      <strong>Step 3:</strong> Choose another team to swap with
+    </li>
+    <li>
+      <strong>Step 4:</strong> Confirm the swap to apply changes instantly
+    </li>
+    <li>
+      Team swaps keep player pairs together while changing court matchups
+    </li>
+    <li>
+      Useful for adjusting court difficulty or balancing strong/weak teams
+    </li>
+  </ul>
+</section>
+
+ <hr>
+  <!-- 🔄 Swap -->  
+  <section data-lang="en">
+    <h3>🔄 Swap Players</h3>
+    <ul>
+      <li>
+        <strong>Step 1:</strong> Unlock the round using the unlock icon
+      </li>
+      <li>
+        <strong>Step 2:</strong> Select the player you want to replace
+      </li>
+      <li>
+        <strong>Step 3:</strong> Choose a replacement player
+        <ul>
+          <li>From another court (active player)</li>
+          <li>From the resting / sitting-out players list</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Step 4:</strong> Confirm the swap to apply changes instantly
+      </li>
+      <li>Swapping helps balance matches or manage injuries and absences</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- 💤 Resting -->
+  <section data-lang="en">
+    <h3>💤 Resting Players</h3>
+    <ul>
+      <li>Shows players who are not playing in the current round</li>
+      <li>These players can be selected as replacements during swaps</li>
+      <li>#1, #2, etc. indicate how many rounds the player has rested</li>
+      <li>Gender-based color coding remains visible for clarity</li>
+    </ul>
+  </section>
+
+</div>
+
+  <div id="summaryHelp" class="player-help lang-en" style="display:none;">
+
+  <!-- 📊 Ranking Table -->
+  <section data-lang="en">
+    <h3>📊 Player Ranking Table</h3>
+    <ul>
+      <li>Displays all players sorted by overall play fairness</li>
+      <li>The table helps ensure equal play and rest distribution</li>
+      <li><strong>Rank</strong> shows the priority order for scheduling</li>
+      <li>Players with higher priority are more likely to be scheduled next</li>
+      <li><strong>Played</strong> shows how many rounds the player has played</li>
+      <li><strong>Rested</strong> shows how many rounds the player has rested</li>
+      <li>This table is automatically updated after every round</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- 🏸 Round Match Details -->
+  <section data-lang="en">
+    <h3>🏸 Round Match Details</h3>
+    <ul>
+      <li>Shows detailed team matchups for each generated round</li>
+      <li>Each row represents one match or court</li>
+      <li>Each box represents a single team</li>
+      <li>The <strong>VS</strong> label indicates two teams competing against each other</li>
+      <li>Player names are displayed exactly as assigned for that round</li>
+      <li>This section is read-only and cannot be edited</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- 💤 Resting Summary -->
+  <section data-lang="en">
+    <h3>💤 Resting Summary</h3>
+    <ul>
+      <li>Lists players who are resting in the selected round</li>
+      <li>Resting players are not assigned to any court for that round</li>
+      <li><strong>#1, #2, #3</strong> indicate how many total rounds the player has rested</li>
+      <li>This information is used to calculate fairness and future priority</li>
+      <li>Gender-based color coding is preserved for easy identification</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- ⭐ Tips -->
+  <section data-lang="en">
+    <h3>⭐ Summary Tips</h3>
+    <ul>
+      <li>A higher rank generally means higher priority in upcoming rounds</li>
+      <li>Use the summary to verify fair rotation among all players</li>
+      <li>If a player rests too often, their rank will increase</li>
+      <li>No manual edits are allowed in the Summary tab</li>
+      <li>All data here is generated automatically by the system</li>
+    </ul>
+  </section>
+
+  <div id="playersHelp" class="player-help lang-jp" style="display:none;">
+
+  <!-- 🔵 Male -->
+  <section data-lang="jp">
+    <h3>🔵👨 青色プレイヤー行（男性）</h3>
+    <ul>
+      <li>青色の背景と男性アイコンは男性プレイヤーを表します</li>
+      <li>青色の行は1人の男性プレイヤーに対応します</li>
+      <li>プレイヤー名の例：Alan</li>
+      <li>チェックボックスがオンの場合、プレイヤーは有効になります</li>
+      <li>有効な男性プレイヤーのみがスケジュール生成に含まれます</li>
+      <li>チェックが外れている場合、そのプレイヤーはコートに割り当てられません</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- 🌸 Female -->
+  <section data-lang="jp">
+    <h3>🌸👩 ピンク色プレイヤー行（女性）</h3>
+    <ul>
+      <li>ピンク色の背景と女性アイコンは女性プレイヤーを表します</li>
+      <li>ピンク色の行は1人の女性プレイヤーに対応します</li>
+      <li>プレイヤー名の例：Rose</li>
+      <li>チェックボックスがオンの場合、プレイヤーは有効になります</li>
+      <li>有効な女性プレイヤーのみがスケジュール生成に含まれます</li>
+      <li>チェックが外れている場合、そのプレイヤーはコートに割り当てられません</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- ✅ Checkbox -->
+  <section data-lang="jp">
+    <h3>✅ チェックボックスの意味</h3>
+    <ul>
+      <li><strong>チェックあり</strong> → プレイヤーは有効でスケジュール対象</li>
+      <li><strong>チェックなし</strong> → 無効（スケジュール対象外）</li>
+      <li>コート数やチーム計算は有効プレイヤーのみで行われます</li>
+      <li>チェック状態の変更は次回スケジュール生成に即時反映されます</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- 🗑️ Trash -->
+  <section data-lang="jp">
+    <h3>🗑️ ゴミ箱アイコン</h3>
+    <ul>
+      <li>ゴミ箱アイコンをクリックするとプレイヤーを完全に削除します</li>
+      <li>削除されたプレイヤーは一覧に表示されません</li>
+      <li>この操作は元に戻せません</li>
+      <li>プレイヤー削除により使用可能なコート数が減る場合があります</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- 📊 Rules -->
+  <section data-lang="jp">
+    <h3>📊 重要なルール</h3>
+    <ul>
+      <li>有効プレイヤー4人で1コートが作成されます</li>
+      <li>有効プレイヤー8人で2コートが使用可能です</li>
+      <li>12人なら3コート…というように増えます</li>
+      <li>性別はコート数の計算に影響しません</li>
+      <li>無効プレイヤーは計算から除外されます</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- ⭐ Tips -->
+  <section data-lang="jp">
+    <h3>⭐ クイックヒント</h3>
+    <ul>
+      <li>コートを追加できない場合はプレイヤー数を確認してください</li>
+      <li>スケジュールされない場合はチェックボックスを確認</li>
+      <li>青・ピンクの色分けは見やすさのためだけです</li>
+      <li>スケジュール作成前ならいつでも有効／無効を変更できます</li>
+    </ul>
+  </section>
+</div>
+  
+  <div id="roundsHelp" class="player-help lang-en" style="display:none;">
+
+  <!-- 🔒 Lock -->
+  <section data-lang="en">
+    <h3>🔒 Lock</h3>
+    <ul>
+      <li>Locks the current round to prevent any manual changes</li>
+      <li>Disables player swaps, team edits, and court modifications</li>
+      <li>Use this after finalizing all teams for the round</li>
+      <li>Helps avoid accidental changes during play</li>
+    </ul>
+  </section>
+
+  <!-- 🔓 Unlock -->
+  <section data-lang="en">
+    <h3>🔓 Unlock</h3>
+    <ul>
+      <li>Unlocks the current round so changes can be made</li>
+      <li>Required before swapping players or editing teams</li>
+      <li>Allows correcting mistakes or handling last-minute changes</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- 🎾 Courts & Teams -->
+  <section data-lang="en">
+    <h3>🎾 Courts & Teams</h3>
+    <ul>
+      <li>Each row on the screen represents one court</li>
+      <li>Every court contains two teams</li>
+      <li>Each team has exactly two players</li>
+      <li>A total of four active players are required per court</li>
+      <li>If there are not enough players, some courts may remain empty</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- 🔁 Swap Teams -->
+  <section data-lang="en">
+    <h3>🔁 Swap Teams</h3>
+    <ul>
+    <li>
+      <strong>Step 1:</strong> Unlock the round before making any changes
+    </li>
+    <li>
+      <strong>Step 2:</strong> Select an entire team (both players together)
+    </li>
+    <li>
+      <strong>Step 3:</strong> Choose another team to swap with
+    </li>
+    <li>
+      <strong>Step 4:</strong> Confirm the swap to apply changes instantly
+    </li>
+    <li>
+      Team swaps keep player pairs together while changing court matchups
+    </li>
+    <li>
+      Useful for adjusting court difficulty or balancing strong/weak teams
+    </li>
+  </ul>
+</section>
+
+ <hr>
+  <!-- 🔄 Swap -->  
+  <section data-lang="en">
+    <h3>🔄 Swap Players</h3>
+    <ul>
+      <li>
+        <strong>Step 1:</strong> Unlock the round using the unlock icon
+      </li>
+      <li>
+        <strong>Step 2:</strong> Select the player you want to replace
+      </li>
+      <li>
+        <strong>Step 3:</strong> Choose a replacement player
+        <ul>
+          <li>From another court (active player)</li>
+          <li>From the resting / sitting-out players list</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Step 4:</strong> Confirm the swap to apply changes instantly
+      </li>
+      <li>Swapping helps balance matches or manage injuries and absences</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- 💤 Resting -->
+  <section data-lang="en">
+    <h3>💤 Resting Players</h3>
+    <ul>
+      <li>Shows players who are not playing in the current round</li>
+      <li>These players can be selected as replacements during swaps</li>
+      <li>#1, #2, etc. indicate how many rounds the player has rested</li>
+      <li>Gender-based color coding remains visible for clarity</li>
+    </ul>
+  </section>
+
+</div>
+
+  <div id="summaryHelp" class="player-help lang-en" style="display:none;">
+
+  <!-- 📊 Ranking Table -->
+  <section data-lang="en">
+    <h3>📊 Player Ranking Table</h3>
+    <ul>
+      <li>Displays all players sorted by overall play fairness</li>
+      <li>The table helps ensure equal play and rest distribution</li>
+      <li><strong>Rank</strong> shows the priority order for scheduling</li>
+      <li>Players with higher priority are more likely to be scheduled next</li>
+      <li><strong>Played</strong> shows how many rounds the player has played</li>
+      <li><strong>Rested</strong> shows how many rounds the player has rested</li>
+      <li>This table is automatically updated after every round</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- 🏸 Round Match Details -->
+  <section data-lang="en">
+    <h3>🏸 Round Match Details</h3>
+    <ul>
+      <li>Shows detailed team matchups for each generated round</li>
+      <li>Each row represents one match or court</li>
+      <li>Each box represents a single team</li>
+      <li>The <strong>VS</strong> label indicates two teams competing against each other</li>
+      <li>Player names are displayed exactly as assigned for that round</li>
+      <li>This section is read-only and cannot be edited</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- 💤 Resting Summary -->
+  <section data-lang="en">
+    <h3>💤 Resting Summary</h3>
+    <ul>
+      <li>Lists players who are resting in the selected round</li>
+      <li>Resting players are not assigned to any court for that round</li>
+      <li><strong>#1, #2, #3</strong> indicate how many total rounds the player has rested</li>
+      <li>This information is used to calculate fairness and future priority</li>
+      <li>Gender-based color coding is preserved for easy identification</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- ⭐ Tips -->
+  <section data-lang="en">
+    <h3>⭐ Summary Tips</h3>
+    <ul>
+      <li>A higher rank generally means higher priority in upcoming rounds</li>
+      <li>Use the summary to verify fair rotation among all players</li>
+      <li>If a player rests too often, their rank will increase</li>
+      <li>No manual edits are allowed in the Summary tab</li>
+      <li>All data here is generated automatically by the system</li>
+    </ul>
+  </section>
+
+    
+</div>
+
+
+  
+  
+</div>  
+<!-- ============================= -->
+<!--           Import Modal        -->
+<!-- ============================= -->
+  <!-- Import Modal -->
+  <div id="importModal">
+  <div class="modal-content">
+
+    <!-- Left Section -->
+    <textarea
+      id="players-textarea"
+      rows="12"
+      data-i18n-placeholder="importExample"
+      placeholder="Enter or paste player names"
+    ></textarea>
+
+    <!-- Right Section -->
+    <div class="modal-right">
+
+      <!-- Gender -->
+      <div class="gender-radio" data-i18n="gender"></div>
+      <div class="gender-radio">
+        <label>
+          <input type="radio" name="genderSelect" value="Male" checked>
+          <span data-i18n="male"></span>
+        </label>
+        <label>
+          <input type="radio" name="genderSelect" value="Female">
+          <span data-i18n="female"></span>
+        </label>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="modal-buttons">
+
+        <!-- 📋 Paste (NEW) -->
+        <button
+          class="paste-btn"
+          onclick="pastePlayersText()"
+        >📋 Paste</button>
+
+        <!-- ⬇️ Import (existing) -->
+        <button
+          class="ok-btn"
+          onclick="addPlayersFromText()"
+          data-i18n="import"
+        ></button>
+
+        <!-- ✖ Cancel (existing) -->
+        <button
+          class="cancel-btn"
+          onclick="hideImportModal()"
+          data-i18n="cancel"
+        ></button>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  
+</body>
+</html>

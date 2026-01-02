@@ -122,83 +122,7 @@ function toggleActive(index, checkbox) {
 /* =========================
    ADD PLAYERS FROM TEXT
 ========================= */
-function addPlayersFromText2() {
-  const text = document.getElementById('players-textarea').value.trim();
-  if (!text) return;
-  const defaultGender = document.querySelector('input[name="genderSelect"]:checked')?.value || "Male";
-  const lines = text.split(/\r?\n/);
 
-  const stopMarkers = [/court full/i, /wl/i, /waitlist/i, /late cancel/i, /cancelled/i, /reserve/i, /bench/i, /extras/i, /backup/i];
-
-  let startIndex = 0;
-  let stopIndex = lines.length;
-
-  // Find first "Confirm" line
-  const confirmLineIndex = lines.findIndex(line => /confirm/i.test(line));
-
-  if (confirmLineIndex >= 0) {
-    startIndex = confirmLineIndex + 1;
-    // Find stop marker after Confirm
-    for (let i = startIndex; i < lines.length; i++) {
-      if (stopMarkers.some(re => re.test(lines[i]))) {
-        stopIndex = i;
-        break;
-      }
-    }
-  } else {
-    // No "Confirm" found → treat all lines as plain names
-    startIndex = 0;
-    stopIndex = lines.length;
-  }
-
-  const extractedNames = [];
-
-  for (let i = startIndex; i < stopIndex; i++) {
-    let line = lines[i].trim();
-    if (!line) continue;                 // skip blank lines
-    if (line.toLowerCase().includes("https")) continue; // skip URLs
-
-    // Keep the prefix as-is (do NOT remove numbering or dash)
-    // Extract parentheses content if present
-    //const parenMatch = line.match(/\(([^)]+)\)/);
-    
-	  //if (parenMatch) {
-      //line = parenMatch[1].trim();
-    //}
-
-	  // Extract parentheses content if present
-const parenMatch = line.match(/\(([^)]+)\)/);
-if (parenMatch) {
-  line = parenMatch[1].trim();
-}
-
-// --- normalize to: [number(optional)] + first name ---
-const match = line.match(/^(\d+\.?\s*)?(.*)$/);
-if (match) {
-  const prefix = match[1] || "";          // "10. " | "10 " | ""
-  const namePart = match[2].trim();       // "Kari Kaplan"
-  const firstName = namePart.split(/\s+/)[0];
-  //line = prefix + firstName;
-	line = prefix + namePart;
-}
-
-    // Avoid duplicates (case-insensitive)
-    if (!schedulerState.allPlayers.some(p => p.name.toLowerCase() === line.toLowerCase())) {
-      extractedNames.push({ name: line, gender: defaultGender, active: true });
-    }
-  }
-
-  schedulerState.allPlayers.push(...extractedNames);
-
-  schedulerState.activeplayers = schedulerState.allPlayers
-    .filter(p => p.active)
-    .map(p => p.name)
-    .reverse();
-
-  updatePlayerList();
-  updateFixedPairSelectors();
-  hideImportModal();
-}
 
 function addPlayersFromText() {
   const text = document.getElementById('players-textarea').value.trim();
@@ -229,7 +153,13 @@ function addPlayersFromText() {
       }
     }
   }
+  const genderLookup = {};
 
+	// Iterate all languages
+	Object.values(translations).forEach(langObj => {
+	  if (langObj.male) genderLookup[langObj.male.toLowerCase()] = "Male";
+	  if (langObj.female) genderLookup[langObj.female.toLowerCase()] = "Female";
+	});
   const extractedNames = [];
 
   for (let i = startIndex; i < stopIndex; i++) {
@@ -244,23 +174,20 @@ function addPlayersFromText() {
       const parts = line.split(",").map(p => p.trim());
       line = parts[0];
 
-      if (parts[1]) {
-        const g = parts[1].toLowerCase();
-        if (g === "male" || g === "female") {
-          gender = g.charAt(0).toUpperCase() + g.slice(1);
-        }
-      }
-    }
+      // Name,Gender format
+		if (parts[1]) {
+		  const g = parts[1].trim().toLowerCase();
+		  if (genderLookup[g]) gender = genderLookup[g]; // maps to "Male"/"Female"
+		}
 
-    // Extract parentheses content if present
-    const parenMatch = line.match(/\(([^)]+)\)/);
-    if (parenMatch) {
-      const inside = parenMatch[1].toLowerCase();
-      if (inside === "male" || inside === "female") {
-        gender = inside.charAt(0).toUpperCase() + inside.slice(1);
-      }
-      line = line.replace(/\([^)]+\)/, "").trim();
-    }
+		// Parentheses content
+		const parenMatch = line.match(/\(([^)]+)\)/);
+		if (parenMatch) {
+		  const inside = parenMatch[1].trim().toLowerCase();
+		  if (genderLookup[inside]) gender = genderLookup[inside];
+		  line = line.replace(/\([^)]+\)/, "").trim();
+		}
+	}	
 
     // Normalize numbering (keep prefix)
     const match = line.match(/^(\d+\.?\s*)?(.*)$/);
