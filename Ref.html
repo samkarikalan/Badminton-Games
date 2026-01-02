@@ -1,3 +1,32 @@
+
+/* Player button layout */
+.Lplayer-btn,
+.Rplayer-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;              /* space between icon and name */
+  text-align: left;
+}
+
+/* Gender icon slot – SAME WIDTH FOR ALL */
+.gender-btn {
+  width: 22px;           /* fixed width */
+  min-width: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+/* Optional coloring */
+.gender-btn.male {
+  color: #1e88e5;
+}
+
+.gender-btn.female {
+  color: #d81b60;
+}
+
 <span class="gender-icon ${player.gender.toLowerCase()}"
       onclick="toggleGender(${index}, this)">
   ${genderIcon}
