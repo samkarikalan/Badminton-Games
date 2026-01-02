@@ -197,6 +197,11 @@
   color: #000 !important;
 }
 
+.player-card {
+  display: flex;
+  align-items: center;
+}
+
 .played-round .match-card,
 .played-round .rest-btn,
 .played-round .Lplayer-btn,
