@@ -840,33 +840,37 @@ function renderGames(data, index) {
 function makePlayerButton(name, teamSide, gameIndex, playerIndex, data, index) {
   const btn = document.createElement('button');
 
-  // Determine if gender icons should be shown
-  const showGender = IS_MIXED_SESSION;
+  // Button classes (keep your existing ones)
+  btn.className =
+    (teamSide === 'L' ? 'Lplayer-btn ' : 'Rplayer-btn ') + 'player-card';
 
   // Get player object
   const baseName = name.split('#')[0];
   const player = schedulerState.allPlayers.find(p => p.name === baseName);
-  
-  btn.textContent = name;
-  btn.className = teamSide === 'L' ? 'Lplayer-btn' : 'Rplayer-btn';
-  
 
-  /* ───────── COLOR OVERRIDE ───────── */
-if (IS_MIXED_SESSION && player?.gender) {
-  const genderBtn = document.createElement('span');
-  genderBtn.className =
-    'gender-btn ' +
-    (player.gender === 'Female' ? 'female' : 'male');
+  /* ───── LEFT: Gender strip ───── */
+  const genderStrip = document.createElement('div');
+  genderStrip.className = 'gender-strip';
 
-  genderBtn.textContent =
-   //player.gender === 'Female' ? '👩' : '👨';
-   player.gender === 'Female' ? "🙎‍♀️ " : "👨‍💼 " ;
-    
-  btn.prepend(genderBtn);
-}
+  if (IS_MIXED_SESSION && player?.gender) {
+    if (player.gender === 'Female') {
+      genderStrip.classList.add('female');
+      genderStrip.textContent = '♀';
+    } else {
+      genderStrip.classList.add('male');
+      genderStrip.textContent = '♂';
+    }
+  }
 
-  /* ───────────────────────────────── */
+  /* ───── RIGHT: Player name ───── */
+  const nameSpan = document.createElement('span');
+  nameSpan.className = 'player-name';
+  nameSpan.textContent = name;
 
+  // Assemble button
+  btn.append(genderStrip, nameSpan);
+
+  /* ───── KEEP YOUR EXISTING LOGIC ───── */
   const isLatestRound = index === allRounds.length - 1;
   if (!isLatestRound) return btn;
 
@@ -918,7 +922,6 @@ if (IS_MIXED_SESSION && player?.gender) {
 
   return btn;
 }
-
 
 
 
