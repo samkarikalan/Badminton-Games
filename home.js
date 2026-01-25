@@ -1,30 +1,89 @@
+let pendingAction = null;
+
+function t(key) {
+  return translations[currentLang]?.[key] || key;
+}
+
+function showConfirm(messageKey, action) {
+  const overlay = document.getElementById("confirmOverlay");
+  const title   = document.getElementById("confirmTitle");
+  const yesBtn  = document.getElementById("confirmYes");
+  const cancelBtn = document.getElementById("confirmCancel");
+
+  title.textContent = t(messageKey);
+  yesBtn.textContent = t("yes");
+  cancelBtn.textContent = t("cancel");
+
+  pendingAction = action;
+  overlay.classList.remove("hidden");
+
+  // ✅ YES button
+  yesBtn.onclick = () => {
+    pendingAction && pendingAction();
+    closeConfirm();
+  };
+
+  // ✅ CANCEL button (THIS enables it)
+  cancelBtn.onclick = closeConfirm;
+}
+
+function closeConfirm() {
+  document.getElementById("confirmOverlay").classList.add("hidden");
+  pendingAction = null;
+}
+
 
 let currentLang = "en";
 
+function toggleLangMenu() {
+  const menu = document.getElementById('langMenu');
+  menu.style.display = menu.style.display === 'block' ? 'none' : 'block';  
+}
 
+document.querySelectorAll('.lang-menu div').forEach(item => {
+  item.addEventListener('click', () => {
+    document.getElementById('currentFlag').textContent = item.dataset.flag;
+    setLanguage(item.dataset.lang);
+    document.getElementById('langMenu').style.display = 'none';
+  });
+});
+
+
+
+const langFlagMap = {
+  en: "🇺🇸",
+  jp: "🇯🇵",
+  zh: "🇨🇳",
+  kr: "🇰🇷",
+  vi: "🇻🇳"
+  
+};
 /* ===== Theme ===== */
 
 function initLanguage() {
 const savedLang = localStorage.getItem("appLanguage");
 const supportedLangs = ["en", "jp", "kr", "vi"];
-
+ // 2. update flag
+  document.getElementById("currentFlag").textContent =
+    langFlagMap[savedLang] || "🌐";
+  
 if (supportedLangs.includes(savedLang)) {
 setLanguage(savedLang);
-updateHelpLanguage(savedLang);
+//updateHelpLanguage(savedLang);
 } else {
 const browserLang = navigator.language.toLowerCase();
 if (browserLang.startsWith("ja")) {
 setLanguage("jp");
-updateHelpLanguage("jp");
+//updateHelpLanguage("jp");
 } else if (browserLang.startsWith("ko")) {
 setLanguage("kr");
-updateHelpLanguage("kr");
+//updateHelpLanguage("kr");
 } else if (browserLang.startsWith("vi")) {
 setLanguage("vi");
-updateHelpLanguage("vi");
+//updateHelpLanguage("vi");
 } else {
 setLanguage("en");
-updateHelpLanguage("en");
+//updateHelpLanguage("en");
 }
 }
 }
@@ -90,7 +149,7 @@ function setLanguage(lang) {
     el.placeholder = translations[lang][key] || "";
   });
   
-  updateHelpLanguage(lang);
+   loadHelp(currentHelpSection);
 }
 
 function updateRoundTitle(round) {
@@ -130,6 +189,13 @@ function resetRounds() {
   clearPreviousRound();
   goToRounds();
   report(); 
+  sessionFinished = false;
+  document.getElementById("nextBtn").disabled = false;
+  document.getElementById("roundShufle").disabled = false;
+
+  // Optional: also disable End to prevent double-click
+  //document.getElementById("endBtn").disabled = false;
+	
   const btn = document.getElementById("reset_rounds_btn");
   if (btn) {
     btn.classList.remove("active");

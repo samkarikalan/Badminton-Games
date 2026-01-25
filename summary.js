@@ -1,8 +1,9 @@
 function renderRounds() {
   const exportRoot = document.getElementById('export');
   exportRoot.innerHTML = '';
-
-  allRounds.slice(0, -1).forEach((data) =>  {
+  
+  allRounds.slice(0, -1).forEach((data) => {
+  //allRounds.forEach((data) => {
 
     /* ───────── Round Container ───────── */
     const roundDiv = document.createElement('div');
@@ -67,6 +68,33 @@ function isAndroidWebView() {
 }
 
 async function exportBRR2HTML() {
+showPage('page3');
+await new Promise(r => setTimeout(r, 300));
+
+const page = document.getElementById('page3');
+if (!page) return alert("Export page not found");
+
+const html = `
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BRR Export</title>
+<style>
+${SUMMARY_CSS}
+</style>
+</head>
+<body>
+${page.outerHTML}
+</body>
+</html>
+`;
+
+Android.saveHtml(html);
+}
+
+async function exportBRR2HTMLbk() {
   showPage('page3');
   await new Promise(r => setTimeout(r, 300));
 

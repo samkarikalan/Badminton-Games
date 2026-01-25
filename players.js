@@ -79,10 +79,45 @@ function editPlayer(i, field, val) {
   updatePlayerList();
   updateFixedPairSelectors();  	
 }
+
+function removeFixedPairsForPlayer(playerName) {
+  // Remove from data
+  schedulerState.fixedPairs = schedulerState.fixedPairs.filter(pair => {
+    const keep = !pair.includes(playerName);
+    if (!keep) {
+      const key = pair.slice().sort().join("&");
+      removeFixedCard(key); // Remove UI card
+    }
+    return keep;
+  });
+
+  updateFixedPairSelectors();
+}
+
 /* =========================
    DELETE PLAYER
 ========================= */
 function deletePlayer(i) {
+  const deletedPlayer = schedulerState.allPlayers[i].name;
+
+  // Remove player
+  schedulerState.allPlayers.splice(i, 1);
+
+  // Remove any fixed pairs involving this player
+  removeFixedPairsForPlayer(deletedPlayer);
+
+  // Recalculate active players
+  schedulerState.activeplayers = schedulerState.allPlayers
+    .filter(p => p.active)
+    .map(p => p.name)
+    .reverse();
+
+  updatePlayerList();
+  updateFixedPairSelectors();
+}
+
+
+function olddeletePlayer(i) {
   schedulerState.allPlayers.splice(i, 1);
    schedulerState.activeplayers = schedulerState.allPlayers
     .filter(p => p.active)
@@ -119,10 +154,46 @@ function toggleActive(index, checkbox) {
 	
 }
 
+
+function toggleGender(index, iconEl) {
+  const player = schedulerState.allPlayers[index];
+
+  // 1️⃣ Toggle data model
+  player.gender = player.gender === "Male" ? "Female" : "Male";
+
+  // 2️⃣ Update icon
+  iconEl.textContent = player.gender === "Male" ? "👨‍💼" : "🙎‍♀️";
+
+  // 3️⃣ Update icon class
+  iconEl.classList.remove("male", "female");
+  iconEl.classList.add(player.gender.toLowerCase());
+
+  // 4️⃣ Update card class
+  const card = iconEl.closest(".player-edit-card");
+  card.classList.remove("male", "female");
+  card.classList.add(player.gender.toLowerCase());
+
+  // 5️⃣ Update linked variables
+  updateGenderGroups();
+
+  // 6️⃣ Refresh dependent UI
+  updateFixedPairSelectors();
+}
+
+function updateGenderGroups() {
+  schedulerState.malePlayers = schedulerState.allPlayers
+    .filter(p => p.gender === "Male" && p.active)
+    .map(p => p.name);
+
+  schedulerState.femalePlayers = schedulerState.allPlayers
+    .filter(p => p.gender === "Female" && p.active)
+    .map(p => p.name);
+}
+
+
 /* =========================
    ADD PLAYERS FROM TEXT
 ========================= */
-
 
 function addPlayersFromText() {
   const text = document.getElementById('players-textarea').value.trim();
@@ -198,7 +269,7 @@ function addPlayersFromText() {
     }
 
     // Avoid duplicates (case-insensitive)
-    if (!schedulerState.allPlayers.some(
+    /*if (!schedulerState.allPlayers.some(
       p => p.name.toLowerCase() === line.toLowerCase()
     )) {
       extractedNames.push({
@@ -206,7 +277,22 @@ function addPlayersFromText() {
         gender,
         active: true
       });
-    }
+    }*/
+	// Avoid duplicates (case-insensitive + same import)
+if (
+  !schedulerState.allPlayers.some(
+    p => p.name.trim().toLowerCase() === line.trim().toLowerCase()
+  ) &&
+  !extractedNames.some(
+    p => p.name.trim().toLowerCase() === line.trim().toLowerCase()
+  )
+) {
+  extractedNames.push({
+    name: line,
+    gender,
+    active: true
+  });
+}
   }
 
   schedulerState.allPlayers.push(...extractedNames);
@@ -228,9 +314,109 @@ PLAYER MANAGEMENT
  
 ========================= */
 
-
-
 function createPlayerCard(player, index) {
+  let cardClass = `player-edit-card player-row ${player.gender.toLowerCase()}`;
+  if (!player.active) cardClass += " inactive";
+
+  const card = document.createElement("div");
+  card.className = cardClass;
+
+  // 🔹 Drag support
+  card.draggable = true;
+  card.dataset.index = index;
+  card.addEventListener("dragstart", onDragStart);
+  card.addEventListener("dragover", onDragOver);
+  card.addEventListener("drop", onDrop);
+
+  const genderIcon =
+    player.gender === "Male" ? "👨‍💼" :
+    player.gender === "Female" ? "🙎‍♀️" :
+    "❔";
+
+  card.innerHTML = `
+    <div class="pec-col pec-active">
+      <input type="checkbox"
+        ${player.active ? "checked" : ""}
+        onchange="toggleActive(${index}, this)">
+    </div>
+
+    <div class="pec-col pec-sl">${index + 1}</div>
+
+    <div class="pec-col pec-gender">
+      <span class="gender-icon ${player.gender.toLowerCase()}"
+            onclick="toggleGender(${index}, this)">
+        ${genderIcon}
+      </span>
+    </div>
+
+    <div class="pec-col pec-name"
+         onclick="editPlayerName(${index})">
+      ${player.name}
+    </div>
+
+    <div class="pec-col pec-delete">
+      <button class="pec-btn delete"
+              onclick="deletePlayer(${index})">🗑</button>
+    </div>
+  `;
+
+  return card;
+}
+
+function editPlayerName(index) {
+  const oldPlayer = schedulerState.allPlayers[index];
+  const oldName = oldPlayer.name;
+
+  const newName = prompt("Edit player name", oldName);
+  if (!newName) return;
+
+  const trimmed = newName.trim();
+  if (!trimmed) return;
+
+  const duplicate = schedulerState.allPlayers.some(
+    (p, i) =>
+      i !== index &&
+      p.name.toLowerCase() === trimmed.toLowerCase()
+  );
+
+  if (duplicate) {
+    alert("Player name already exists!");
+    return;
+  }
+
+  // ✅ immutable update
+  schedulerState.allPlayers = schedulerState.allPlayers.map((p, i) =>
+    i === index ? { ...p, name: trimmed } : p
+  );
+
+  updatePlayerList();
+}
+
+let draggedIndex = null;
+
+function onDragStart(e) {
+  draggedIndex = Number(e.currentTarget.dataset.index);
+  e.dataTransfer.effectAllowed = "move";
+}
+
+function onDragOver(e) {
+  e.preventDefault(); // Allow drop
+}
+
+function onDrop(e) {
+  const targetIndex = Number(e.currentTarget.dataset.index);
+  if (draggedIndex === targetIndex) return;
+
+  const list = schedulerState.allPlayers;
+  const [moved] = list.splice(draggedIndex, 1);
+  list.splice(targetIndex, 0, moved);
+
+  updatePlayerList();
+}
+
+
+
+function xxxcreatePlayerCard(player, index) {
   // Base card class + gender
   let cardClass = `player-edit-card player-row ${player.gender.toLowerCase()}`;
   
@@ -256,7 +442,10 @@ function createPlayerCard(player, index) {
     </div>
     <div class="pec-col pec-sl">${index + 1}</div>
     <div class="pec-col pec-gender">
-      <span class="gender-icon ${player.gender.toLowerCase()}">${genderIcon}</span>
+      <span class="gender-icon ${player.gender.toLowerCase()}"
+      onclick="toggleGender(${index}, this)">
+  ${genderIcon}
+</span>
     </div> 
 
     <div class="pec-col pec-name">${player.name}</div>    
@@ -331,6 +520,15 @@ function updatePlayerList() {
     const card = createPlayerCard(player, index);
     container.appendChild(card);
   });
+  // Recalculate active players list
+  schedulerState.activeplayers = schedulerState.allPlayers
+    .filter(p => p.active)
+    .map(p => p.name)
+	.reverse();
+
+  // Refresh UI
+  updateFixedPairSelectors();
+	
   updateCourtButtons()
   updateRoundsPageAccess(); 	
 }

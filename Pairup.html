@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Badminton Pair-Up Games</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+h1 {
+    text-align: center;
+}
+.container {
+    max-width: 800px;
+    margin: auto;
+}
+.player-form, .game-results, .player-list {
+    margin-bottom: 20px;
+}
+input, select, button {
+    padding: 10px;
+    margin: 5px 0;
+    width: 100%;
+}
+button {
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+}
+.results, .player-list {
+    margin-top: 20px;
+}
+.game {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 5px;
+}
+.game.men {
+    background-color: #ADD8E6; /* Light Blue */
+}
+.game.women {
+    background-color: #FFB6C1; /* Light Pink */
+}
+.game.xd {
+    background-color: #90EE90; /* Light Green */
+}
+.game h3 {
+    margin: 0 0 10px;
+}
+.round-header {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Badminton Pair-Up Games</h1>
+    <!-- Add Players Section -->
+    <div class="player-form">
+        <h3>Add Players</h3>
+        <input type="text" id="player-name" placeholder="Enter Player Name">
+        <select id="player-skill">
+            <option value="Advanced">Advanced</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Beginner">Beginner</option>
+        </select>
+        <select id="player-gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+        <button onclick="addPlayer()">Add Player</button>
+    </div>
+    <!-- Import Players Section -->
+    <div class="import-players">
+        <h3>Import Players from File</h3>
+        <input type="file" id="file-input" accept=".txt">
+        <button onclick="importPlayers()">Import Players</button>
+    </div>
+    <!-- Player List Section -->
+    <div class="player-list">
+        <h3>Players List</h3>
+        <div id="player-list"></div>
+    </div>
+    <!-- Set Number of Games and Courts -->
+    <div class="game-setup">
+        <h3>Set Number of Rounds and Courts</h3>
+        <input type="number" id="num-rounds" placeholder="Enter Number of Games" min="1">
+        <input type="number" id="num-courts" placeholder="Enter Number of Courts" min="1">
+        <button onclick="generateGames()">Generate Games</button>
+    </div>
+    <!-- Results Section -->
+    <div class="results">
+        <h3>Games</h3>
+        <div id="game-results" class="game-results"></div>
+    </div>
+</div>
+<script>
+// Store players
+const players = [];
+
+// Function to display the players list
+function displayPlayers() {
+    const playerListDiv = document.getElementById("player-list");
+    playerListDiv.innerHTML = ""; // Clear previous list
+    if (players.length === 0) {
+        playerListDiv.innerHTML = "<p>No players added yet.</p>";
+        return;
+    }
+    const playerListText = players.map(player => `${player.name} (${player.gamesPlayed}) (${player.gender})`).join("<br>");
+    playerListDiv.innerHTML = `<p>${playerListText}</p>`;
+}
+
+// Function to add a player
+function addPlayer() {
+    const name = document.getElementById("player-name").value.trim();
+    const skill = document.getElementById("player-skill").value;
+    const gender = document.getElementById("player-gender").value;
+    if (name === "") {
+        alert("Please enter a player name.");
+        return;
+    }
+    players.push({ name, skill, gender, gamesPlayed: 0 }); // Track number of games played
+    document.getElementById("player-name").value = ""; // Clear input
+    alert(`${name} (${skill}, ${gender}) added!`);
+    displayPlayers(); // Update the player list
+}
+
+// Function to import players from a file
+function importPlayers() {
+    const fileInput = document.getElementById("file-input");
+    const file = fileInput.files[0];
+    if (!file) {
+        alert("Please select a file to import.");
+        return;
+    }
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const lines = e.target.result.split("\n"); // Split file content into lines
+        lines.forEach(line => {
+            const [name, skill, gender] = line.split(",").map(item => item.trim());
+            if (name && skill && gender) {
+                players.push({ name, skill, gender, gamesPlayed: 0 });
+            }
+        });
+        alert("Players imported successfully!");
+        displayPlayers(); // Update the player list
+    };
+    reader.readAsText(file); // Read the file as text
+}
+
+// Helper function to get fair players with cooldown
+function getFairPlayers(playerPool, count, activePlayers) {
+    const selectedPlayers = [];
+    const availablePlayers = playerPool.filter(p => !activePlayers.has(p));
+    while (selectedPlayers.length < count && availablePlayers.length > 0) {
+        availablePlayers.sort((a, b) => a.gamesPlayed - b.gamesPlayed);
+        selectedPlayers.push(availablePlayers.shift());
+    }
+    return selectedPlayers;
+}
+
+// Helper function to recycle players
+function recyclePlayers(playerPool, count, activePlayers) {
+    const selectedPlayers = [];
+    let pool = playerPool.filter(p => !activePlayers.has(p));
+    if (pool.length < count) {
+        pool = playerPool.slice(); // Use all players if not enough available
+    }
+    while (selectedPlayers.length < count) {
+        pool.sort((a, b) => a.gamesPlayed - b.gamesPlayed);
+        selectedPlayers.push(pool.shift());
+        if (pool.length === 0 && selectedPlayers.length < count) {
+            pool = playerPool.slice();
+        }
+    }
+    return selectedPlayers;
+}
+
+// Main game generation function
+function generateGames() {
+    const numRounds = parseInt(document.getElementById("num-rounds").value);
+    const numCourts = parseInt(document.getElementById("num-courts").value);
+
+    if (isNaN(numRounds) || numRounds < 1 || isNaN(numCourts) || numCourts < 1) {
+        alert("Please enter valid numbers for rounds and courts.");
+        return;
+    }
+
+    const gameResultsDiv = document.getElementById("game-results");
+    gameResultsDiv.innerHTML = ""; // Clear previous results
+
+    let gameIndex = 1; // Start game numbering from 1
+
+    for (let round = 1; round <= numRounds; round++) {
+        const roundHeader = document.createElement("div");
+        roundHeader.classList.add("round-header");
+        roundHeader.innerText = `Round ${round}`;
+        gameResultsDiv.appendChild(roundHeader);
+
+        // Track which players have played in this round
+        const roundActivePlayers = new Set();
+
+        // Count available males and females at start of round (not played in this round)
+        let availableMales = players.filter(p => p.gender === "Male" && !roundActivePlayers.has(p));
+        let availableFemales = players.filter(p => p.gender === "Female" && !roundActivePlayers.has(p));
+
+        for (let court = 1; court <= numCourts; court++) {
+            let gameType = "";
+            let gamePlayers = [];
+
+            // Update available for each court
+            availableMales = players.filter(p => p.gender === "Male" && !roundActivePlayers.has(p));
+            availableFemales = players.filter(p => p.gender === "Female" && !roundActivePlayers.has(p));
+
+            // Prefer XD (2 males, 2 females)
+            if (availableMales.length >= 2 && availableFemales.length >= 2) {
+                gameType = "XD";
+                gamePlayers = [
+                    ...getFairPlayers(availableMales, 2, roundActivePlayers),
+                    ...getFairPlayers(availableFemales, 2, roundActivePlayers)
+                ];
+            }
+            // Then Men (4 males)
+            else if (availableMales.length >= 4) {
+                gameType = "Men";
+                gamePlayers = getFairPlayers(availableMales, 4, roundActivePlayers);
+            }
+            // Then Women (4 females)
+            else if (availableFemales.length >= 4) {
+                gameType = "Women";
+                gamePlayers = getFairPlayers(availableFemales, 4, roundActivePlayers);
+            }
+            // Otherwise, recycle
+            else {
+                gamePlayers = recyclePlayers(players, 4, roundActivePlayers);
+                if (gamePlayers.every(player => player.gender === "Male")) gameType = "Men";
+                else if (gamePlayers.every(player => player.gender === "Female")) gameType = "Women";
+                else gameType = "XD";
+            }
+
+            // Mark these players as having played in this round
+            gamePlayers.forEach(player => roundActivePlayers.add(player));
+
+            // Display the game
+            const game = document.createElement("div");
+            game.classList.add("game");
+            game.classList.add(gameType.toLowerCase());
+            game.innerHTML = `<h3>Game ${gameIndex}, Court ${court} (${gameType})</h3>
+                <p>${gamePlayers.map(p => `${p.name} (${p.gamesPlayed}) (${p.gender})`).join("<br>")}</p>`;
+            gameResultsDiv.appendChild(game);
+
+            // Update games played for each player
+            gamePlayers.forEach(player => {
+                player.gamesPlayed++;
+            });
+
+            gameIndex++;
+        }
+        // After all courts finish their games for this round, next round starts
+    }
+
+    alert("Games generated successfully!");
+    displayPlayers(); // Update the player list after games are generated
+}
+</script>
+</body>
+</html>

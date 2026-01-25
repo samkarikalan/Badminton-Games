@@ -178,6 +178,7 @@ function goBack() {
 }
 
 function nextRound() {
+  
   if (currentRoundIndex + 1 < allRounds.length) {
     currentRoundIndex++;
     showRound(currentRoundIndex);
@@ -189,6 +190,26 @@ function nextRound() {
     showRound(currentRoundIndex);
   }
   updateSummaryPageAccess()
+}
+function endRounds() {  
+	sessionFinished = true;
+	updSchedule(allRounds.length - 1, schedulerState); // pass schedulerState
+    const newRound = AischedulerNextRound(schedulerState); // do NOT wrap in []
+    allRounds.push(newRound);
+    currentRoundIndex = allRounds.length - 2;
+    showRound(currentRoundIndex);
+	
+	// pass schedulerState              
+	// Disable Next & Refresh
+  document.getElementById("nextBtn").disabled = true;
+  document.getElementById("roundShufle").disabled = true;
+
+  // Optional: also disable End to prevent double-click
+  document.getElementById("endBtn").disabled = true;
+	updateSummaryPageAccess();
+	showPage('page3');
+
+	
 }
 function prevRound() {
   if (currentRoundIndex > 0) {
@@ -370,7 +391,8 @@ function allPairsExhausted(queue, pairPlayedSet) {
 
 
 function updSchedule(roundIndex, schedulerState) {
-  const data = allRounds[roundIndex];
+  //AUTO_SAVE();
+	const data = allRounds[roundIndex];
   if (!data) return;
 
   const { games, resting } = data;

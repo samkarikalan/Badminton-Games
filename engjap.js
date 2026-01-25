@@ -22,7 +22,9 @@ const translations = {
     fixedPairs: "Set Fixed Pairs (Optional)",
     add: "Add",
     pround: " Round",
-    nround: "Round ",
+    nround: "Next Round ",
+    endrounds: "End Session ",
+    roundno: "Round ",
     roundShort: "R",
     rank: "Rank",
     name: "Name",
@@ -44,7 +46,11 @@ const translations = {
     dark: "Dark",
     export: "Export",
     exporthtml: "📄 Export Summary",
-    help: "Help"
+    help: "Help",
+    confirmResetAll: "Do you want to reset everything?",
+    confirmResetGames: "Do you want to reset games only?",
+    endRoundsConfirm: "Do you want to end the rounds?",
+    yes: "Yes"
    
   },
   
@@ -72,6 +78,8 @@ const translations = {
     add: "追加",
     pround: " ラウンド",
     nround: "ラウンド ",
+    endrounds: "終了する ",
+    roundno: "ラウンド ",
     roundShort: "R",
     rank: "順位",
     name: "名前",
@@ -93,6 +101,11 @@ const translations = {
     dark: "ダーク",
     export: "エクスポート",
     exporthtml: "📄 概要出力",
+    
+    confirmResetAll: "すべてをリセットしますか？",
+    confirmResetGames: "試合のみをリセットしますか？",
+    endRoundsConfirm: "ラウンドを終了しますか？",
+    yes: "はい",
     help: "ヘルプ"
 
   },
@@ -121,6 +134,8 @@ const translations = {
   add: "추가",
   pround: " 라운드",
   nround: "라운드 ",
+  endrounds: "종료하기 ",  
+  roundno: "라운드 ",  
   roundShort: "R",
   rank: "순위",
   name: "이름",
@@ -142,6 +157,11 @@ const translations = {
   dark: "다크",
   export: "내보내기",
   exporthtml: "📄 요약 내보내기",
+  
+  confirmResetAll: "모든 데이터를 초기화하시겠습니까?",
+  confirmResetGames: "경기만 초기화하시겠습니까?",
+  endRoundsConfirm: "라운드를 종료하시겠습니까?",
+  yes: "확인",
   help: "도움말"
 },
   
@@ -169,6 +189,8 @@ vi: {
   add: "Thêm",
   pround: " Vòng",
   nround: "Vòng ",
+  endrounds: "Kết thúc phiên ",  
+  roundno: "Vòng ",
   roundShort: "R",
   rank: "Xếp hạng",
   name: "Tên",
@@ -190,15 +212,69 @@ vi: {
   dark: "Tối",
   export: "Xuất",
   exporthtml: "📄 Xuất bản tóm tắt",
+  
+  confirmResetAll: "Bạn có muốn đặt lại tất cả không?",
+  confirmResetGames: "Bạn có muốn đặt lại trận đấu không?",
+  endRoundsConfirm: "Bạn có muốn kết thúc các vòng không?",
+  yes: "Có",
   help: "Trợ giúp"
+},
+  
+zh: {
+  appTitle: "CLUB 调度器",
+  home: "首页",
+  players: "球员",
+  rounds: "回合",
+  summary: "汇总",
+  language: "语言",
+  fontSize: "字体大小",
+  reset: "重置",
+  resetAll: "重置应用",
+  resetExcept: "仅重置比赛",
+  enterCourts: "输入场地数量",
+  importPlayers: "导入多个球员 ▶",
+  gender: "性别",
+  male: "男",
+  female: "女",
+  import: "导入",
+  cancel: "取消",
+  enterPlayerName: "输入球员姓名",
+  addPlayer: "添加球员",
+  fixedPairs: "设置固定搭档（可选）",
+  add: "添加",
+  pround: " 回合",
+  nround: "回合 ",
+  endrounds: "结束会话 ",  
+  roundno: "回合 ",
+  roundShort: "R",
+  rank: "排名",
+  name: "姓名",
+  played: "已比赛",
+  rested: "休息次数",
+  importExample: "姓名,性别\nKari,男\nBhavani,女",
+  Timer: "计时器",
+  min: "分钟",
+  selectPlayer1: "选择球员 1",
+  selectPlayer2: "选择球员 2",
+  small: "小",
+  medium: "中",
+  large: "大",
+  maxcourts: "请输入场地数量",
+  sittingOut: "休息中:",
+  courts: "场地",
+  theme: "主题",
+  light: "浅色",
+  dark: "深色",
+  export: "导出",
+  exporthtml: "📄 导出汇总",
+  
+  confirmResetAll: "确定要重置所有内容吗？",
+  confirmResetGames: "确定只重置比赛吗？",
+  endRoundsConfirm: "确定要结束回合吗？",
+  yes: "确定",
+  help: "帮助"
 }
   
   
+  
 };
-
-
-
-
-
-
-

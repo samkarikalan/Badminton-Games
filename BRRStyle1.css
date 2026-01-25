@@ -22,11 +22,7 @@ body {
 
   font-size: 35px;
   font-weight: 800;
-
-  background-image: linear-gradient(135deg,
-    #4b00c6 0%,
-    #8b32ff 50%,
-    #7db4ff 100%
+  background: #1f2933;  
   );
 
   -webkit-background-clip: text;
@@ -39,20 +35,120 @@ body {
   pointer-events: none;
 }
 
-
-/* ===== TOP TABS (Updated Style) ===== */
-.top-bar {
-  position: relative;
-  display: flex;
-  align-items: center;
-  height: 60px;
-  padding: 0 1rem;
+.app-logo-premium {
+  justify-self: center;
 }
 
+/* ===== TOP TABS (Updated Style) ===== */
+
+
+.top-bar {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  overflow: visible;
+  height: 60px;
+  padding: 0 12px;
+}
+
+
 .menu-btn {
+  font-size: 1.4rem;  
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.lang-btn {
   font-size: 1.4rem;
   cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
+  padding:10px;
+  user-select: none; 
+}
+
+.lang-menu {
+position: absolute;
+right: 0;
+top: 36px;
+width: 120px;
+background: #fff;
+border-radius: 12px;
+box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+display: none;
+z-index: 1000;
+}
+
+
+.lang-menu {
+  left: auto;
+  right: 0;   /* aligns menu edge with button edge */
+}
+
+
+.lang-menu div {
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.lang-menu div:hover {
+  background: #f0f4ff;
+}
+
+.lang-menu.show {
+  display: block;
+}
+
+
+
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+}
+
+.lang-wrapper {
+  margin-left: auto;
+  position: relative;
+}
+
+/* Flag icon button */
+.lang-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+/* Dropdown */
+.lang-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+
+  display: none;
+  overflow: hidden;
+}
+
+.lang-menu div {
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.lang-menu div:hover {
+  background: #f2f4ff;
 }
 
 /* ===== TOP BAR ===== */
@@ -74,27 +170,9 @@ body {
   z-index: 999;
 }
 
-/* ===== LEFT HAMBURGER ===== */
-.hamburger {
-  margin-right: auto;          /* ✅ stays left-most */
-  margin-left: 0;
 
-  font-size: 22px;
-  background: transparent;     /* ❌ no visible background */
-  border: none;
-  box-shadow: none;
 
-  padding: 8px;
-  color: #222;
-  cursor: pointer;
-}
 
-/* no active / focus style */
-.hamburger:focus,
-.hamburger:active {
-  outline: none;
-  background: transparent;
-}
 
 /* ===== TABS CONTAINER (CENTERED) ===== */
 .tabs-container {
@@ -127,38 +205,13 @@ body {
 
 /* ===== ACTIVE TAB ONLY ===== */
 .tab-btn.active {
-  background: #800080;
+  background:  #800080;
   color: #ffffff;
   box-shadow: 0 3px 7px rgba(93, 37, 235, 0.35);
 }
 
-.hamburger {
-  background: transparent !important;
-  border: none;
-  outline: none;
-  box-shadow: none;
 
-  /* 🔥 kill Android tap feedback */
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
-  tap-highlight-color: transparent;
 
-  /* 🔥 kill pressed ripple */
-  appearance: none;
-  -webkit-appearance: none;
-
-  /* 🔥 prevent default touch behavior */
-  touch-action: manipulation;
-}
-
-/* Cover all states */
-.hamburger:active,
-.hamburger:focus,
-.hamburger:hover,
-.hamburger:focus-visible {
-  background: transparent !important;
-  outline: none;
-  box-shadow: none;
-}
 
 /* ===============================
    SETTINGS LAYOUT
@@ -240,8 +293,13 @@ body {
    DIM / NIGHT MODE (SOFT)
    same theme, just darker
 ================================ */
+ .settings-card {
+  padding: 9px 6px;
+  border-radius: 10px;
+}
+
 .app-dark {
-  background: #b8e0f8;          /* slightly darker page */
+  background: #a0a0a9;          /* slightly darker page */
   color: #1f2937;
 }
 
@@ -249,12 +307,65 @@ body {
   background: #b8e0f85e;          /* soft grey */
   box-shadow: 0 5px 14px rgba(55,65,81,.18);
 }
+
+
 .app-dark .card {
   background: #b8e0f85e;          /* soft grey */
   box-shadow: 0 5px 14px rgba(55,65,81,.18);
 }
 .app-dark .sec {
   color: #374151;
+}
+
+
+.lang-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 5px;
+}
+
+
+
+/* Select container */
+.select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #f5f7fa;
+  border-radius: 12px;
+  padding: 0 36px 0 38px;
+  height: 44px;
+  min-width: 160px;
+}
+
+/* Native select */
+
+
+/* Globe icon */
+.globe {
+  position: absolute;
+  left: 12px;
+  font-size: 16px;
+  opacity: 0.8;
+}
+
+/* Dropdown arrow */
+.arrow {
+  position: absolute;
+  right: 12px;
+  font-size: 14px;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* Focus effect */
+.lang-select:focus {
+  outline: none;
+}
+.select-wrapper:has(.lang-select:focus) {
+  box-shadow: 0 0 0 2px #4f8cff33;
 }
 
 /* players*/
@@ -377,6 +488,7 @@ body {
   background-color: #fce4ec;
   border-color: #f48fb1;
 }
+.gender-icon { cursor: pointer; }
 
 /* Inactive state */
 .player-edit-card.inactive {
@@ -394,6 +506,20 @@ body {
   pointer-events: auto !important;
   filter: none !important;
 }
+
+.player-edit-card {
+  cursor: grab;
+}
+
+.player-edit-card:active {
+  cursor: grabbing;
+  opacity: 0.85;
+}
+
+.pec-name {
+  cursor: pointer;
+}
+
 
 /* Columns */
 .pec-active {
@@ -439,22 +565,6 @@ body {
   line-height: 1;
 }
 
-.card, .card-col {
-  background: #fff;
-  padding: 14px;
-  margin: 12px 0;
-  border-radius: 12px;  
-  box-shadow: 0 1px 5px rgba(0,0,0,0.07);
-}
-
-.card  {
-  width: 98%;
-  padding: 0.5rem;
-  margin: 0.5rem;
-  font-size: 1.15rem;
-  border-radius: 1rem;
-  box-sizing: border-box;
-}
 
 .fixed-card {
   display: grid;
@@ -505,19 +615,19 @@ body {
   align-items: center; /* vertical alignment */
 }
 
-.card select {
-  font-size: 1.15rem;
-  width: 100%;
-  padding: 0.5rem;
-  margin: 0.5rem 0;  
-  border-radius: 1rem;
-  box-sizing: border-box;
+.card, .card-col {
+  background: #fff;
+  padding: 14px;
+  margin: 12px 0;
+  border-radius: 12px;  
+  box-shadow: 0 1px 5px rgba(0,0,0,0.07);
 }
-.card input {
-  font-size: 1.15rem;
-  width: 100%;
+
+.card  {
+  width: 98%;
   padding: 0.5rem;
-  margin: 0.5rem 0;  
+  margin: 0.5rem;
+  font-size: 1.15rem;
   border-radius: 1rem;
   box-sizing: border-box;
 }
@@ -526,7 +636,26 @@ body {
 .card select {
   border: 0.0625rem solid #ccc;
 }
+.card select {
+  font-size: 1.15rem;
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.5rem 0;  
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+.card input {
+  font-size: 1.15rem;
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.5rem 0;  
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
 .card button {
+display: block;
+  margin: 0 auto;
   background: #800080;
   font-size: 1.15rem;
   padding:6px;
@@ -534,15 +663,76 @@ body {
   border: none;
   font-weight: bold;
   cursor: pointer;
-  border-radius: 2rem;
+  border-radius: 8px;
   padding: 0.75rem;
-  width: 95%;
-  margin: 0 0.5rem;
+  width: 98%;  
   transition: background 0.3s, transform 0.2s;
 }
 
 .card button:hover {  
-  transform: scale(1.05);
+  transform: scale(1.02);
+}
+
+.status-card {
+  padding: 12px 16px;
+  border-radius: 10px;
+  width: fit-content;
+  font-weight: 400;
+  font-size: 1rem;
+   
+}
+
+.status-display {
+  display: inline-block; /* 🔑 this is the fix */
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: white;
+  text-align: center;
+  width: 150px; /* constant width */
+}
+
+/* Status colors */
+.status-ready {
+  background-color: #28a745;
+}
+
+.status-progress {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.status-error {
+  background-color: #dc3545;
+}
+
+
+.primary {
+  background-color: #28a745; /* green */
+  color: white;
+}
+
+.primary.end {
+  background-color: #dc3545; /* red */
+}
+
+body.disabled {
+  pointer-events: none;
+  opacity: 0.9;
+  animation: blinkBorder 1s infinite;
+  border: 4px solid #ffc107; /* yellow/orange for in progress */
+  box-sizing: border-box;
+}
+
+@keyframes blinkBorder {
+  0%   { border-color: #ffc107; }
+  50%  { border-color: transparent; }
+  100% { border-color: #ffc107; }
+}
+
+/* Re-enable the toggle button */
+#nextBtn {
+  pointer-events: auto;
+  opacity: 1;
 }
 
 
@@ -661,3 +851,12 @@ body {
   transform: scale(0.97);
 }
 
+.help-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin: 16px 0;
+  padding: 16px;
+  background: #fff;
+}
+.help-card h3 { margin-top: 0; }
+.help-btn.active { background: #1976d2; color: #fff; }
